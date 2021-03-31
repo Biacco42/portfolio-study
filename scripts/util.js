@@ -1,3 +1,5 @@
+'use strict';
+
 export default class Util {
     static range(start, stop, step) {
         return Array.from({ length: (stop - start) / step }, (_, i) => start + (i * step))
