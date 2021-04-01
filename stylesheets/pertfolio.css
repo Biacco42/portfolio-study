@@ -28,6 +28,7 @@ header {
 #contents_wrapper {
     margin: 0;
     display: flex;
+    justify-content: space-between;
     align-items: stretch;
     transition: 100ms;
     transition-timing-function: ease-in-out;
@@ -38,6 +39,7 @@ header {
 }
 
 #contents_wrapper>div {
+    width: 100%;
     padding-left: 1em;
     padding-right: 1em;
 }
