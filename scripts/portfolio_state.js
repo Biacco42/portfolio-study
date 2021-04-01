@@ -23,7 +23,7 @@ export default class State {
 
         this.stateEventHandler("selectedAuthors", {...this.authorsList})
         this.stateEventHandler("selectedTags", {...this.tagsList})
-        this.stateEventHandler("selectedIndicies", this.getPageIndicies())
+        this.stateEventHandler("pageIndicies", this.getPageIndicies())
         this.stateEventHandler("pageContents", this.getPageContents())
     }
 
@@ -64,6 +64,7 @@ export default class State {
     }
 
     getActiveContentsList() {
+        // TODO: filter by author / tags
         return this.contentsList.slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
     }
 

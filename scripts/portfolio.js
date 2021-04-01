@@ -29,7 +29,7 @@ function onContentsListReceived(contentsList) {
                 break
             case "selectedTags":
                 break
-            case "selectedIndicies":
+            case "pageIndicies":
                 break
             case "pageContents":
                 view.showPage(stateValue)

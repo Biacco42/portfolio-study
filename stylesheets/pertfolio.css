@@ -5,6 +5,16 @@ header {
     z-index: 100;
 }
 
+#authors_list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#tags_list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 #contents_container {
     padding-top: 8em;
     margin-left: 2em;
@@ -26,6 +36,20 @@ header {
 #contents_wrapper>div {
     padding-left: 1em;
     padding-right: 1em;
+}
+
+#page_container {
+    margin-left: 10em;
+    margin-right: 10em;
+}
+
+#page_indicator {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filter_container {
+    display: flex;
 }
 
 .column>div {

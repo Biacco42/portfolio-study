@@ -4,8 +4,11 @@ import Util from "./util.js"
 
 export default class View {
     document
+    authorsList
+    tagsList
     contentsWrapper
     contentsContainer
+    pageIndicator
 
     colNum
     contents
@@ -13,8 +16,11 @@ export default class View {
 
     constructor(document) {
         this.document = document
+        this.authorsList = document.getElementById("authors_list")
+        this.tagsList = document.getElementById("tags_list")
         this.contentsWrapper = document.getElementById("contents_wrapper")
         this.contentsContainer = document.getElementById("contents_container")
+        this.pageIndicator = document.getElementById("page_indicator")
 
         this.colNum = View.numberOfCols()
         this.intersectionObserver = View.createIntersectionObserver()
@@ -56,6 +62,10 @@ export default class View {
             this.contentsContainer.appendChild(contentsWrapper)
             this.contentsWrapper = contentsWrapper
         })
+    }
+
+    showAuthors(authorsState) {
+        Util.removeAllChildren(this.authorsList)
     }
 
     getContentDOM(content) {
