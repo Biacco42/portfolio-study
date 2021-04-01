@@ -21,10 +21,10 @@ export default class State {
         this.setupAuthorsList()
         this.setupTagsList()
 
-        this.stateEventHandler("selectedAuthors", { ...this.authorsList })
-        this.stateEventHandler("selectedTags", { ...this.tagsList })
-        this.stateEventHandler("pageIndicies", this.getPageIndicies())
-        this.stateEventHandler("pageContents", this.getPageContents())
+        this.publishAuthors()
+        this.publishTags()
+        this.publishPageContents()
+        this.publishPageIndicies()
     }
 
     selectAuthor(author) {
@@ -36,7 +36,7 @@ export default class State {
             })
         }
 
-        this.stateEventHandler("selectedAuthors", { ...this.authorsList })
+        this.publishAll()
     }
 
     selectTag(tag) {
@@ -48,7 +48,7 @@ export default class State {
             })
         }
 
-        this.stateEventHandler("selectedTags", { ...this.tagsList })
+        this.publishAll()
     }
 
     getPageIndicies() {
@@ -68,8 +68,27 @@ export default class State {
     }
 
     getActiveContentsList() {
-        // TODO: filter by author / tags
-        return this.contentsList.slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
+        const enabledAuthors = Object.keys(this.authorsList).filter(author => {
+            return this.authorsList[author]
+        })
+
+        const enabledTags = Object.keys(this.tagsList).filter(tag => {
+            return this.tagsList[tag]
+        })
+
+        const activeContents = this.contentsList.filter(contentDesc => {
+            const isAuthorsEnabled = contentDesc.authors.reduce((acc, author) => {
+                return acc || enabledAuthors.includes(author)
+            }, false)
+
+            const isTagsEnabled = contentDesc.tags.reduce((acc, tag) => {
+                return acc || enabledTags.includes(tag)
+            }, false)
+
+            return isAuthorsEnabled && isTagsEnabled
+        })
+
+        return activeContents.slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
     }
 
     getContent(contentDesc) {
@@ -83,17 +102,40 @@ export default class State {
             .then(response => {
                 return response.json()
             }).then(content => {
-                content.author = contentDesc.author
-                content.tag = contentDesc.tag
-                content.published = contentDesc.publishedOn
+                content.authors = contentDesc.authors
+                content.tags = contentDesc.tags
+                content.publishedOn = contentDesc.publishedOn
                 this.contentsCacheDict[contentDesc] = content
                 return content
             })
     }
 
+    publishAll() {
+        this.publishAuthors()
+        this.publishTags()
+        this.publishPageContents()
+        this.publishPageIndicies()
+    }
+
+    publishAuthors() {
+        this.stateEventHandler("selectedAuthors", { ...this.authorsList })
+    }
+
+    publishTags() {
+        this.stateEventHandler("selectedTags", { ...this.tagsList })
+    }
+
+    publishPageContents() {
+        this.stateEventHandler("pageContents", this.getPageContents())
+    }
+
+    publishPageIndicies() {
+        this.stateEventHandler("pageIndicies", this.getPageIndicies())
+    }
+
     setupAuthorsList() {
         this.authorsList = this.contentsList.reduce((acc, content) => {
-            content.author.forEach(authorName => {
+            content.authors.forEach(authorName => {
                 acc[authorName] = true
             })
 
@@ -103,7 +145,7 @@ export default class State {
 
     setupTagsList() {
         this.tagsList = this.contentsList.reduce((acc, content) => {
-            content.tag.forEach(tagName => {
+            content.tags.forEach(tagName => {
                 acc[tagName] = true
             })
 

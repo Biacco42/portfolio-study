@@ -127,12 +127,12 @@ export default class View {
         description.textContent = descriptionString
         description.setAttribute("class", "description")
 
-        const authorsString = Util.retrieveOrDefault(content, "author", []).join(", ")
+        const authorsString = Util.retrieveOrDefault(content, "authors", []).join(", ")
         const authors = this.document.createElement("p")
         authors.textContent = authorsString
         authors.setAttribute("class", "author")
 
-        const tagsList = Util.retrieveOrDefault(content, "tag", [])
+        const tagsList = Util.retrieveOrDefault(content, "tags", [])
         const tags = this.document.createElement("div")
         tags.style.display = "flex"
         tagsList.forEach(tagString => {
