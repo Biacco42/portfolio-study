@@ -48,7 +48,7 @@ export default class State {
     }
 
     getPageIndicies() {
-        let totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
+        const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
 
         return Util.range(0, totalPage, 1).reduce((acc, pageNum) => {
             acc[pageNum] = pageNum == this.page ? true : false
