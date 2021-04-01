@@ -36,35 +36,6 @@ export default class View {
         }
     }
 
-    showPage(pageContents) {
-        this.contentsWrapper.classList.add("disappear")
-
-        const colsDOM = Util.range(0, this.colNum, 1).map(_ => {
-            const column = this.document.createElement("div")
-            column.setAttribute("class", "column")
-            return column
-        })
-
-        Promise.all(pageContents).then(contents => {
-            contents.forEach((content, index) => {
-                const columnDOM = colsDOM[index % this.colNum]
-                columnDOM.appendChild(this.getContentDOM(content))
-            })
-
-            const contentsWrapper = this.document.createElement("div")
-            contentsWrapper.id = "contents_wrapper"
-            colsDOM.forEach(colDOM => {
-                const columnWrapper = this.document.createElement("div")
-                columnWrapper.appendChild(colDOM)
-                contentsWrapper.appendChild(columnWrapper)
-            })
-
-            Util.removeAllChildren(this.contentsContainer)
-            this.contentsContainer.appendChild(contentsWrapper)
-            this.contentsWrapper = contentsWrapper
-        })
-    }
-
     showAuthors(authorsState) {
         Util.removeAllChildren(this.authorsList)
         Object.keys(authorsState).forEach(author => {
@@ -98,6 +69,53 @@ export default class View {
             tagButton.setAttribute("class", isEnabledClass)
 
             this.tagsList.appendChild(tagButton)
+        })
+    }
+
+    showPage(pageContents) {
+        this.contentsWrapper.classList.add("disappear")
+
+        const colsDOM = Util.range(0, this.colNum, 1).map(_ => {
+            const column = this.document.createElement("div")
+            column.setAttribute("class", "column")
+            return column
+        })
+
+        Promise.all(pageContents).then(contents => {
+            contents.forEach((content, index) => {
+                const columnDOM = colsDOM[index % this.colNum]
+                columnDOM.appendChild(this.getContentDOM(content))
+            })
+
+            const contentsWrapper = this.document.createElement("div")
+            contentsWrapper.id = "contents_wrapper"
+            colsDOM.forEach(colDOM => {
+                const columnWrapper = this.document.createElement("div")
+                columnWrapper.appendChild(colDOM)
+                contentsWrapper.appendChild(columnWrapper)
+            })
+
+            Util.removeAllChildren(this.contentsContainer)
+            this.contentsContainer.appendChild(contentsWrapper)
+            this.contentsWrapper = contentsWrapper
+        })
+    }
+
+    showPageIndicator(pageState) {
+        Util.removeAllChildren(this.pageIndicator)
+        Object.keys(pageState).forEach(page => {
+            const pageButton = this.document.createElement("a")
+            pageButton.innerHTML = parseInt(page, 10) + 1
+            pageButton.setAttribute("href", page)
+            pageButton.onclick = (event) => {
+                event.preventDefault()
+                this.actionHandler("selectPage", page)
+            }
+
+            const isEnabledClass = pageState[page] ? "enabled" : "disabled"
+            pageButton.setAttribute("class", isEnabledClass)
+
+            this.pageIndicator.appendChild(pageButton)
         })
     }
 

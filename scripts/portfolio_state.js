@@ -51,6 +51,13 @@ export default class State {
         this.publishAll()
     }
 
+    selectPage(page) {
+        this.page = parseInt(page, 10)
+
+        this.publishPageContents()
+        this.publishPageIndicies()
+    }
+
     getPageIndicies() {
         const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
 
@@ -62,9 +69,11 @@ export default class State {
     }
 
     getPageContents() {
-        return this.getActiveContentsList().map(contentDesc => {
-            return this.getContent(contentDesc)
-        })
+        return this.getActiveContentsList()
+            .slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
+            .map(contentDesc => {
+                return this.getContent(contentDesc)
+            })
     }
 
     getActiveContentsList() {
@@ -76,7 +85,7 @@ export default class State {
             return this.tagsList[tag]
         })
 
-        const activeContents = this.contentsList.filter(contentDesc => {
+        return this.contentsList.filter(contentDesc => {
             const isAuthorsEnabled = contentDesc.authors.reduce((acc, author) => {
                 return acc || enabledAuthors.includes(author)
             }, false)
@@ -87,8 +96,6 @@ export default class State {
 
             return isAuthorsEnabled && isTagsEnabled
         })
-
-        return activeContents.slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
     }
 
     getContent(contentDesc) {

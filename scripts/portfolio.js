@@ -30,10 +30,13 @@ function onContentsListReceived(contentsList) {
             case "selectTag":
                 state.selectTag(eventValue)
                 break
+            case "selectPage":
+                state.selectPage(eventValue)
+                break
         }
     })
 
-    state = new State(contentsList, 0, 16, (stateEvent, eventValue) => {
+    state = new State(contentsList, 0, 12, (stateEvent, eventValue) => {
         switch (stateEvent) {
             case "selectedAuthors":
                 view.showAuthors(eventValue)
@@ -42,6 +45,7 @@ function onContentsListReceived(contentsList) {
                 view.showTags(eventValue)
                 break
             case "pageIndicies":
+                view.showPageIndicator(eventValue)
                 break
             case "pageContents":
                 view.showPage(eventValue)
