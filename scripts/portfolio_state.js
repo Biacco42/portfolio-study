@@ -50,7 +50,7 @@ export default class State {
     getPageIndicies() {
         let totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
 
-        return Util.range(1, totalPage, 1).reduce((acc, pageNum) => {
+        return Util.range(0, totalPage, 1).reduce((acc, pageNum) => {
             acc[pageNum] = pageNum == this.page ? true : false
             
             return acc
@@ -64,7 +64,7 @@ export default class State {
     }
 
     getActiveContentsList() {
-        return this.contentsList
+        return this.contentsList.slice(this.page * this.contentsNumInPage, (this.page + 1) * this.contentsNumInPage)
     }
 
     getContent(contentDesc) {
@@ -85,26 +85,4 @@ export default class State {
                 return content
             })
     }
-}
-
-function numberOfCols() {
-    const viewportWidth = window.innerWidth
-    return 1000 < viewportWidth ? 3 : viewportWidth < 599 ? 1 : 2
-}
-
-function createIntersectionObserver() {
-    const intersectionHandler = (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("shown")
-            }
-        })
-    }
-    const options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.3
-    }
-
-    return new IntersectionObserver(intersectionHandler, options)
 }

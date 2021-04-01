@@ -12,4 +12,10 @@ export default class Util {
             return defaultValue
         }
     }
+
+    static removeAllChildren(element) {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild)
+        }
+    }
 }

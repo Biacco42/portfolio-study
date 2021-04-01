@@ -1,54 +1,60 @@
 'use strict';
 
+import Util from "./util.js"
+
 export default class View {
-    constructor() {
-        this.colNum = 3
-        this.intersectionObserver = createIntersectionObserver()
+    document
+    contentsWrapper
+    contentsContainer
+
+    colNum
+    contents
+    intersectionObserver
+
+    constructor(document) {
+        this.document = document
+        this.contentsWrapper = document.getElementById("contents_wrapper")
+        this.contentsContainer = document.getElementById("contents_container")
+
+        this.colNum = View.numberOfCols()
+        this.intersectionObserver = View.createIntersectionObserver()
     }
 
-    onResize() {
+    onResize(pageContents) {
         const newColNum = View.numberOfCols()
         if (newColNum != this.colNum) {
-            this.intersectionObserver = createIntersectionObserver()
-            this.cols = newColNum
-            this.inflateContents(this.contentsList, 16, this.cols, this.page)
+            this.intersectionObserver = View.createIntersectionObserver()
+            this.colNum = newColNum
+            this.showPage(pageContents)
         }
     }
 
-    inflateContents(contentsList, contentsNum, cols, pageNum) {
-        let contentsWrapper = document.getElementById("contents_wrapper")
-        contentsWrapper.classList.add("disappear")
+    showPage(pageContents) {
+        this.contentsWrapper.classList.add("disappear")
 
-        const colsDOM = Util.range(0, cols, 1).map(_ => {
-            const column = document.createElement("div")
+        const colsDOM = Util.range(0, this.colNum, 1).map(_ => {
+            const column = this.document.createElement("div")
             column.setAttribute("class", "column")
-
             return column
         })
 
-        const contentsPromises = contentsList.slice(pageNum * contentsNum, (pageNum + 1) * contentsNum).map(contentDesc => {
-            return this.getContent(contentDesc)
-        })
-
-        Promise.all(contentsPromises).then(contents => {
+        Promise.all(pageContents).then(contents => {
             contents.forEach((content, index) => {
-                let columnDOM = colsDOM[index % cols]
+                let columnDOM = colsDOM[index % this.colNum]
                 columnDOM.appendChild(this.getContentDOM(content))
             })
 
-            let contentsWrapper = document.createElement("div")
+            let contentsWrapper = this.document.createElement("div")
             contentsWrapper.id = "contents_wrapper"
             colsDOM.forEach(colDOM => {
-                let columnWrapper = document.createElement("div")
+                let columnWrapper = this.document.createElement("div")
                 columnWrapper.appendChild(colDOM)
                 contentsWrapper.appendChild(columnWrapper)
             })
 
-            let contentsContainer = document.getElementById("contents_container")
-            while (contentsContainer.firstChild) {
-                contentsContainer.removeChild(contentsContainer.firstChild)
-            }
-            contentsContainer.appendChild(contentsWrapper)
+            Util.removeAllChildren(this.contentsContainer)
+            this.contentsContainer.appendChild(contentsWrapper)
+            this.contentsWrapper = contentsWrapper
         })
     }
 
@@ -59,47 +65,47 @@ export default class View {
             "height": 360
         }
         let imageSource = Util.retrieveOrDefault(content, "thumbnail", defaultImageSource)
-        let image = document.createElement("img")
+        let image = this.document.createElement("img")
         image.setAttribute("src", imageSource.src)
         image.setAttribute("width", imageSource.width)
         image.setAttribute("height", imageSource.height)
         image.setAttribute("class", "thumbnail")
         image.setAttribute("load", "lazy")
 
-        let thumbnail = document.createElement("div")
+        let thumbnail = this.document.createElement("div")
         thumbnail.appendChild(image)
 
         let titleString = Util.retrieveOrDefault(content, "title", "")
-        let title = document.createElement("h1")
+        let title = this.document.createElement("h1")
         title.textContent = titleString
 
         let descriptionString = Util.retrieveOrDefault(content, "description", "")
-        let description = document.createElement("p")
+        let description = this.document.createElement("p")
         description.textContent = descriptionString
         description.setAttribute("class", "description")
 
         let authorsString = Util.retrieveOrDefault(content, "author", []).join(", ")
-        let authors = document.createElement("p")
+        let authors = this.document.createElement("p")
         authors.textContent = authorsString
         authors.setAttribute("class", "author")
 
         let tagsList = Util.retrieveOrDefault(content, "tag", [])
-        let tags = document.createElement("div")
+        let tags = this.document.createElement("div")
         tags.style.display = "flex"
         tagsList.forEach(tagString => {
-            let tag = document.createElement("p")
+            let tag = this.document.createElement("p")
             tag.textContent = tagString
             tag.setAttribute("class", tagString)
             tags.appendChild(tag)
         })
 
-        let label = document.createElement("div")
+        let label = this.document.createElement("div")
         label.appendChild(title)
         label.appendChild(description)
         label.appendChild(authors)
         label.appendChild(tags)
 
-        let contentNode = document.createElement("div")
+        let contentNode = this.document.createElement("div")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
         contentNode.setAttribute("class", "fadein")
@@ -129,21 +135,4 @@ export default class View {
 
         return new IntersectionObserver(intersectionHandler, options)
     }
-}
-
-function createIntersectionObserver() {
-    const intersectionHandler = (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("shown")
-            }
-        })
-    }
-    const options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.3
-    }
-
-    return new IntersectionObserver(intersectionHandler, options)
 }
