@@ -26,6 +26,10 @@ function onContentsListReceived(contentsList) {
         switch (viewEvent) {
             case "selectAuthor":
                 state.selectAuthor(eventValue)
+                break
+            case "selectTag":
+                state.selectTag(eventValue)
+                break
         }
     })
 
@@ -35,6 +39,7 @@ function onContentsListReceived(contentsList) {
                 view.showAuthors(eventValue)
                 break
             case "selectedTags":
+                view.showTags(eventValue)
                 break
             case "pageIndicies":
                 break

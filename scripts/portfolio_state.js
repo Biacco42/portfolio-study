@@ -21,8 +21,8 @@ export default class State {
         this.setupAuthorsList()
         this.setupTagsList()
 
-        this.stateEventHandler("selectedAuthors", {...this.authorsList})
-        this.stateEventHandler("selectedTags", {...this.tagsList})
+        this.stateEventHandler("selectedAuthors", { ...this.authorsList })
+        this.stateEventHandler("selectedTags", { ...this.tagsList })
         this.stateEventHandler("pageIndicies", this.getPageIndicies())
         this.stateEventHandler("pageContents", this.getPageContents())
     }
@@ -36,7 +36,19 @@ export default class State {
             })
         }
 
-        this.stateEventHandler("selectedAuthors", {...this.authorsList})
+        this.stateEventHandler("selectedAuthors", { ...this.authorsList })
+    }
+
+    selectTag(tag) {
+        this.tagsList[tag] = !this.tagsList[tag]
+
+        if (tag === "all") {
+            Object.keys(this.tagsList).forEach(tag => {
+                this.tagsList[tag] = this.tagsList["all"]
+            })
+        }
+
+        this.stateEventHandler("selectedTags", { ...this.tagsList })
     }
 
     getPageIndicies() {
@@ -44,7 +56,7 @@ export default class State {
 
         return Util.range(0, totalPage, 1).reduce((acc, pageNum) => {
             acc[pageNum] = pageNum == this.page ? true : false
-            
+
             return acc
         }, {})
     }
@@ -86,7 +98,7 @@ export default class State {
             })
 
             return acc
-        }, {all: true})
+        }, { all: true })
     }
 
     setupTagsList() {
@@ -96,6 +108,6 @@ export default class State {
             })
 
             return acc
-        }, {all: true})
+        }, { all: true })
     }
 }

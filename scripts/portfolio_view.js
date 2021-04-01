@@ -83,6 +83,24 @@ export default class View {
         })
     }
 
+    showTags(tagsState) {
+        Util.removeAllChildren(this.tagsList)
+        Object.keys(tagsState).forEach(tag => {
+            const tagButton = this.document.createElement("a")
+            tagButton.innerHTML = tag
+            tagButton.setAttribute("href", tag)
+            tagButton.onclick = (event) => {
+                event.preventDefault()
+                this.actionHandler("selectTag", tag)
+            }
+
+            const isEnabledClass = tagsState[tag] ? "enabled" : "disabled"
+            tagButton.setAttribute("class", isEnabledClass)
+
+            this.tagsList.appendChild(tagButton)
+        })
+    }
+
     getContentDOM(content) {
         const defaultImageSource = {
             "src": "images/360x360.png",
