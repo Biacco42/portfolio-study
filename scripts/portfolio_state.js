@@ -27,24 +27,16 @@ export default class State {
         this.stateEventHandler("pageContents", this.getPageContents())
     }
 
-    setupAuthorsList() {
-        this.authorsList = this.contentsList.reduce((acc, content) => {
-            content.author.forEach(authorName => {
-                acc[authorName] = true
+    selectAuthor(author) {
+        this.authorsList[author] = !this.authorsList[author]
+
+        if (author === "all") {
+            Object.keys(this.authorsList).forEach(author => {
+                this.authorsList[author] = this.authorsList["all"]
             })
+        }
 
-            return acc
-        }, {})
-    }
-
-    setupTagsList() {
-        this.tagsList = this.contentsList.reduce((acc, content) => {
-            content.tag.forEach(tagName => {
-                acc[tagName] = true
-            })
-
-            return acc
-        }, {})
+        this.stateEventHandler("selectedAuthors", {...this.authorsList})
     }
 
     getPageIndicies() {
@@ -85,5 +77,25 @@ export default class State {
                 this.contentsCacheDict[contentDesc] = content
                 return content
             })
+    }
+
+    setupAuthorsList() {
+        this.authorsList = this.contentsList.reduce((acc, content) => {
+            content.author.forEach(authorName => {
+                acc[authorName] = true
+            })
+
+            return acc
+        }, {all: true})
+    }
+
+    setupTagsList() {
+        this.tagsList = this.contentsList.reduce((acc, content) => {
+            content.tag.forEach(tagName => {
+                acc[tagName] = true
+            })
+
+            return acc
+        }, {all: true})
     }
 }

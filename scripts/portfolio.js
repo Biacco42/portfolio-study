@@ -22,17 +22,24 @@ window.onresize = (_) => {
 }
 
 function onContentsListReceived(contentsList) {
-    view = new View(document)
-    state = new State(contentsList, 0, 16, (stateEvent, stateValue) => {
+    view = new View(document, (viewEvent, eventValue) => {
+        switch (viewEvent) {
+            case "selectAuthor":
+                state.selectAuthor(eventValue)
+        }
+    })
+
+    state = new State(contentsList, 0, 16, (stateEvent, eventValue) => {
         switch (stateEvent) {
-            case "selectedAutohrs":
+            case "selectedAuthors":
+                view.showAuthors(eventValue)
                 break
             case "selectedTags":
                 break
             case "pageIndicies":
                 break
             case "pageContents":
-                view.showPage(stateValue)
+                view.showPage(eventValue)
                 break
         }
     })

@@ -52,6 +52,14 @@ header {
     display: flex;
 }
 
+.enabled {
+    color: coral;
+}
+
+.disabled {
+    color: cornflowerblue;
+}
+
 .column>div {
     margin-bottom: 2em;
 }

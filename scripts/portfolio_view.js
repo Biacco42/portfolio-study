@@ -10,11 +10,11 @@ export default class View {
     contentsContainer
     pageIndicator
 
+    actionHandler
     colNum
-    contents
     intersectionObserver
 
-    constructor(document) {
+    constructor(document, actionHandler) {
         this.document = document
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
@@ -22,6 +22,7 @@ export default class View {
         this.contentsContainer = document.getElementById("contents_container")
         this.pageIndicator = document.getElementById("page_indicator")
 
+        this.actionHandler = actionHandler
         this.colNum = View.numberOfCols()
         this.intersectionObserver = View.createIntersectionObserver()
     }
@@ -66,6 +67,20 @@ export default class View {
 
     showAuthors(authorsState) {
         Util.removeAllChildren(this.authorsList)
+        Object.keys(authorsState).forEach(author => {
+            const authorButton = this.document.createElement("a")
+            authorButton.innerHTML = author
+            authorButton.setAttribute("href", author)
+            authorButton.onclick = (event) => {
+                event.preventDefault()
+                this.actionHandler("selectAuthor", author)
+            }
+
+            const isEnabledClass = authorsState[author] ? "enabled" : "disabled"
+            authorButton.setAttribute("class", isEnabledClass)
+
+            this.authorsList.appendChild(authorButton)
+        })
     }
 
     getContentDOM(content) {
