@@ -28,6 +28,7 @@ export default class State {
     }
 
     selectAuthor(author) {
+        this.page = 0
         this.authorsList[author] = !this.authorsList[author]
 
         if (author === "all") {
@@ -40,6 +41,7 @@ export default class State {
     }
 
     selectTag(tag) {
+        this.page = 0
         this.tagsList[tag] = !this.tagsList[tag]
 
         if (tag === "all") {
