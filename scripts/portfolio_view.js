@@ -195,6 +195,7 @@ export default class View {
         label.appendChild(tags)
 
         const contentNode = this.document.createElement("div")
+        contentNode.setAttribute("class", "card_content")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
 
@@ -207,7 +208,7 @@ export default class View {
         contentButton.appendChild(contentNode)
 
         const contentCard = this.document.createElement("div")
-        contentCard.setAttribute("class", "card_slidein")
+        contentCard.setAttribute("class", "card")
         contentCard.appendChild(contentButton)
         this.intersectionObserver.observe(contentCard)
 
@@ -227,6 +228,7 @@ export default class View {
                     const delay = seed * seed * 400
                     window.setTimeout(() => {
                         entry.target.classList.add("shown")
+                        entry.target.querySelector(".card_content").classList.add("shown")
                     }, delay)
                 }
             })

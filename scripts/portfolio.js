@@ -1,6 +1,5 @@
 'use strict';
 
-import Util from "./util.js"
 import State from "./portfolio_state.js"
 import View from "./portfolio_view.js"
 

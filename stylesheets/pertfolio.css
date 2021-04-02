@@ -1,5 +1,5 @@
 body {
-    background-color: #f0f0f0;
+    background-color: #cbcfd3;
 }
 
 a {
@@ -9,11 +9,12 @@ a {
 
 header {
     width: 100%;
-    background-color: #99999988;
+    background-color: #cbcfd3;
     position: fixed;
     left: 0;
     top: 0;
     z-index: 100;
+    box-shadow: 0 0.5em 1.5em #70758060;
 }
 
 #authors_list {
@@ -27,7 +28,7 @@ header {
 }
 
 #contents_container {
-    padding-top: 8em;
+    padding-top: 12em;
     margin-left: 2em;
     margin-right: 2em;
 }
@@ -47,8 +48,8 @@ header {
 
 #contents_wrapper>div {
     width: 100%;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
 }
 
 #page_container {
@@ -84,7 +85,7 @@ header {
     margin-left: 10%;
     margin-right: 10%;
     height: 960px;
-    background-color: #f0f0f0;
+    background-color: #cbcfd3;
 }
 
 .filter_container {
@@ -100,7 +101,7 @@ header {
 }
 
 .column>div {
-    margin-bottom: 2em;
+    margin-bottom: 4em;
 }
 
 .thumbnail {
@@ -109,13 +110,22 @@ header {
     display: block;
 }
 
-.card_slidein {
-    opacity: 0;
-    transform: translate(0, 1.5em);
-    transition: opacity 550ms cubic-bezier(0.85, 0, 0.15, 1) 100ms, transform 750ms cubic-bezier(0.65, 0, 0.35, 1);
+.card {
+    background-color: #cbcfd3;
+    border-radius: 0.5em;
+    overflow: hidden;
+    transition: box-shadow 500ms ease-in-out;
 }
 
-.card_slidein.shown {
+.card.shown {
+    box-shadow: 0.5em 0.5em 1.5em #70758060, -0.5em -0.5em 1.5em #ffffffe0;
+}
+
+.card_content {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out 500ms;
+}
+
+.card_content.shown {
     opacity: 1;
-    transform: translate(0, 0);
 }
