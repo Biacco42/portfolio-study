@@ -89,12 +89,9 @@ export default class View {
 
     showPage(pageContents) {
         window.setTimeout(() => {
-            window.scrollTo({
-                left: 0,
-                top: 0,
-                behavior: "smooth"
-            })
-        }, 600)
+            Util.removeAllChildren(this.contentsContainer)
+            window.scrollTo(0, 0)
+        }, 450)
 
         window.setTimeout(() => {
             const colNum = View.numberOfCols()
@@ -123,7 +120,7 @@ export default class View {
                 this.contentsWrapper = contentsWrapper
                 this.colNum = colNum
             })
-        }, 700)
+        }, 500)
 
         this.contentsWrapper.querySelectorAll(".card").forEach(card => {
             card.classList.add("hidden")
@@ -250,7 +247,7 @@ export default class View {
         const options = {
             root: null,
             rootMargin: "0px",
-            threshold: 0.2
+            threshold: 0.1
         }
 
         return new IntersectionObserver(intersectionHandler, options)

@@ -114,7 +114,7 @@ header {
 }
 
 .card.hidden {
-    transition: box-shadow 500ms ease-in-out;
+    transition: box-shadow 400ms ease-in-out;
 }
 
 .card_content {
