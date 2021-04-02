@@ -30,8 +30,8 @@ export default class View {
     onResize(pageContents) {
         const newColNum = View.numberOfCols()
         if (newColNum != this.colNum) {
-            this.intersectionObserver = View.createIntersectionObserver()
             this.colNum = newColNum
+            this.intersectionObserver = View.createIntersectionObserver()
             this.showPage(pageContents)
         }
     }
@@ -73,32 +73,37 @@ export default class View {
     }
 
     showPage(pageContents) {
+        this.contentsWrapper.ontransitionend = () => {
+            window.scrollTo(0, 0)
+
+            const colNum = View.numberOfCols()
+            const colsDOM = Util.range(0, colNum, 1).map(_ => {
+                const column = this.document.createElement("div")
+                column.setAttribute("class", "column")
+                return column
+            })
+
+            Promise.all(pageContents).then(contents => {
+                contents.forEach((content, index) => {
+                    const columnDOM = colsDOM[index % colNum]
+                    columnDOM.appendChild(this.getContentDOM(content))
+                })
+
+                const contentsWrapper = this.document.createElement("div")
+                contentsWrapper.id = "contents_wrapper"
+                colsDOM.forEach(colDOM => {
+                    const columnWrapper = this.document.createElement("div")
+                    columnWrapper.appendChild(colDOM)
+                    contentsWrapper.appendChild(columnWrapper)
+                })
+
+                Util.removeAllChildren(this.contentsContainer)
+                this.contentsContainer.appendChild(contentsWrapper)
+                this.contentsWrapper = contentsWrapper
+                this.colNum = colNum
+            })
+        }
         this.contentsWrapper.classList.add("disappear")
-
-        const colsDOM = Util.range(0, this.colNum, 1).map(_ => {
-            const column = this.document.createElement("div")
-            column.setAttribute("class", "column")
-            return column
-        })
-
-        Promise.all(pageContents).then(contents => {
-            contents.forEach((content, index) => {
-                const columnDOM = colsDOM[index % this.colNum]
-                columnDOM.appendChild(this.getContentDOM(content))
-            })
-
-            const contentsWrapper = this.document.createElement("div")
-            contentsWrapper.id = "contents_wrapper"
-            colsDOM.forEach(colDOM => {
-                const columnWrapper = this.document.createElement("div")
-                columnWrapper.appendChild(colDOM)
-                contentsWrapper.appendChild(columnWrapper)
-            })
-
-            Util.removeAllChildren(this.contentsContainer)
-            this.contentsContainer.appendChild(contentsWrapper)
-            this.contentsWrapper = contentsWrapper
-        })
     }
 
     showPageIndicator(pageState) {
@@ -183,7 +188,8 @@ export default class View {
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const delay = Math.random() * 500
+                    const seed = Math.random()
+                    const delay = seed * seed * 400
                     window.setTimeout(() => {
                         entry.target.classList.add("shown")
                     }, delay)

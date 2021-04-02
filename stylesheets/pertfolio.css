@@ -26,12 +26,12 @@ header {
 }
 
 #contents_wrapper {
+    opacity: 1;
     margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    transition: 100ms;
-    transition-timing-function: ease-in-out;
+    transition: opacity 10ms ease-in-out;
 }
 
 #contents_wrapper.disappear {
