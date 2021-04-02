@@ -90,19 +90,13 @@ header {
     display: block;
 }
 
-.fadein {
+.card_slidein {
     opacity: 0;
-    transition: 400ms;
-    transition-timing-function: cubic-bezier(1, -0.1, 0.2, 1);
-}
-
-.upin {
     transform: translate(0, 1.5em);
-    transition: 400ms;
-    transition-timing-function: ease-in-out;
+    transition: opacity 400ms ease-in, transform 400ms ease-out;
 }
 
-.fadein.shown {
+.card_slidein.shown {
     opacity: 1;
     transform: translate(0, 0);
 }

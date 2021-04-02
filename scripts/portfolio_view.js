@@ -169,8 +169,7 @@ export default class View {
         const contentNode = this.document.createElement("div")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
-        contentNode.setAttribute("class", "fadein")
-        contentNode.classList.add("upin")
+        contentNode.setAttribute("class", "card_slidein")
         this.intersectionObserver.observe(contentNode)
         return contentNode
     }
