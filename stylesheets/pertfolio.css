@@ -1,5 +1,5 @@
 body {
-    background-color: #cbcfd3;
+    background-color: #c2c8ce;
 }
 
 a {
@@ -9,7 +9,7 @@ a {
 
 header {
     width: 100%;
-    background-color: #cbcfd3;
+    background-color: #c2c8ce;
     position: fixed;
     left: 0;
     top: 0;
@@ -85,7 +85,7 @@ header {
     margin-left: 10%;
     margin-right: 10%;
     height: 960px;
-    background-color: #cbcfd3;
+    background-color: #c2c8ce;
 }
 
 .filter_container {
@@ -111,14 +111,14 @@ header {
 }
 
 .card {
-    background-color: #cbcfd3;
+    background-color: #c2c8ce;
     border-radius: 0.75em;
     overflow: hidden;
     transition: box-shadow 500ms ease-in-out;
 }
 
 .card.shown {
-    box-shadow: 0.5em 0.5em 1.5em #70758060, -0.5em -0.5em 1.5em #ffffffe0;
+    box-shadow: 0.5em 0.5em 1.5em #70758088, -0.5em -0.5em 1.5em #ffffffe0;
 }
 
 .card_content {

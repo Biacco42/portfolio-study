@@ -236,7 +236,7 @@ export default class View {
         const options = {
             root: null,
             rootMargin: "0px",
-            threshold: 0
+            threshold: 0.2
         }
 
         return new IntersectionObserver(intersectionHandler, options)
