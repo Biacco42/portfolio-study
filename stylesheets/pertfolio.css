@@ -110,7 +110,7 @@ header {
 
 .card.shown {
     transition: box-shadow 750ms ease-in-out;
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffc0, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
+    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffd8, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
 .card.hidden {
