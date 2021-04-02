@@ -114,17 +114,17 @@ header {
     background-color: #c2c8ce;
     border-radius: 1em;
     overflow: hidden;
-    transition: box-shadow 700ms ease-in-out;
+    transition: box-shadow 750ms ease-in-out;
     will-change: transform;
 }
 
 .card.shown {
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffca;
+    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffca, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
 .card_content {
     opacity: 0;
-    transition: opacity 300ms ease-in-out 700ms;
+    transition: opacity 500ms ease-in-out 700ms;
 }
 
 .card_content.shown {
