@@ -39,11 +39,6 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    transition: opacity 50ms ease-in-out;
-}
-
-#contents_wrapper.disappear {
-    opacity: 0;
 }
 
 #contents_wrapper>div {
@@ -114,19 +109,27 @@ header {
     background-color: #c2c8ce;
     border-radius: 1em;
     overflow: hidden;
-    transition: box-shadow 750ms ease-in-out;
     will-change: transform;
 }
 
 .card.shown {
+    transition: box-shadow 750ms ease-in-out;
     box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffca, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
+}
+
+.card.hidden {
+    transition: box-shadow 500ms ease-in-out;
 }
 
 .card_content {
     opacity: 0;
-    transition: opacity 500ms ease-in-out 700ms;
 }
 
 .card_content.shown {
+    transition: opacity 500ms ease-in-out 700ms;
     opacity: 1;
+}
+
+.card_content.hidden {
+    transition: opacity 200ms ease-in-out;
 }

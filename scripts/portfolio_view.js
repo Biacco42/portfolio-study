@@ -88,7 +88,8 @@ export default class View {
     }
 
     showPage(pageContents) {
-        this.contentsWrapper.ontransitionend = () => {
+        window.setTimeout(() => {
+            console.log("clear end")
             window.scrollTo(0, 0)
 
             const colNum = View.numberOfCols()
@@ -117,8 +118,16 @@ export default class View {
                 this.contentsWrapper = contentsWrapper
                 this.colNum = colNum
             })
-        }
-        this.contentsWrapper.classList.add("disappear")
+        }, 600)
+
+        this.contentsWrapper.querySelectorAll(".card").forEach(card => {
+            card.classList.add("hidden")
+            card.classList.remove("shown")
+        })
+        this.contentsWrapper.querySelectorAll(".card_content").forEach(contentNode => {
+            contentNode.classList.add("hidden")
+            contentNode.classList.remove("shown")
+        })
     }
 
     showPageIndicator(pageState) {
