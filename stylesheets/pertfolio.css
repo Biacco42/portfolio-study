@@ -112,7 +112,7 @@ header {
 
 .card {
     background-color: #cbcfd3;
-    border-radius: 0.5em;
+    border-radius: 0.75em;
     overflow: hidden;
     transition: box-shadow 500ms ease-in-out;
 }
