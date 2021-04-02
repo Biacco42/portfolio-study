@@ -111,6 +111,8 @@ export default class State {
             .then(response => {
                 return response.json()
             }).then(content => {
+                const id = Util.removeExtension(contentDesc.contentPath)
+                content.id = id
                 content.authors = contentDesc.authors
                 content.tags = contentDesc.tags
                 content.publishedOn = contentDesc.publishedOn

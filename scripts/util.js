@@ -18,4 +18,10 @@ export default class Util {
             element.removeChild(element.firstChild)
         }
     }
+
+    static removeExtension(path) {
+        const fileName = path.substring(path.lastIndexOf('/') + 1);
+        const lastDotIndex = fileName.lastIndexOf(".")
+        return lastDotIndex != -1 ? fileName.substring(0, lastDotIndex) : fileName
+    }
 }

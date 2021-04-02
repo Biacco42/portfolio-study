@@ -37,7 +37,7 @@ function onContentsListReceived(contentsList) {
         }
     })
 
-    state = new State(contentsList, 0, 12, (stateEvent, eventValue) => {
+    state = new State(contentsList, 0, 16, (stateEvent, eventValue) => {
         switch (stateEvent) {
             case "selectedAuthors":
                 view.showAuthors(eventValue)

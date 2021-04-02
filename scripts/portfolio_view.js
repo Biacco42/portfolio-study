@@ -174,9 +174,21 @@ export default class View {
         const contentNode = this.document.createElement("div")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
-        contentNode.setAttribute("class", "card_slidein")
-        this.intersectionObserver.observe(contentNode)
-        return contentNode
+
+        const contentButton = this.document.createElement("a")
+        contentButton.setAttribute("href", content.id)
+        contentButton.onclick = (event) => {
+            event.preventDefault()
+            this.actionHandler("selectContent", content.id)
+        }
+        contentButton.appendChild(contentNode)
+
+        const contentCard = this.document.createElement("div")
+        contentCard.setAttribute("class", "card_slidein")
+        contentCard.appendChild(contentButton)
+        this.intersectionObserver.observe(contentCard)
+
+        return contentCard
     }
 
     static numberOfCols() {
