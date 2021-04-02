@@ -140,13 +140,11 @@ export default class View {
     }
 
     showPopup(content) {
-        this.contentsRoot.setAttribute("class", "off_focus")
         this.popupBackground.setAttribute("class", "shown")
     }
 
     closePopup() {
         this.popupBackground.removeAttribute("class")
-        this.contentsRoot.removeAttribute("class")
     }
 
     getContentDOM(content) {

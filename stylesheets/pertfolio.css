@@ -13,11 +13,7 @@ header {
 }
 
 #contents_root {
-    background-color: #eef1f5;
-}
-
-#contents_root.off_focus {
-    filter: brightness(125%) blur(8px);
+    background-color: #f0f0f0;
 }
 
 #authors_list {
@@ -75,10 +71,12 @@ header {
     overflow-y: scroll;
     background-color: #00000000;
     z-index: 200;
+    transition: background-color 300ms ease-in-out 150ms;
 }
 
 #popup_background.shown {
     display: block;
+    background-color: #00000080;
 }
 
 #popup_content {
@@ -86,7 +84,7 @@ header {
     margin-left: 10%;
     margin-right: 10%;
     height: 960px;
-    background-color: #f8f8fa;
+    background-color: #f0f0f0;
 }
 
 .filter_container {
