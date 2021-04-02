@@ -1,3 +1,7 @@
+body {
+    background-color: #f0f0f0;
+}
+
 a {
     color: black;
     text-decoration: none;
@@ -10,10 +14,6 @@ header {
     left: 0;
     top: 0;
     z-index: 100;
-}
-
-#contents_root {
-    background-color: #f0f0f0;
 }
 
 #authors_list {
