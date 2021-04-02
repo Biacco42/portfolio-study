@@ -140,16 +140,11 @@ export default class View {
     }
 
     showPopup(content) {
-        this.popupBackground.style.display = "block"
         this.popupBackground.setAttribute("class", "shown")
     }
 
     closePopup() {
         this.popupBackground.removeAttribute("class")
-        this.popupBackground.ontransitionend = () => {
-            this.popupBackground.style.display = "none"
-            this.popupBackground.ontransitionend = null
-        }
     }
 
     getContentDOM(content) {
