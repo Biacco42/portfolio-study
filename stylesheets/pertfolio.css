@@ -31,7 +31,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    transition: opacity 10ms ease-in-out;
+    transition: opacity 50ms ease-in-out;
 }
 
 #contents_wrapper.disappear {
