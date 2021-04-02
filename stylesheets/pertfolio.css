@@ -115,6 +115,7 @@ header {
     border-radius: 1em;
     overflow: hidden;
     transition: box-shadow 700ms ease-in-out;
+    will-change: transform;
 }
 
 .card.shown {
