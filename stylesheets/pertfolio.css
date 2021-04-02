@@ -54,6 +54,20 @@ header {
     flex-wrap: wrap;
 }
 
+#popup_background {
+    display: none;
+    position: fixed;
+    margin: 0 0 0 0;
+    overflow-y: scroll;
+    background-color: 00000022;
+}
+
+#popup_content {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 .filter_container {
     display: flex;
 }
