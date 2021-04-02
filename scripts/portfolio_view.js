@@ -89,9 +89,14 @@ export default class View {
 
     showPage(pageContents) {
         window.setTimeout(() => {
-            console.log("clear end")
-            window.scrollTo(0, 0)
+            window.scrollTo({
+                left: 0,
+                top: 0,
+                behavior: "smooth"
+            })
+        }, 600)
 
+        window.setTimeout(() => {
             const colNum = View.numberOfCols()
             const colsDOM = Util.range(0, colNum, 1).map(_ => {
                 const column = this.document.createElement("div")
@@ -118,7 +123,7 @@ export default class View {
                 this.contentsWrapper = contentsWrapper
                 this.colNum = colNum
             })
-        }, 600)
+        }, 700)
 
         this.contentsWrapper.querySelectorAll(".card").forEach(card => {
             card.classList.add("hidden")
