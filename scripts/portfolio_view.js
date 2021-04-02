@@ -6,9 +6,12 @@ export default class View {
     document
     authorsList
     tagsList
+    contentsRoot
     contentsWrapper
     contentsContainer
     pageIndicator
+    popupBackground
+    popupContent
 
     actionHandler
     colNum
@@ -18,13 +21,25 @@ export default class View {
         this.document = document
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
+        this.contentsRoot = document.getElementById("contents_root")
         this.contentsWrapper = document.getElementById("contents_wrapper")
         this.contentsContainer = document.getElementById("contents_container")
         this.pageIndicator = document.getElementById("page_indicator")
+        this.popupBackground = document.getElementById("popup_background")
+        this.popupContent = document.getElementById("popup_content")
 
         this.actionHandler = actionHandler
         this.colNum = View.numberOfCols()
         this.intersectionObserver = View.createIntersectionObserver()
+
+        this.popupBackground.onclick = (event) => {
+            event.stopPropagation()
+            this.closePopup()
+        }
+
+        this.popupContent.onclick = (event) => {
+            event.stopPropagation()
+        }
     }
 
     onResize(pageContents) {
@@ -124,6 +139,16 @@ export default class View {
         })
     }
 
+    showPopup(content) {
+        this.contentsRoot.setAttribute("class", "off_focus")
+        this.popupBackground.setAttribute("class", "shown")
+    }
+
+    closePopup() {
+        this.popupBackground.removeAttribute("class")
+        this.contentsRoot.removeAttribute("class")
+    }
+
     getContentDOM(content) {
         const defaultImageSource = {
             "src": "images/360x360.png",
@@ -179,7 +204,7 @@ export default class View {
         contentButton.setAttribute("href", content.id)
         contentButton.onclick = (event) => {
             event.preventDefault()
-            this.actionHandler("selectContent", content.id)
+            this.showPopup(content)
         }
         contentButton.appendChild(contentNode)
 
