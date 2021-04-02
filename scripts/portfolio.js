@@ -8,6 +8,7 @@ let state
 let view
 
 window.onload = (_) => {
+    window.scrollTo(0, 0)
     fetch("contents-list.json")
         .then(response => {
             return response.json()

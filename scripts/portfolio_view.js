@@ -183,7 +183,10 @@ export default class View {
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add("shown")
+                    const delay = Math.random() * 500
+                    window.setTimeout(() => {
+                        entry.target.classList.add("shown")
+                    }, delay)
                 }
             })
         }
