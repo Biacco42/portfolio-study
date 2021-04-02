@@ -10,11 +10,7 @@ a {
 header {
     width: 100%;
     background-color: #c2c8ce;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 0.5em 1.5em #70758060;
+    box-shadow: 0 0.5em 1.5em #68707888;
 }
 
 #authors_list {
@@ -28,7 +24,7 @@ header {
 }
 
 #contents_container {
-    padding-top: 12em;
+    margin-top: 4em;
     margin-left: 2em;
     margin-right: 2em;
 }
@@ -114,7 +110,7 @@ header {
 
 .card.shown {
     transition: box-shadow 750ms ease-in-out;
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffca, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
+    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffc0, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
 .card.hidden {
