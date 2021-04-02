@@ -118,7 +118,7 @@ header {
 }
 
 .card.shown {
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffef;
+    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffca;
 }
 
 .card_content {
