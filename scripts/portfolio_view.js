@@ -287,7 +287,7 @@ export default class View {
 
     static numberOfCols() {
         const viewportWidth = window.innerWidth
-        return 1000 < viewportWidth ? 3 : viewportWidth < 599 ? 1 : 2
+        return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
     }
 
     static createIntersectionObserver() {
