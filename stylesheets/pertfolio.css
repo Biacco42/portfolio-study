@@ -58,27 +58,20 @@ header {
 }
 
 #popup_background {
-    position: fixed;
-    left: 0;
-    top: 0;
+    display: none;
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    z-index: 200;
-    opacity: 0;
-    transform: translate(0, 100%);
-    transition: transform 300ms ease-in-out;
 }
 
-#popup_background.shown {
-    transform: translate(0, 0);
-    opacity: 1;
+#popup {
+    position: relative;
+    z-index: 1;
+    margin: 4em;
+    border-radius: 1em;
+    overflow: hidden;
 }
 
 #popup_content {
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 100%;
     height: 960px;
 }
 
@@ -112,6 +105,8 @@ header {
 }
 
 .page_button {
+    position: relative;
+    z-index: 1;
     margin-left: 1em;
     margin-right: 1em;
     border-radius: 50%;
@@ -141,7 +136,7 @@ header {
 
 .bevel.shown {
     transition: box-shadow 750ms ease-in-out;
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffd8, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
+    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.75em -0.75em 1.5em #ffffffd8, inset 0.5em 0.5em 1.5em transparent, inset -0.75em -0.75em 1.5em transparent;
 }
 
 .bevel.hidden {

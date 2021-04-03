@@ -4,6 +4,7 @@ import Util from "./util.js"
 
 export default class View {
     document
+    mainView
     header
     authorsList
     tagsList
@@ -12,14 +13,17 @@ export default class View {
     pageIndicatorContainer
     pageIndicator
     popupBackground
+    popup
     popupContent
 
     actionHandler
     colNum
     intersectionObserver
+    lastScroll
 
     constructor(document, actionHandler) {
         this.document = document
+        this.mainView = document.getElementById("mainView")
         this.header = document.getElementsByTagName("header")[0]
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
@@ -28,11 +32,13 @@ export default class View {
         this.pageIndicatorContainer = document.getElementById("page_indicator_container")
         this.pageIndicator = document.getElementById("page_indicator")
         this.popupBackground = document.getElementById("popup_background")
+        this.popup = document.getElementById("popup")
         this.popupContent = document.getElementById("popup_content")
 
         this.actionHandler = actionHandler
         this.colNum = View.numberOfCols()
         this.intersectionObserver = View.createIntersectionObserver()
+        this.lastScroll = 0
 
         this.popupBackground.onclick = (event) => {
             event.stopPropagation()
@@ -168,18 +174,39 @@ export default class View {
             View.showBevel(this.header)
 
             this.intersectionObserver.observe(this.pageIndicatorContainer)
-        }, 450)
+        }, 425)
 
         View.hideBevel(this.pageIndicatorContainer)
         View.hideBevel(this.header)
     }
 
     showPopup(content) {
-        this.popupBackground.setAttribute("class", "shown")
+        window.setTimeout(() => {
+            window.scrollTo(0, 0)
+            this.mainView.style.display = "none"
+            this.popupBackground.style.display = "block"
+
+            window.setTimeout(() => {
+                View.showBevel(this.popup)
+            }, 30)
+        }, 450)
+
+        this.lastScroll = window.scrollY
+        View.hideBevel(this.mainView)
     }
 
     closePopup() {
-        this.popupBackground.removeAttribute("class")
+        window.setTimeout(() => {
+            this.mainView.style.display = "block"
+            this.popupBackground.style.display = "none"
+
+            window.setTimeout(() => {
+                window.scrollTo(0, this.lastScroll)
+                View.showBevel(this.mainView)
+            }, 30)
+        }, 450)
+
+        View.hideBevel(this.popup)
     }
 
     getContentDOM(content) {
@@ -300,7 +327,7 @@ export default class View {
         })
     }
 
-    static hideBevel(node) {
+    static hideBevel(node, completion) {
         if (node.classList.contains("bevel")) {
             node.classList.add("hidden")
             node.classList.remove("shown")
