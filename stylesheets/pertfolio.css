@@ -101,6 +101,20 @@ header {
     overflow: hidden;
 }
 
+@media only screen and (max-width: 600px) {
+    #popup {
+        margin: 2em;
+    }
+}
+
+@media only screen and (min-width: 1920) {
+    #popup {
+        margin-left: auto;
+        margin-right: auto;
+        width: calc(1920px - 8em);
+    }
+}
+
 #popup_content {
     width: 100%;
     height: 960px;
