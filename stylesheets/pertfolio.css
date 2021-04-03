@@ -45,10 +45,10 @@ header {
 }
 
 #page_indicator_container {
-    margin-top: 2em;
+    margin-top: 1em;
     margin-left: 4em;
     margin-right: 4em;
-    margin-bottom: 2em;
+    margin-bottom: 4em;
 }
 
 #page_indicator {
@@ -135,8 +135,8 @@ header {
 }
 
 .page_num.selected {
-    background-color: #53575c;
-    color: #c2c8ce;
+    background-color: #818a94;
+    color: #d6dce2;
 }
 
 .bevel.shown {
