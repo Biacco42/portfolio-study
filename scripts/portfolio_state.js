@@ -55,7 +55,7 @@ export default class State {
         this.page = parseInt(page, 10)
 
         this.publishPageContents()
-        this.publishPageIndicies()
+        this.publishPageIndicies(true)
     }
 
     getPageIndicies() {
@@ -148,8 +148,8 @@ export default class State {
         this.stateEventHandler("pageContents", this.getPageContents())
     }
 
-    publishPageIndicies() {
-        this.stateEventHandler("pageIndicies", this.getPageIndicies())
+    publishPageIndicies(fromPageSelectEvent = false) {
+        this.stateEventHandler("pageIndicies", { pageIndicies: this.getPageIndicies(), fromPageSelectEvent: fromPageSelectEvent })
     }
 
     setupAuthorsList() {

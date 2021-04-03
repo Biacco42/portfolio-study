@@ -54,7 +54,6 @@ export default class View {
         const newColNum = View.numberOfCols()
         if (newColNum != this.colNum) {
             this.colNum = newColNum
-            this.intersectionObserver = View.createIntersectionObserver()
             this.showPage(pageContents)
         }
     }
@@ -104,6 +103,8 @@ export default class View {
     }
 
     showPage(pageContents) {
+        this.intersectionObserver = View.createIntersectionObserver()
+
         window.setTimeout(() => {
             const colNum = View.numberOfCols()
             const colsDOM = Util.range(0, colNum, 1).map(_ => {
@@ -140,7 +141,7 @@ export default class View {
         window.setTimeout(() => {
             Util.removeAllChildren(this.pageIndicator)
 
-            Object.keys(pageState).forEach(page => {
+            Object.keys(pageState.pageIndicies).forEach(page => {
                 const pageNum = this.document.createElement("div")
                 pageNum.innerHTML = parseInt(page, 10) + 1
 
@@ -148,7 +149,7 @@ export default class View {
                 pageNode.setAttribute("class", "page_num")
                 pageNode.classList.add("bevel_content")
 
-                if (pageState[page]) {
+                if (pageState.pageIndicies[page]) {
                     pageNode.classList.add("selected")
                 }
 
@@ -158,7 +159,7 @@ export default class View {
                 pageButtonLink.setAttribute("href", page)
                 pageButtonLink.onclick = (event) => {
                     event.preventDefault()
-                    if (!pageState[page]) {
+                    if (!pageState.pageIndicies[page]) {
                         this.actionHandler("selectPage", page)
                     }
                 }
@@ -172,14 +173,20 @@ export default class View {
                 this.pageIndicator.appendChild(pageButton)
             })
 
-            window.scrollTo(0, 0)
             View.showBevel(this.header)
 
             this.intersectionObserver.observe(this.pageIndicatorContainer)
+        }, 450)
+
+        window.setTimeout(() => {
+            window.scrollTo(0, 0)
         }, 425)
 
         View.hideBevel(this.pageIndicatorContainer)
-        View.hideBevel(this.header)
+
+        if (pageState.fromPageSelectEvent) {
+            View.hideBevel(this.header)
+        }
     }
 
     showPopup(content) {
