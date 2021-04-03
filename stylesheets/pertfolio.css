@@ -8,9 +8,10 @@ a {
 }
 
 header {
-    width: 100%;
+    margin: 4em;
     background-color: #c2c8ce;
-    box-shadow: 0 0.5em 1.5em #68707888;
+    border-radius: 1em;
+    overflow: hidden;
 }
 
 #authors_list {
@@ -43,7 +44,7 @@ header {
     padding-right: 2em;
 }
 
-#page_container {
+#page_indicator_container {
     margin-left: 10em;
     margin-right: 10em;
 }
@@ -102,10 +103,11 @@ header {
 }
 
 .card {
+    position: relative;
+    z-index: 1;
     background-color: #c2c8ce;
     border-radius: 1em;
     overflow: hidden;
-    will-change: transform;
 }
 
 .bevel.shown {

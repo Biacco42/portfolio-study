@@ -38,6 +38,9 @@ function onContentsListReceived(contentsList) {
 
     state = new State(contentsList, 0, 12, (stateEvent, eventValue) => {
         switch (stateEvent) {
+            case "ready":
+                view.showHeader()
+                break
             case "selectedAuthors":
                 view.showAuthors(eventValue)
                 break

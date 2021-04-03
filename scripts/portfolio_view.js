@@ -4,11 +4,12 @@ import Util from "./util.js"
 
 export default class View {
     document
+    header
     authorsList
     tagsList
-    contentsRoot
-    contentsWrapper
     contentsContainer
+    contentsWrapper
+    pageIndicatorContainer
     pageIndicator
     popupBackground
     popupContent
@@ -19,11 +20,12 @@ export default class View {
 
     constructor(document, actionHandler) {
         this.document = document
+        this.header = document.getElementsByTagName("header")[0]
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
-        this.contentsRoot = document.getElementById("contents_root")
-        this.contentsWrapper = document.getElementById("contents_wrapper")
         this.contentsContainer = document.getElementById("contents_container")
+        this.contentsWrapper = document.getElementById("contents_wrapper")
+        this.pageIndicatorContainer = document.getElementById("page_indicator_container")
         this.pageIndicator = document.getElementById("page_indicator")
         this.popupBackground = document.getElementById("popup_background")
         this.popupContent = document.getElementById("popup_content")
@@ -49,6 +51,14 @@ export default class View {
             this.intersectionObserver = View.createIntersectionObserver()
             this.showPage(pageContents)
         }
+    }
+
+    showHeader() {
+        View.showBevel(this.header)
+    }
+
+    hideHeader() {
+        View.hideBevel(this.header)
     }
 
     showAuthors(authorsState) {
@@ -89,11 +99,6 @@ export default class View {
 
     showPage(pageContents) {
         window.setTimeout(() => {
-            Util.removeAllChildren(this.contentsContainer)
-            window.scrollTo(0, 0)
-        }, 450)
-
-        window.setTimeout(() => {
             const colNum = View.numberOfCols()
             const colsDOM = Util.range(0, colNum, 1).map(_ => {
                 const column = this.document.createElement("div")
@@ -120,9 +125,9 @@ export default class View {
                 this.contentsWrapper = contentsWrapper
                 this.colNum = colNum
             })
-        }, 500)
+        }, 450)
 
-        View.hideBevel(this.contentsWrapper)
+        View.hideBevel(this.contentsContainer)
     }
 
     showPageIndicator(pageState) {
@@ -133,6 +138,16 @@ export default class View {
             pageButton.setAttribute("href", page)
             pageButton.onclick = (event) => {
                 event.preventDefault()
+
+                View.hideBevel(this.pageIndicatorContainer)
+                View.hideBevel(this.header)
+
+                window.setTimeout(() => {
+                    Util.removeAllChildren(this.contentsContainer)
+                    window.scrollTo(0, 0)
+                    View.showBevel(this.header)
+                }, 425)
+
                 this.actionHandler("selectPage", page)
             }
 
@@ -141,6 +156,8 @@ export default class View {
 
             this.pageIndicator.appendChild(pageButton)
         })
+
+        this.intersectionObserver.observe(this.pageIndicatorContainer)
     }
 
     showPopup(content) {
@@ -263,7 +280,7 @@ export default class View {
     }
 
     static hideBevel(node) {
-        if (node.classList.contains("jbevel")) {
+        if (node.classList.contains("bevel")) {
             node.classList.add("hidden")
             node.classList.remove("shown")
         }

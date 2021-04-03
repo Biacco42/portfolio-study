@@ -21,10 +21,8 @@ export default class State {
         this.setupAuthorsList()
         this.setupTagsList()
 
-        this.publishAuthors()
-        this.publishTags()
-        this.publishPageContents()
-        this.publishPageIndicies()
+        this.stateEventHandler("ready", {})
+        this.publishAll()
     }
 
     selectAuthor(author) {
