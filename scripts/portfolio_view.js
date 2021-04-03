@@ -23,7 +23,7 @@ export default class View {
 
     constructor(document, actionHandler) {
         this.document = document
-        this.mainView = document.getElementById("mainView")
+        this.mainView = document.getElementById("main_view")
         this.header = document.getElementsByTagName("header")[0]
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
@@ -202,7 +202,7 @@ export default class View {
 
             window.setTimeout(() => {
                 window.scrollTo(0, this.lastScroll)
-                View.showBevel(this.mainView)
+                View.showBevel(this.header)
             }, 30)
         }, 450)
 

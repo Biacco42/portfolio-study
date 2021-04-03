@@ -9,24 +9,27 @@ a {
 }
 
 header {
-    margin: 4em;
+    position: relative;
+    z-index: 1;
     border-radius: 1em;
     overflow: hidden;
 }
 
+#main_view {
+    padding: 4em;
+    transition: padding 400ms ease-in-out;
+}
+
 @media only screen and (max-width: 600px) {
-    header {
-        margin-top: 2em;
-        margin-left: 2em;
-        margin-right: 2em;
+    #main_view {
+        padding: 2em;
     }
 }
 
-@media only screen and (min-width: 1920px) {
-    header {
-        margin-left: auto;
-        margin-right: auto;
-        width: calc(1920px - 8em);
+@media only screen and (min-width: 1600px) {
+    #main_view {
+        padding-left: calc(50% - 800px + 4em);
+        padding-right: calc(50% - 800px + 4em);
     }
 }
 
@@ -42,28 +45,12 @@ header {
 
 #contents_container {
     margin-top: 4em;
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-@media only screen and (max-width: 600px) {
-    #contents_container {
-        margin-left: 0;
-        margin-right: 0;
-    }
-}
-
-@media only screen and (min-width: 1920) {
-    #contents_container {
-        margin-left: auto;
-        margin-right: auto;
-        width: calc(1920px - 4em);
-    }
 }
 
 #contents_wrapper {
     opacity: 1;
-    margin: 0;
+    margin-left: -4em;
+    margin-right: 0;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -71,15 +58,11 @@ header {
 
 #contents_wrapper>div {
     width: 100%;
-    padding-left: 2em;
-    padding-right: 2em;
+    margin-left: 4em;
 }
 
 #page_indicator_container {
-    margin-top: 1em;
-    margin-left: 4em;
-    margin-right: 4em;
-    margin-bottom: 4em;
+    margin: 0;
 }
 
 #page_indicator {
@@ -99,6 +82,7 @@ header {
     margin: 4em;
     border-radius: 1em;
     overflow: hidden;
+    transition: 800ms ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
@@ -181,7 +165,7 @@ header {
 
 .bevel.shown {
     transition: box-shadow 750ms ease-in-out;
-    box-shadow: 0.5em 0.5em 1.5em #68707888, -0.75em -0.75em 1.5em #ffffffd8, inset 0.5em 0.5em 1.5em transparent, inset -0.75em -0.75em 1.5em transparent;
+    box-shadow: 0.5em 0.5em 1.5em #67707788, -0.5em -0.5em 1.5em #ffffffd0, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
 .bevel.hidden {
