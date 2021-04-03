@@ -122,14 +122,7 @@ export default class View {
             })
         }, 500)
 
-        this.contentsWrapper.querySelectorAll(".card").forEach(card => {
-            card.classList.add("hidden")
-            card.classList.remove("shown")
-        })
-        this.contentsWrapper.querySelectorAll(".card_content").forEach(contentNode => {
-            contentNode.classList.add("hidden")
-            contentNode.classList.remove("shown")
-        })
+        View.hideBevel(this.contentsWrapper)
     }
 
     showPageIndicator(pageState) {
@@ -206,7 +199,7 @@ export default class View {
         label.appendChild(tags)
 
         const contentNode = this.document.createElement("div")
-        contentNode.setAttribute("class", "card_content")
+        contentNode.setAttribute("class", "bevel_content")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
 
@@ -220,6 +213,7 @@ export default class View {
 
         const contentCard = this.document.createElement("div")
         contentCard.setAttribute("class", "card")
+        contentCard.classList.add("bevel")
         contentCard.appendChild(contentButton)
         this.intersectionObserver.observe(contentCard)
 
@@ -238,8 +232,7 @@ export default class View {
                     const seed = Math.random()
                     const delay = seed * seed * 400
                     window.setTimeout(() => {
-                        entry.target.classList.add("shown")
-                        entry.target.querySelector(".card_content").classList.add("shown")
+                        View.showBevel(entry.target)
                     }, delay)
                 }
             })
@@ -251,5 +244,37 @@ export default class View {
         }
 
         return new IntersectionObserver(intersectionHandler, options)
+    }
+
+    static showBevel(node) {
+        if (node.classList.contains("bevel")) {
+            node.classList.remove("hidden")
+            node.classList.add("shown")
+        }
+
+        node.querySelectorAll(".bevel").forEach(element => {
+            element.classList.remove("hidden")
+            element.classList.add("shown")
+        })
+        node.querySelectorAll(".bevel_content").forEach(element => {
+            element.classList.remove("hidden")
+            element.classList.add("shown")
+        })
+    }
+
+    static hideBevel(node) {
+        if (node.classList.contains("jbevel")) {
+            node.classList.add("hidden")
+            node.classList.remove("shown")
+        }
+
+        node.querySelectorAll(".bevel").forEach(element => {
+            element.classList.add("hidden")
+            element.classList.remove("shown")
+        })
+        node.querySelectorAll(".bevel_content").forEach(element => {
+            element.classList.add("hidden")
+            element.classList.remove("shown")
+        })
     }
 }

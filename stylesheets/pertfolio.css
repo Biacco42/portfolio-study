@@ -108,24 +108,24 @@ header {
     will-change: transform;
 }
 
-.card.shown {
+.bevel.shown {
     transition: box-shadow 750ms ease-in-out;
     box-shadow: 0.5em 0.5em 1.5em #68707888, -0.5em -0.5em 1.5em #ffffffd8, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
-.card.hidden {
+.bevel.hidden {
     transition: box-shadow 400ms ease-in-out;
 }
 
-.card_content {
+.bevel_content {
     opacity: 0;
 }
 
-.card_content.shown {
+.bevel_content.shown {
     transition: opacity 500ms ease-in-out 700ms;
     opacity: 1;
 }
 
-.card_content.hidden {
+.bevel_content.hidden {
     transition: opacity 200ms ease-in-out;
 }
