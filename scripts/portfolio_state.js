@@ -85,7 +85,7 @@ export default class State {
             return this.tagsList[tag]
         })
 
-        return this.contentsList.filter(contentDesc => {
+        const activeContents = this.contentsList.filter(contentDesc => {
             const isAuthorsEnabled = contentDesc.authors.reduce((acc, author) => {
                 return acc || enabledAuthors.includes(author)
             }, false)
@@ -95,6 +95,16 @@ export default class State {
             }, false)
 
             return isAuthorsEnabled && isTagsEnabled
+        })
+
+        return activeContents.filter((content) => {
+            const now = dayjs().unix()
+            const publishedOnUnixtime = dayjs(content.publishedOn).unix()
+            return publishedOnUnixtime < now
+        }).sort((a, b) => {
+            const aDate = dayjs(a.publishedOn).unix()
+            const bDate = dayjs(b.publishedOn).unix()
+            return aDate - bDate
         })
     }
 
