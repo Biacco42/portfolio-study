@@ -131,33 +131,47 @@ export default class View {
     }
 
     showPageIndicator(pageState) {
-        Util.removeAllChildren(this.pageIndicator)
-        Object.keys(pageState).forEach(page => {
-            const pageButton = this.document.createElement("a")
-            pageButton.innerHTML = parseInt(page, 10) + 1
-            pageButton.setAttribute("href", page)
-            pageButton.onclick = (event) => {
-                event.preventDefault()
+        window.setTimeout(() => {
+            Util.removeAllChildren(this.pageIndicator)
 
-                View.hideBevel(this.pageIndicatorContainer)
-                View.hideBevel(this.header)
+            Object.keys(pageState).forEach(page => {
+                const pageNum = this.document.createElement("div")
+                pageNum.innerHTML = parseInt(page, 10) + 1
 
-                window.setTimeout(() => {
-                    Util.removeAllChildren(this.contentsContainer)
-                    window.scrollTo(0, 0)
-                    View.showBevel(this.header)
-                }, 425)
+                const pageNode = this.document.createElement("div")
+                pageNode.setAttribute("class", "page_num")
+                pageNode.classList.add("bevel_content")
 
-                this.actionHandler("selectPage", page)
-            }
+                if (pageState[page]) {
+                    pageNode.classList.add("selected")
+                }
 
-            const isEnabledClass = pageState[page] ? "enabled" : "disabled"
-            pageButton.setAttribute("class", isEnabledClass)
+                pageNode.appendChild(pageNum)
 
-            this.pageIndicator.appendChild(pageButton)
-        })
+                const pageButtonLink = this.document.createElement("a")
+                pageButtonLink.setAttribute("href", page)
+                pageButtonLink.onclick = (event) => {
+                    event.preventDefault()
+                    this.actionHandler("selectPage", page)
+                }
+                pageButtonLink.appendChild(pageNode)
 
-        this.intersectionObserver.observe(this.pageIndicatorContainer)
+                const pageButton = this.document.createElement("div")
+                pageButton.setAttribute("class", "page_button")
+                pageButton.classList.add("bevel")
+                pageButton.appendChild(pageButtonLink)
+
+                this.pageIndicator.appendChild(pageButton)
+            })
+
+            window.scrollTo(0, 0)
+            View.showBevel(this.header)
+
+            this.intersectionObserver.observe(this.pageIndicatorContainer)
+        }, 450)
+
+        View.hideBevel(this.pageIndicatorContainer)
+        View.hideBevel(this.header)
     }
 
     showPopup(content) {
