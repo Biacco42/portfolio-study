@@ -158,7 +158,9 @@ export default class View {
                 pageButtonLink.setAttribute("href", page)
                 pageButtonLink.onclick = (event) => {
                     event.preventDefault()
-                    this.actionHandler("selectPage", page)
+                    if (!pageState[page]) {
+                        this.actionHandler("selectPage", page)
+                    }
                 }
                 pageButtonLink.appendChild(pageNode)
 

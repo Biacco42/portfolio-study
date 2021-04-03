@@ -73,30 +73,28 @@ header {
 
 #popup_background {
     display: none;
-    width: 100%;
+    padding: 4em;
+    transition: padding 400ms ease-in-out;
+}
+
+@media only screen and (max-width: 600px) {
+    #popup_background {
+        padding: 2em;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    #popup_background {
+        padding-left: calc(50% - 800px + 4em);
+        padding-right: calc(50% - 800px + 4em);
+    }
 }
 
 #popup {
     position: relative;
     z-index: 1;
-    margin: 4em;
     border-radius: 1em;
     overflow: hidden;
-    transition: 800ms ease-in-out;
-}
-
-@media only screen and (max-width: 600px) {
-    #popup {
-        margin: 2em;
-    }
-}
-
-@media only screen and (min-width: 1920) {
-    #popup {
-        margin-left: auto;
-        margin-right: auto;
-        width: calc(1920px - 8em);
-    }
 }
 
 #popup_content {
@@ -164,7 +162,7 @@ header {
 }
 
 .bevel.shown {
-    transition: box-shadow 750ms ease-in-out;
+    transition: box-shadow 800ms ease-in-out;
     box-shadow: 0.5em 0.5em 1.5em #67707788, -0.5em -0.5em 1.5em #ffffffd0, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
 }
 
@@ -177,7 +175,7 @@ header {
 }
 
 .bevel_content.shown {
-    transition: opacity 500ms ease-in-out 700ms;
+    transition: opacity 400ms ease-in-out 700ms;
     opacity: 1;
 }
 
