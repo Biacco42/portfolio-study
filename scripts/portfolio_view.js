@@ -219,15 +219,22 @@ export default class View {
         tagsList.forEach(tagString => {
             const tag = this.document.createElement("p")
             tag.textContent = tagString
-            tag.setAttribute("class", tagString)
+            tag.setAttribute("class", "tag")
             tags.appendChild(tag)
         })
+
+        const publishedOnRawString = Util.retrieveOrDefault(content, "publishedOn", "2021-04-01T00:00:00.000+09:00")
+        const publishedOnString = dayjs(publishedOnRawString).format("YYYY MM/DD")
+        const publishedOn = this.document.createElement("p")
+        publishedOn.textContent = publishedOnString
+        publishedOn.setAttribute("class", "publishedOn")
 
         const label = this.document.createElement("div")
         label.appendChild(title)
         label.appendChild(description)
         label.appendChild(authors)
         label.appendChild(tags)
+        label.appendChild(publishedOn)
 
         const contentNode = this.document.createElement("div")
         contentNode.setAttribute("class", "bevel_content")
