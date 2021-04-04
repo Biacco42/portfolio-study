@@ -72,11 +72,22 @@ function showPage(pageState) {
     if (pageState.selectedContent) {
         view.showPopup(pageState.selectedContent)
     } else {
-        view.showHeader()
-        view.showAuthors(pageState.authors)
-        view.showTags(pageState.tags)
-        view.showPageIndicator(pageState.pageIndicies)
-        view.showPage(pageState.contents)
+        if (window.scrollY === 0) {
+            view.showHeader()
+            view.showAuthors(pageState.authors)
+            view.showTags(pageState.tags)
+            view.showPageIndicator(pageState.pageIndicies)
+            view.showPage(pageState.contents)
+        } else {
+            view.hideHeader(() => {
+                window.scrollTo(0, 0)
+                view.showHeader()
+                view.showAuthors(pageState.authors)
+                view.showTags(pageState.tags)
+                view.showPageIndicator(pageState.pageIndicies)
+                view.showPage(pageState.contents)
+            })
+        }
     }
 }
 

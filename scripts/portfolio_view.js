@@ -62,7 +62,8 @@ export default class View {
         View.showBevel(this.header)
     }
 
-    hideHeader() {
+    hideHeader(completion) {
+        window.setTimeout(completion, 450)
         View.hideBevel(this.header)
     }
 
@@ -178,9 +179,9 @@ export default class View {
             this.intersectionObserver.observe(this.pageIndicatorContainer)
         }, 450)
 
-        window.setTimeout(() => {
-            window.scrollTo(0, 0)
-        }, 425)
+        // window.setTimeout(() => {
+        //     window.scrollTo(0, 0)
+        // }, 425)
 
         View.hideBevel(this.pageIndicatorContainer)
     }
