@@ -71,7 +71,7 @@ export default class View {
         Object.keys(authorsState).forEach(author => {
             const authorButton = this.document.createElement("a")
             authorButton.innerHTML = author
-            authorButton.setAttribute("href", author)
+            authorButton.setAttribute("href", "#")
             authorButton.onclick = (event) => {
                 event.preventDefault()
                 this.actionHandler("selectAuthor", author)
@@ -89,7 +89,7 @@ export default class View {
         Object.keys(tagsState).forEach(tag => {
             const tagButton = this.document.createElement("a")
             tagButton.innerHTML = tag
-            tagButton.setAttribute("href", tag)
+            tagButton.setAttribute("href", "#")
             tagButton.onclick = (event) => {
                 event.preventDefault()
                 this.actionHandler("selectTag", tag)
@@ -156,7 +156,7 @@ export default class View {
                 pageNode.appendChild(pageNum)
 
                 const pageButtonLink = this.document.createElement("a")
-                pageButtonLink.setAttribute("href", page)
+                pageButtonLink.setAttribute("href", "#")
                 pageButtonLink.onclick = (event) => {
                     event.preventDefault()
                     if (!pageState.pageIndicies[page]) {
@@ -278,7 +278,7 @@ export default class View {
         contentNode.appendChild(label)
 
         const contentButton = this.document.createElement("a")
-        contentButton.setAttribute("href", content.id)
+        contentButton.setAttribute("href", "#")
         contentButton.onclick = (event) => {
             event.preventDefault()
             this.showPopup(content)
