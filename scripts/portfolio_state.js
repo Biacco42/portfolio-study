@@ -7,20 +7,20 @@ export default class State {
     authorsList
     tagsList
     page
-    contentID
+    selectedContentID
     contentsNumInPage
     stateEventHandler
     contentCacheDict
 
-    constructor(contentsList, page, contentsNumInPage, stateEventHandler) {
+    constructor(contentsList, store, contentsNumInPage, stateEventHandler) {
         this.contentsList = contentsList.map(contentDesc => {
             const updated = Util.clone(contentDesc)
             const id = Util.removeExtension(contentDesc.contentPath)
             updated.id = id
             return updated
         })
-        this.page = page
-        this.contentID = null
+        this.page = 0
+        this.selectedContentID = null
         this.contentsNumInPage = contentsNumInPage
         this.stateEventHandler = stateEventHandler
         this.contentsCacheDict = {}
@@ -28,7 +28,7 @@ export default class State {
         this.setupAuthorsList()
         this.setupTagsList()
 
-        this.publishState("init")
+        this.deserialize(store)
     }
 
     serialize() {
@@ -36,44 +36,67 @@ export default class State {
             authorsList: Util.clone(this.authorsList),
             tagsList: Util.clone(this.tagsList),
             page: this.page,
-            contentID: this.contentID
+            contentID: this.selectedContentID
         }
     }
 
     deserialize(serialized) {
-        Object.keys(serialized.authorsList).forEach(author => {
-            const enabled = serialized.authorsList[author]
-            if (this.authorsList[author]) {
-                this.authorsList[author] = enabled
-            }
-        })
-
-        Object.keys(serialized.tagsList).forEach(tag => {
-            const enabled = serialized.tagsList[tag]
-            if (this.tagsList[tag]) {
-                this.tagsList[tag] = enabled
-            }
-        })
-
-        const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
-        if (0 <= serialized.page && serialized.page < totalPage) {
-            this.page = serialized.page
+        if (Object.keys(serialized).length === 0) {
+            this.page = 0
+            this.selectedContentID = null
+            this.setupAuthorsList()
+            this.setupTagsList()
         }
 
-        if (this.contentsList.filter(contentDesc => contentDesc.id === serialized.contentID)[0]) {
-            this.contentID = serialized.contentID
+        if (serialized.authorsList) {
+            Object.keys(this.authorsList).forEach(author => {
+                if (typeof serialized.authorsList[author] === "undefined") {
+                    this.authorsList[author] = false
+                } else {
+                    this.authorsList[author] = serialized.authorsList[author]
+                }
+            })
+        }
+
+        if (serialized.tagsList) {
+            Object.keys(this.tagsList).forEach(tag => {
+                if (typeof serialized.tagsList[tag] === "undefined") {
+                    this.tagsList[tag] = false
+                } else {
+                    this.tagsList[tag] = serialized.tagsList[tag]
+                }
+            })
+        }
+
+        if (serialized.page && parseInt(serialized.page)) {
+            const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
+            const page = parseInt(serialized.page)
+            if (0 <= page && page < totalPage) {
+                this.page = page
+            }
+        }
+
+        if (serialized.contentID) {
+            if (serialized.contentID == null ||
+                this.contentsList.filter(contentDesc => contentDesc.id === serialized.contentID)[0]) {
+
+                this.selectedContentID = serialized.contentID
+            }
         }
 
         this.publishState("deserialize")
     }
 
     publishState(trigger) {
+        const selectedContentDesc = this.contentsList.filter(contentDesc => contentDesc.id === this.selectedContentID)[0]
+        const selectedContent = selectedContentDesc ? this.getContent(selectedContentDesc) : null
+
         this.stateEventHandler(trigger, {
             authors: this.authorsList,
             tags: this.tagsList,
             contents: this.getPageContents(),
             pageIndicies: this.getPageIndicies(),
-            contentID: this.contentID
+            selectedContent: selectedContent
         }, this.serialize())
     }
 
@@ -109,7 +132,7 @@ export default class State {
     }
 
     selectContent(contentID) {
-        this.contentID = contentID
+        this.selectedContentID = contentID
         this.publishState("content")
     }
 

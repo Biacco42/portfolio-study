@@ -137,11 +137,11 @@ export default class View {
         View.hideBevel(this.contentsContainer)
     }
 
-    showPageIndicator(pageState) {
+    showPageIndicator(pageIndicies) {
         window.setTimeout(() => {
             Util.removeAllChildren(this.pageIndicator)
 
-            Object.keys(pageState.pageIndicies).forEach(page => {
+            Object.keys(pageIndicies).forEach(page => {
                 const pageNum = this.document.createElement("div")
                 pageNum.innerHTML = parseInt(page, 10) + 1
 
@@ -149,7 +149,7 @@ export default class View {
                 pageNode.setAttribute("class", "page_num")
                 pageNode.classList.add("bevel_content")
 
-                if (pageState.pageIndicies[page]) {
+                if (pageIndicies[page]) {
                     pageNode.classList.add("selected")
                 }
 
@@ -159,7 +159,7 @@ export default class View {
                 pageButtonLink.setAttribute("href", "#")
                 pageButtonLink.onclick = (event) => {
                     event.preventDefault()
-                    if (!pageState.pageIndicies[page]) {
+                    if (!pageIndicies[page]) {
                         this.actionHandler("selectPage", page)
                     }
                 }
@@ -183,10 +183,6 @@ export default class View {
         }, 425)
 
         View.hideBevel(this.pageIndicatorContainer)
-
-        if (pageState.fromPageSelectEvent) {
-            View.hideBevel(this.header)
-        }
     }
 
     showPopup(content) {

@@ -21,6 +21,16 @@ window.onresize = (_) => {
     view.onResize(state.getPageContents())
 }
 
+window.onpopstate = (popState) => {
+    if (popState.state) {
+        state.deserialize(popState.state)
+    } else {
+        const params = new URLSearchParams(window.location.search)
+        const storeFromParams = parseParamsToStore(params)
+        state.deserialize(storeFromParams)
+    }
+}
+
 function onContentsListReceived(contentsList) {
     view = new View(document, (viewEvent, eventValue) => {
         switch (viewEvent) {
@@ -39,23 +49,89 @@ function onContentsListReceived(contentsList) {
         }
     })
 
-    state = new State(contentsList, 0, 12, (stateEvent, eventValue, store) => {
+    const params = new URLSearchParams(window.location.search)
+    const storeFromParams = parseParamsToStore(params)
+
+    state = new State(contentsList, storeFromParams, 12, (stateEvent, eventValue, store) => {
         switch (stateEvent) {
-            case "init":
-                view.showHeader()
+            case "deserialize":
+                showPage(eventValue)
                 break
-            case "selectedAuthors":
-                view.showAuthors(eventValue)
-                break
-            case "selectedTags":
-                view.showTags(eventValue)
-                break
-            case "pageIndicies":
-                view.showPageIndicator(eventValue)
-                break
-            case "pageContents":
-                view.showPage(eventValue)
+            case "author":
+            case "tag":
+            case "page":
+            case "content":
+                history.pushState(store, "", "?" + storeToParams(store).toString())
+                showPage(eventValue)
                 break
         }
     })
+}
+
+function showPage(pageState) {
+    if (pageState.selectedContent) {
+        view.showPopup(pageState.selectedContent)
+    } else {
+        view.showHeader()
+        view.showAuthors(pageState.authors)
+        view.showTags(pageState.tags)
+        view.showPageIndicator(pageState.pageIndicies)
+        view.showPage(pageState.contents)
+    }
+}
+
+function storeToParams(store) {
+    const storeForParams = {}
+
+    if (!(isAllEnabled(store.authorsList))) {
+        storeForParams.auth = Object.keys(store.authorsList).filter(author => {
+            return store.authorsList[author]
+        })
+    }
+
+    if (!(isAllEnabled(store.tagsList))) {
+        storeForParams.tag = Object.keys(store.tagsList).filter(tag => {
+            return store.tagsList[tag]
+        })
+    }
+
+    if (store.page) {
+        storeForParams.p = store.page
+    }
+
+    if (store.contentID) {
+        storeForParams.id = store.contentID
+    }
+
+    return new URLSearchParams(storeForParams)
+}
+
+function isAllEnabled(enabledDict) {
+    return Object.keys(enabledDict).reduce((acc, key) => {
+        return acc && enabledDict[key]
+    }, true)
+}
+
+function parseParamsToStore(params) {
+    const storedState = {}
+
+    if (params.has("auth")) {
+        storedState.authorsList = params.get("auth").split(",").reduce((acc, author) => {
+            acc[author] = true
+            return acc
+        }, {})
+    }
+
+    if (params.has("tag")) {
+        storedState.tagsList = params.get("tag").split(",").reduce((acc, tag) => {
+            acc[tag] = true
+            return acc
+        }, {})
+    }
+
+    if (params.has("p")) {
+        storedState.page = params.get("p")
+    }
+
+    return storedState
 }
