@@ -30,15 +30,18 @@ function onContentsListReceived(contentsList) {
             case "selectTag":
                 state.selectTag(eventValue)
                 break
+            case "selectContent":
+                state.selectContent(eventValue)
+                break
             case "selectPage":
                 state.selectPage(eventValue)
                 break
         }
     })
 
-    state = new State(contentsList, 0, 12, (stateEvent, eventValue) => {
+    state = new State(contentsList, 0, 12, (stateEvent, eventValue, store) => {
         switch (stateEvent) {
-            case "ready":
+            case "init":
                 view.showHeader()
                 break
             case "selectedAuthors":

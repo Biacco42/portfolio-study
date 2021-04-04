@@ -24,4 +24,8 @@ export default class Util {
         const lastDotIndex = fileName.lastIndexOf(".")
         return lastDotIndex != -1 ? fileName.substring(0, lastDotIndex) : fileName
     }
+
+    static clone(object) {
+        return JSON.parse(JSON.stringify(object))
+    }
 }
