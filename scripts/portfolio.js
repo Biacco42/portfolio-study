@@ -133,5 +133,9 @@ function parseParamsToStore(params) {
         storedState.page = params.get("p")
     }
 
+    if (params.has("id")) {
+        storedState.contentID = params.get("id")
+    }
+
     return storedState
 }
