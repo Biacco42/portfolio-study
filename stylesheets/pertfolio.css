@@ -1,6 +1,5 @@
 body {
-    background: linear-gradient(135deg, #e0e5eb, #cbcfd8 2700px);
-    /* background: #e0e5eb; */
+    background: #e0e5eb;
     color: #757c83;
 }
 
@@ -114,7 +113,7 @@ header {
 }
 
 .column>div {
-    margin-bottom: 4em;
+    margin-bottom: 3em;
 }
 
 .thumbnail {
