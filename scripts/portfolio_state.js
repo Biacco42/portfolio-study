@@ -91,13 +91,15 @@ export default class State {
         const selectedContentDesc = this.contentsList.filter(contentDesc => contentDesc.id === this.selectedContentID)[0]
         const selectedContent = selectedContentDesc ? this.getContent(selectedContentDesc) : null
 
-        this.stateEventHandler(trigger, {
-            authors: this.authorsList,
-            tags: this.tagsList,
-            contents: this.getPageContents(),
-            pageIndicies: this.getPageIndicies(),
-            selectedContent: selectedContent
-        }, this.serialize())
+        Promise.all(this.getPageContents()).then(contents => {
+            this.stateEventHandler(trigger, {
+                authors: this.authorsList,
+                tags: this.tagsList,
+                contents: contents,
+                pageIndicies: this.getPageIndicies(),
+                selectedContent: selectedContent
+            }, this.serialize())
+        })
     }
 
     selectAuthor(author) {

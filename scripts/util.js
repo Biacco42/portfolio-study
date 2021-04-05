@@ -28,4 +28,13 @@ export default class Util {
     static clone(object) {
         return JSON.parse(JSON.stringify(object))
     }
+
+    static haveSameKeys(obj1, obj2) {
+        const equalLength = Object.keys(obj1).length === Object.keys(obj2).length
+        const hasSameKeys = Object.keys(obj1).reduce((acc, tag) => {
+            return acc & typeof obj2[tag] !== "undefined"
+        }, true)
+
+        return equalLength & hasSameKeys
+    }
 }

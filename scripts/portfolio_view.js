@@ -6,6 +6,7 @@ export default class View {
     document
     mainView
     header
+    headerContent
     authorsList
     tagsList
     contentsContainer
@@ -24,7 +25,8 @@ export default class View {
     constructor(document, actionHandler) {
         this.document = document
         this.mainView = document.getElementById("main_view")
-        this.header = document.getElementsByTagName("header")[0]
+        this.header = document.getElementById("header")
+        this.headerContent = document.getElementById("header_content")
         this.authorsList = document.getElementById("authors_list")
         this.tagsList = document.getElementById("tags_list")
         this.contentsContainer = document.getElementById("contents_container")
@@ -59,47 +61,56 @@ export default class View {
     }
 
     showHeader() {
-        this.hidePopup()
-        View.showBevel(this.header)
+        View.show(this.header)
+        View.show(this.headerContent)
+
+        return new Promise((resolve, _) => {
+            window.setTimeout(() => {
+                resolve()
+            }, 1200)
+        })
     }
 
     hideHeader() {
-        View.hideBevel(this.header)
+        View.hide(this.header)
+        View.hide(this.headerContent)
+
+        return new Promise((resolve, _) => {
+            window.setTimeout(() => {
+                resolve()
+            }, 450)
+        })
     }
 
     showAuthors(authorsState) {
-        Util.removeAllChildren(this.authorsList)
-        Object.keys(authorsState).forEach(author => {
-            const authorButton = this.document.createElement("a")
-            authorButton.innerHTML = author
-            authorButton.setAttribute("href", "#")
-            authorButton.onclick = (event) => {
-                event.preventDefault()
-                this.actionHandler("selectAuthor", author)
+        if (this.authorsList.children.length === 0) {
+            this.initAuthors(authorsState)
+            return
+        }
+
+        Object.keys(this.authorsList).forEach(author => {
+            const authorElement = this.authorsList.getElementById("author_" + author)
+            if (authorsState[author]) {
+                authorElement.classList.add("enabled")
+            } else {
+                authorElement.classList.remove("enabled")
             }
-
-            const isEnabledClass = authorsState[author] ? "enabled" : "disabled"
-            authorButton.setAttribute("class", isEnabledClass)
-
-            this.authorsList.appendChild(authorButton)
         })
     }
 
     showTags(tagsState) {
-        Util.removeAllChildren(this.tagsList)
-        Object.keys(tagsState).forEach(tag => {
-            const tagButton = this.document.createElement("a")
-            tagButton.innerHTML = tag
-            tagButton.setAttribute("href", "#")
-            tagButton.onclick = (event) => {
-                event.preventDefault()
-                this.actionHandler("selectTag", tag)
+        if (this.tagsList.children.length === 0) {
+            this.initTags(tagsState)
+            return
+        }
+
+        Object.keys(this.tagsList).forEach(tag => {
+            const tagElement = this.tagsList.getElementById("tag_" + tag)
+            if (tagsState[tag]) {
+                tagElement.classList.add("enabled")
+            } else {
+                tagElement.classList.remove("enabled")
             }
-
-            const isEnabledClass = tagsState[tag] ? "enabled" : "disabled"
-            tagButton.setAttribute("class", isEnabledClass)
-
-            this.tagsList.appendChild(tagButton)
         })
     }
 
@@ -114,25 +125,23 @@ export default class View {
                 return column
             })
 
-            Promise.all(pageContents).then(contents => {
-                contents.forEach((content, index) => {
-                    const columnDOM = colsDOM[index % colNum]
-                    columnDOM.appendChild(this.getContentCardDOM(content))
-                })
-
-                const contentsWrapper = this.document.createElement("div")
-                contentsWrapper.id = "contents_wrapper"
-                colsDOM.forEach(colDOM => {
-                    const columnWrapper = this.document.createElement("div")
-                    columnWrapper.appendChild(colDOM)
-                    contentsWrapper.appendChild(columnWrapper)
-                })
-
-                Util.removeAllChildren(this.contentsContainer)
-                this.contentsContainer.appendChild(contentsWrapper)
-                this.contentsWrapper = contentsWrapper
-                this.colNum = colNum
+            pageContents.forEach((content, index) => {
+                const columnDOM = colsDOM[index % colNum]
+                columnDOM.appendChild(this.getContentCardDOM(content))
             })
+
+            const contentsWrapper = this.document.createElement("div")
+            contentsWrapper.id = "contents_wrapper"
+            colsDOM.forEach(colDOM => {
+                const columnWrapper = this.document.createElement("div")
+                columnWrapper.appendChild(colDOM)
+                contentsWrapper.appendChild(columnWrapper)
+            })
+
+            Util.removeAllChildren(this.contentsContainer)
+            this.contentsContainer.appendChild(contentsWrapper)
+            this.contentsWrapper = contentsWrapper
+            this.colNum = colNum
         }, 450)
 
         View.hideBevel(this.contentsContainer)
@@ -248,7 +257,7 @@ export default class View {
             tags.appendChild(tag)
         })
 
-        const publishedOnRawString = Util.retrieveOrDefault(content, "publishedOn", "2021-04-01T00:00:00.000+09:00")
+        const publishedOnRawString = Util.retrieveOrDefault(content, "publishedOn", "2021-04-01T00:00:00+09:00")
         const publishedOnString = dayjs(publishedOnRawString).format("YYYY MM/DD")
         const publishedOn = this.document.createElement("p")
         publishedOn.textContent = publishedOnString
@@ -283,6 +292,46 @@ export default class View {
         return contentCard
     }
 
+    initAuthors(authorsState) {
+        Util.removeAllChildren(this.authorsList)
+        Object.keys(authorsState).forEach(author => {
+            const authorButton = this.document.createElement("a")
+            authorButton.innerHTML = author
+            authorButton.setAttribute("href", "#")
+            authorButton.setAttribute("id", "author_" + author)
+            authorButton.onclick = (event) => {
+                event.preventDefault()
+                this.actionHandler("selectAuthor", author)
+            }
+
+            if (authorsState[author]) {
+                authorButton.setAttribute("class", "enabled")
+            }
+
+            this.authorsList.appendChild(authorButton)
+        })
+    }
+
+    initTags(tagsState) {
+        Util.removeAllChildren(this.tagsList)
+        Object.keys(tagsState).forEach(tag => {
+            const tagButton = this.document.createElement("a")
+            tagButton.innerHTML = tag
+            tagButton.setAttribute("href", "#")
+            tagButton.setAttribute("id", "tag_" + tag)
+            tagButton.onclick = (event) => {
+                event.preventDefault()
+                this.actionHandler("selectTag", tag)
+            }
+
+            if (tagsState[tag]) {
+                tagButton.setAttribute("class", "enabled")
+            }
+
+            this.tagsList.appendChild(tagButton)
+        })
+    }
+
     static numberOfCols() {
         const viewportWidth = window.innerWidth
         return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
@@ -309,35 +358,11 @@ export default class View {
         return new IntersectionObserver(intersectionHandler, options)
     }
 
-    static showBevel(node) {
-        if (node.classList.contains("bevel")) {
-            node.classList.remove("hidden")
-            node.classList.add("shown")
-        }
-
-        node.querySelectorAll(".bevel").forEach(element => {
-            element.classList.remove("hidden")
-            element.classList.add("shown")
-        })
-        node.querySelectorAll(".bevel_content").forEach(element => {
-            element.classList.remove("hidden")
-            element.classList.add("shown")
-        })
+    static show(element) {
+        element.classList.add("shown")
     }
 
-    static hideBevel(node, completion) {
-        if (node.classList.contains("bevel")) {
-            node.classList.add("hidden")
-            node.classList.remove("shown")
-        }
-
-        node.querySelectorAll(".bevel").forEach(element => {
-            element.classList.add("hidden")
-            element.classList.remove("shown")
-        })
-        node.querySelectorAll(".bevel_content").forEach(element => {
-            element.classList.add("hidden")
-            element.classList.remove("shown")
-        })
+    static hide(element) {
+        element.classList.remove("shown")
     }
 }
