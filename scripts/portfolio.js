@@ -46,6 +46,13 @@ function onContentsListReceived(contentsList) {
             case "selectPage":
                 state.selectPage(eventValue)
                 break
+            case "deselectContent":
+                if (history.state) {
+                    history.back()
+                } else {
+                    closePopup()
+                }
+                break
         }
     })
 
@@ -72,23 +79,21 @@ function showPage(pageState) {
     if (pageState.selectedContent) {
         view.showPopup(pageState.selectedContent)
     } else {
-        if (window.scrollY === 0) {
             view.showHeader()
             view.showAuthors(pageState.authors)
             view.showTags(pageState.tags)
             view.showPageIndicator(pageState.pageIndicies)
             view.showPage(pageState.contents)
-        } else {
-            view.hideHeader(() => {
-                window.scrollTo(0, 0)
-                view.showHeader()
-                view.showAuthors(pageState.authors)
-                view.showTags(pageState.tags)
-                view.showPageIndicator(pageState.pageIndicies)
-                view.showPage(pageState.contents)
-            })
-        }
     }
+}
+
+function closePopup() {
+    const params = new URLSearchParams(window.location.search)
+    params.delete("id")
+    const storeFromParams = parseParamsToStore(params)
+    view.hidePopup()
+    history.replaceState(null, "", "?" + params.toString())
+    state.deserialize(storeFromParams)
 }
 
 function storeToParams(store) {

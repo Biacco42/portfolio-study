@@ -77,11 +77,11 @@ export default class State {
         }
 
         if (serialized.contentID) {
-            if (serialized.contentID == null ||
-                this.contentsList.filter(contentDesc => contentDesc.id === serialized.contentID)[0]) {
-
+            if (this.contentsList.filter(contentDesc => contentDesc.id === serialized.contentID)[0]) {
                 this.selectedContentID = serialized.contentID
             }
+        } else {
+            this.selectedContentID = null
         }
 
         this.publishState("deserialize")

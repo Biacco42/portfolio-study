@@ -42,7 +42,7 @@ export default class View {
 
         this.popupBackground.onclick = (event) => {
             event.stopPropagation()
-            this.closePopup()
+            this.actionHandler("deselectContent", null)
         }
 
         this.popupContent.onclick = (event) => {
@@ -59,6 +59,7 @@ export default class View {
     }
 
     showHeader() {
+        this.hidePopup()
         View.showBevel(this.header)
     }
 
@@ -196,15 +197,11 @@ export default class View {
         View.hideBevel(this.mainView)
     }
 
-    closePopup() {
+    hidePopup(completion) {
         window.setTimeout(() => {
             this.mainView.style.display = "block"
             this.popupBackground.style.display = "none"
-
-            window.setTimeout(() => {
-                window.scrollTo(0, this.lastScroll)
-                View.showBevel(this.header)
-            }, 30)
+            completion()
         }, 450)
 
         View.hideBevel(this.popup)
