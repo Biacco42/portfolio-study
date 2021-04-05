@@ -117,7 +117,7 @@ export default class View {
             Promise.all(pageContents).then(contents => {
                 contents.forEach((content, index) => {
                     const columnDOM = colsDOM[index % colNum]
-                    columnDOM.appendChild(this.getContentDOM(content))
+                    columnDOM.appendChild(this.getContentCardDOM(content))
                 })
 
                 const contentsWrapper = this.document.createElement("div")
@@ -179,10 +179,6 @@ export default class View {
             this.intersectionObserver.observe(this.pageIndicatorContainer)
         }, 450)
 
-        // window.setTimeout(() => {
-        //     window.scrollTo(0, 0)
-        // }, 425)
-
         View.hideBevel(this.pageIndicatorContainer)
     }
 
@@ -215,7 +211,7 @@ export default class View {
         View.hideBevel(this.popup)
     }
 
-    getContentDOM(content) {
+    getContentCardDOM(content) {
         const defaultImageSource = {
             "src": "images/360x360.png",
             "width": 360,
@@ -224,8 +220,8 @@ export default class View {
         const imageSource = Util.retrieveOrDefault(content, "thumbnail", defaultImageSource)
         const image = this.document.createElement("img")
         image.setAttribute("src", imageSource.src)
-        image.setAttribute("width", imageSource.width)
-        image.setAttribute("height", imageSource.height)
+        if (imageSource.width) { image.setAttribute("width", imageSource.width) }
+        if (imageSource.height) { image.setAttribute("height", imageSource.height) }
         image.setAttribute("class", "thumbnail")
         image.setAttribute("load", "lazy")
 

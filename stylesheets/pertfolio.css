@@ -1,10 +1,11 @@
 body {
-    background-color: #c2c8ce;
-    color: #303438;
+    background: linear-gradient(135deg, #e0e5eb, #cbcfd8 2700px);
+    /* background: #e0e5eb; */
+    color: #757c83;
 }
 
 a {
-    color: #303438;
+    color: #757c83;
     text-decoration: none;
 }
 
@@ -17,12 +18,12 @@ header {
 
 #main_view {
     padding: 4em;
-    transition: padding 400ms ease-in-out;
+    transition: padding 600ms ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
     #main_view {
-        padding: 2em;
+        padding: 3em;
     }
 }
 
@@ -44,21 +45,19 @@ header {
 }
 
 #contents_container {
-    margin-top: 4em;
+    margin-top: 3em;
 }
 
 #contents_wrapper {
     opacity: 1;
-    margin-left: -4em;
+    margin-left: -3em;
     margin-right: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
 }
 
 #contents_wrapper>div {
     width: 100%;
-    margin-left: 4em;
+    margin-left: 3em;
 }
 
 #page_indicator_container {
@@ -74,12 +73,12 @@ header {
 #popup_background {
     display: none;
     padding: 4em;
-    transition: padding 400ms ease-in-out;
+    transition: padding 600ms ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
     #popup_background {
-        padding: 2em;
+        padding: 3em;
     }
 }
 
@@ -138,19 +137,25 @@ header {
     margin-right: 1em;
     border-radius: 50%;
     overflow: hidden;
-    width: 3em;
-    height: 3em;
+    width: 4em;
+    height: 4em;
 }
 
 .page_button>a {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
 }
 
 .page_num {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 70%;
+    height: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,24 +166,22 @@ header {
     color: #d6dce2;
 }
 
-.bevel.shown {
-    transition: box-shadow 800ms ease-in-out;
-    box-shadow: 0.5em 0.5em 1.5em #67707788, -0.5em -0.5em 1.5em #ffffffd0, inset 0.5em 0.5em 1.5em transparent, inset -0.5em -0.5em 1.5em transparent;
+.bevel {
+    transition: box-shadow 200ms ease-in-out;
 }
 
-.bevel.hidden {
-    transition: box-shadow 400ms ease-in-out;
+.bevel.shown {
+    transition: box-shadow 800ms ease-in-out;
+    box-shadow: 0.5em 0.5em 1em #a3b1c6, -0.5em -0.5em 1em #ffffff, inset 0.5em 0.5em 1em transparent, inset -0.5em -0.5em 1em transparent;
 }
 
 .bevel_content {
+    padding: 1em;
     opacity: 0;
+    transition: opacity 200ms ease-in-out;
 }
 
 .bevel_content.shown {
     transition: opacity 400ms ease-in-out 700ms;
     opacity: 1;
-}
-
-.bevel_content.hidden {
-    transition: opacity 200ms ease-in-out;
 }
