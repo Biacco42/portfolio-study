@@ -200,6 +200,7 @@ export default class State {
                 content.authors = contentDesc.authors
                 content.tags = contentDesc.tags
                 content.publishedOn = contentDesc.publishedOn
+                content.id = contentDesc.id
                 this.contentsCacheDict[contentDesc] = content
                 return content
             })

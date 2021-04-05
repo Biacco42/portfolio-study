@@ -62,8 +62,7 @@ export default class View {
         View.showBevel(this.header)
     }
 
-    hideHeader(completion) {
-        window.setTimeout(completion, 450)
+    hideHeader() {
         View.hideBevel(this.header)
     }
 
@@ -274,7 +273,7 @@ export default class View {
         contentButton.setAttribute("href", "#")
         contentButton.onclick = (event) => {
             event.preventDefault()
-            this.showPopup(content)
+            this.actionHandler("selectContent", content.id)
         }
         contentButton.appendChild(contentNode)
 
