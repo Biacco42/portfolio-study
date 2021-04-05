@@ -117,6 +117,10 @@ header {
 }
 
 .thumbnail {
+    position: relative;
+    z-index: 1;
+    border-radius: 0.5em;
+    overflow: hidden;
     width: 100%;
     height: auto;
     display: block;
@@ -136,8 +140,8 @@ header {
     margin-right: 1em;
     border-radius: 50%;
     overflow: hidden;
-    width: 4em;
-    height: 4em;
+    width: 3em;
+    height: 3em;
 }
 
 .page_button>a {
@@ -153,8 +157,8 @@ header {
     z-index: 1;
     border-radius: 50%;
     overflow: hidden;
-    width: 70%;
-    height: 70%;
+    width: 75%;
+    height: 75%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,7 +179,7 @@ header {
 }
 
 .bevel_content {
-    padding: 1em;
+    padding: 0.5em;
     opacity: 0;
     transition: opacity 200ms ease-in-out;
 }
