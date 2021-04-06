@@ -69,9 +69,9 @@ export default class State {
         }
 
         if (serialized.page && parseInt(serialized.page)) {
-            const totalPage = parseInt((this.getActiveContentsList().length - 1) / this.contentsNumInPage, 10) + 1
+            const totalPages = this.getTotalPages()
             const page = parseInt(serialized.page)
-            if (0 <= page && page < totalPage) {
+            if (0 <= page && page < totalPages) {
                 this.page = page
             }
         }
@@ -137,9 +137,9 @@ export default class State {
     }
 
     getPageIndicies() {
-        const totalPage = parseInt((this.getActiveContentsList().length - 1) / this.contentsNumInPage, 10) + 1
+        const totalPages = this.getTotalPages()
 
-        return Util.range(0, totalPage, 1).reduce((acc, pageNum) => {
+        return Util.range(0, totalPages, 1).reduce((acc, pageNum) => {
             acc[pageNum] = pageNum == this.page ? true : false
 
             return acc
@@ -204,6 +204,10 @@ export default class State {
                 this.contentsCacheDict[contentDesc] = content
                 return content
             })
+    }
+
+    getTotalPages() {
+        return parseInt((this.getActiveContentsList().length - 1) / this.contentsNumInPage, 10) + 1
     }
 
     setupAuthorsList() {
