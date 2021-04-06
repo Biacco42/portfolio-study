@@ -69,7 +69,7 @@ export default class State {
         }
 
         if (serialized.page && parseInt(serialized.page)) {
-            const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
+            const totalPage = parseInt((this.getActiveContentsList().length - 1) / this.contentsNumInPage, 10) + 1
             const page = parseInt(serialized.page)
             if (0 <= page && page < totalPage) {
                 this.page = page
@@ -137,7 +137,7 @@ export default class State {
     }
 
     getPageIndicies() {
-        const totalPage = parseInt(this.getActiveContentsList().length / this.contentsNumInPage, 10) + 1
+        const totalPage = parseInt((this.getActiveContentsList().length - 1) / this.contentsNumInPage, 10) + 1
 
         return Util.range(0, totalPage, 1).reduce((acc, pageNum) => {
             acc[pageNum] = pageNum == this.page ? true : false
@@ -182,7 +182,7 @@ export default class State {
         }).sort((a, b) => {
             const aDate = dayjs(a.publishedOn).unix()
             const bDate = dayjs(b.publishedOn).unix()
-            return aDate - bDate
+            return bDate - aDate
         })
     }
 
