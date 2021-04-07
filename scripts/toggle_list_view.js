@@ -1,6 +1,7 @@
 'use strict';
 
 import BevelView from "./bevel_view.js";
+import Util from "./util.js";
 
 export default class ToggleListView {
     rootElement
@@ -23,15 +24,14 @@ export default class ToggleListView {
 
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) { // temp
-                }
+                entry.target.style.opacity = Math.max(0.0, entry.intersectionRatio * 2.0 - 1.0)
             })
         }
 
         const options = {
             root: listContainer,
-            rootMargin: "0px",
-            threshold: 0.0
+            rootMargin: "0px -10px 0px -10px",
+            threshold: Util.range(0.0, 1.0, 0.1)
         }
 
         this.intersectionObserver = new IntersectionObserver(intersectionHandler, options)
@@ -54,6 +54,7 @@ export default class ToggleListView {
             toggleButtonBevel.bevel(state[key])
 
             listContainer.appendChild(toggleButtonBevel.getElement())
+            this.intersectionObserver.observe(toggleButtonBevel.getElement())
 
             acc[key] = toggleButtonBevel
 
