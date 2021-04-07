@@ -167,7 +167,7 @@ a {
 }
 
 .bevel.nega.shown {
-    transition: box-shadow 800ms ease-in-out;
+    transition: box-shadow 200ms ease-in-out;
     box-shadow: 0.1em 0.1em 0.2em transparent, -0.1em -0.1em 0.2em transparent, inset 0.1em 0.1em 0.2em #a3b1c6, inset -0.1em -0.1em 0.2em #ffffff;
 }
 
@@ -194,14 +194,22 @@ a {
 
 .toggle_button {
     display: block;
-    margin-left: 1em;
-    margin-right: 1em;
+    padding-top: 0.25em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.25em;
     white-space: nowrap;
+    transition: opacity 200ms ease-in-out;
+}
+
+.toggle_button.disabled {
+    opacity: 0.5;
 }
 
 .toggle_bevel {
-    margin-left: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     border-radius: 2em;
-    padding: 0.25em;
+    padding: 0;
     flex-shrink: 0;
 }

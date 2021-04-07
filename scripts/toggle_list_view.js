@@ -55,7 +55,9 @@ export default class ToggleListView {
 
             listContainer.appendChild(toggleButtonBevel.getElement())
 
-            return acc[key] = toggleButtonBevel
+            acc[key] = toggleButtonBevel
+
+            return acc
         }, {})
     }
 
@@ -66,7 +68,14 @@ export default class ToggleListView {
     setState(toggleState) {
         Object.keys(toggleState).forEach(key => {
             if (typeof this.toggleList[key] !== "undefined") {
-                this.toggleList[key].bevel(toggleState[key])
+                const target = this.toggleList[key]
+                target.bevel(toggleState[key])
+
+                if (toggleState[key]) {
+                    target.contentElement.firstElementChild.classList.remove("disabled")
+                } else {
+                    target.contentElement.firstElementChild.classList.add("disabled")
+                }
             }
         })
     }

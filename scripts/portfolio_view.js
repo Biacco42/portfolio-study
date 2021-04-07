@@ -61,10 +61,6 @@ export default class PortfolioView {
         }
 
         this.headerView.setState(state.authors, state.tags)
-
-        window.setTimeout(() => {
-            this.headerView.show()
-        })
     }
 
     onResize(pageContents) {
