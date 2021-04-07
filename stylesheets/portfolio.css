@@ -207,8 +207,8 @@ a {
 }
 
 .toggle_bevel {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-left: 0.4em;
+    margin-right: 0.4em;
     border-radius: 2em;
     padding: 0;
     flex-shrink: 0;
