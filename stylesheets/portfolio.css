@@ -173,11 +173,11 @@ a {
 
 .bevel_content {
     opacity: 0;
-    transition: opacity 200ms ease-in-out;
+    transition: opacity 200ms;
 }
 
 .bevel_content.shown {
-    transition: opacity 400ms ease-in-out;
+    transition: opacity 300ms;
     opacity: 1;
 }
 
@@ -199,7 +199,7 @@ a {
     padding-right: 1em;
     padding-bottom: 0.25em;
     white-space: nowrap;
-    transition: opacity 200ms ease-in-out;
+    transition: opacity 200ms;
 }
 
 .toggle_button.disabled {

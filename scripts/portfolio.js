@@ -63,7 +63,9 @@ function onContentsListReceived(contentsList) {
         switch (stateEvent) {
             case "deserialize":
                 portfolioView.setState(state)
-                portfolioView.showHeader()
+                window.setTimeout(() => {
+                    portfolioView.showHeader()
+                }, 50)
                 break
             case "author":
             case "tag":

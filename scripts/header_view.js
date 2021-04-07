@@ -30,7 +30,14 @@ export default class HeaderView {
     }
 
     show() {
-        return Promise.all([this.bevelView.bevel(true), this.bevelView.showContent(true)])
+        const showContent = new Promise((resolve, _) => {
+            window.setTimeout(() => {
+                this.bevelView.showContent(true).then(() => {
+                    resolve()
+                })
+            }, 700)
+        })
+        return Promise.all([this.bevelView.bevel(true), showContent])
     }
 
     hide() {
