@@ -15,13 +15,6 @@ a {
     text-decoration: none;
 }
 
-header {
-    position: relative;
-    z-index: 1;
-    border-radius: 1em;
-    overflow: hidden;
-}
-
 #main_view {
     padding: 4em;
     transition: padding 600ms ease-in-out;
@@ -182,6 +175,11 @@ header {
 }
 
 .bevel {
+    position: relative;
+    z-index: 1;
+    border-radius: 1em;
+    overflow: hidden;
+    padding: 0.5em;
     transition: box-shadow 200ms ease-in-out;
 }
 
@@ -191,7 +189,6 @@ header {
 }
 
 .bevel_content {
-    padding: 0.5em;
     opacity: 0;
     transition: opacity 200ms ease-in-out;
 }

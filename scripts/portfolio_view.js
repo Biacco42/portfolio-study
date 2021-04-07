@@ -1,59 +1,60 @@
 'use strict';
 
+import HeaderView from "./header_view.js"
 import Util from "./util.js"
 
-export default class View {
+export default class PortfolioView {
     document
     mainView
-    header
-    headerContent
-    authorsList
-    tagsList
+    headerView
+
     contentsContainer
     contentsWrapper
     pageIndicatorContainer
     pageIndicator
     popupBackground
-    popup
+    popupView
     popupContent
 
     actionHandler
     colNum
-    intersectionObserver
+    cardIntersectionObserver
+    buttonIntersectionObserver
     lastScroll
 
     constructor(document, actionHandler) {
         this.document = document
         this.mainView = document.getElementById("main_view")
-        this.header = document.getElementById("header")
-        this.headerContent = document.getElementById("header_content")
-        this.authorsList = document.getElementById("authors_list")
-        this.tagsList = document.getElementById("tags_list")
-        this.contentsContainer = document.getElementById("contents_container")
-        this.contentsWrapper = document.getElementById("contents_wrapper")
-        this.pageIndicatorContainer = document.getElementById("page_indicator_container")
-        this.pageIndicator = document.getElementById("page_indicator")
-        this.popupBackground = document.getElementById("popup_background")
-        this.popup = document.getElementById("popup")
-        this.popupContent = document.getElementById("popup_content")
+        this.headerView = new HeaderView(document.getElementById("header_view"), (event) => {
+            // TODO: action handler
+        })
 
-        this.actionHandler = actionHandler
-        this.colNum = View.numberOfCols()
-        this.intersectionObserver = View.createIntersectionObserver()
-        this.lastScroll = 0
+        this.mainView.appendChild(this.headerView.getElement())
 
-        this.popupBackground.onclick = (event) => {
-            event.stopPropagation()
-            this.actionHandler("deselectContent", null)
-        }
+        // this.contentsContainer = document.getElementById("contents_container")
+        // this.contentsWrapper = document.getElementById("contents_wrapper")
+        // this.pageIndicatorContainer = document.getElementById("page_indicator_container")
+        // this.pageIndicator = document.getElementById("page_indicator")
+        // this.popupBackground = document.getElementById("popup_background")
+        // this.popupView = document.getElementById("popup")
+        // this.popupContent = document.getElementById("popup_content")
 
-        this.popupContent.onclick = (event) => {
-            event.stopPropagation()
-        }
+        // this.actionHandler = actionHandler
+        // this.colNum = PortfolioView.numberOfCols()
+        // this.lastScroll = 0
+
+        // this.popupBackground.onclick = (event) => {
+        //     event.stopPropagation()
+        //     this.actionHandler("deselectContent", null)
+        // }
+
+        // this.popupContent.onclick = (event) => {
+        //     event.stopPropagation()
+        // }
     }
 
     onResize(pageContents) {
-        const newColNum = View.numberOfCols()
+        const newColNum = PortfolioView.numberOfCols()
         if (newColNum != this.colNum) {
             this.colNum = newColNum
             this.showPage(pageContents)
@@ -61,25 +62,11 @@ export default class View {
     }
 
     showHeader() {
-        View.show(this.header)
-        View.show(this.headerContent)
-
-        return new Promise((resolve, _) => {
-            window.setTimeout(() => {
-                resolve()
-            }, 1200)
-        })
+        return this.headerView.show()
     }
 
     hideHeader() {
-        View.hide(this.header)
-        View.hide(this.headerContent)
-
-        return new Promise((resolve, _) => {
-            window.setTimeout(() => {
-                resolve()
-            }, 450)
-        })
+        return this.headerView.hide()
     }
 
     showAuthors(authorsState) {
@@ -115,36 +102,32 @@ export default class View {
     }
 
     showPage(pageContents) {
-        this.intersectionObserver = View.createIntersectionObserver()
+        this.cardIntersectionObserver = PortfolioView.createCardIntersectionObserver()
 
-        window.setTimeout(() => {
-            const colNum = View.numberOfCols()
-            const colsDOM = Util.range(0, colNum, 1).map(_ => {
-                const column = this.document.createElement("div")
-                column.setAttribute("class", "column")
-                return column
-            })
+        const colNum = PortfolioView.numberOfCols()
+        const colsElement = Util.range(0, colNum, 1).map(_ => {
+            const column = this.document.createElement("div")
+            column.setAttribute("class", "column")
+            return column
+        })
 
-            pageContents.forEach((content, index) => {
-                const columnDOM = colsDOM[index % colNum]
-                columnDOM.appendChild(this.getContentCardDOM(content))
-            })
+        pageContents.forEach((content, index) => {
+            const columnElement = colsElement[index % colNum]
+            columnElement.appendChild(this.getContentCardElement(content))
+        })
 
-            const contentsWrapper = this.document.createElement("div")
-            contentsWrapper.id = "contents_wrapper"
-            colsDOM.forEach(colDOM => {
-                const columnWrapper = this.document.createElement("div")
-                columnWrapper.appendChild(colDOM)
-                contentsWrapper.appendChild(columnWrapper)
-            })
+        const contentsWrapper = this.document.createElement("div")
+        contentsWrapper.id = "contents_wrapper"
+        colsElement.forEach(colElement => {
+            const columnWrapper = this.document.createElement("div")
+            columnWrapper.appendChild(colElement)
+            contentsWrapper.appendChild(columnWrapper)
+        })
 
-            Util.removeAllChildren(this.contentsContainer)
-            this.contentsContainer.appendChild(contentsWrapper)
-            this.contentsWrapper = contentsWrapper
-            this.colNum = colNum
-        }, 450)
-
-        View.hideBevel(this.contentsContainer)
+        Util.removeAllChildren(this.contentsContainer)
+        this.contentsContainer.appendChild(contentsWrapper)
+        this.contentsWrapper = contentsWrapper
+        this.colNum = colNum
     }
 
     showPageIndicator(pageIndicies) {
@@ -183,12 +166,12 @@ export default class View {
                 this.pageIndicator.appendChild(pageButton)
             })
 
-            View.showBevel(this.header)
+            PortfolioView.showBevel(this.header)
 
             this.intersectionObserver.observe(this.pageIndicatorContainer)
         }, 450)
 
-        View.hideBevel(this.pageIndicatorContainer)
+        PortfolioView.hideBevel(this.pageIndicatorContainer)
     }
 
     showPopup(content) {
@@ -198,12 +181,12 @@ export default class View {
             this.popupBackground.style.display = "block"
 
             window.setTimeout(() => {
-                View.showBevel(this.popup)
+                PortfolioView.showBevel(this.popupView)
             }, 30)
         }, 450)
 
         this.lastScroll = window.scrollY
-        View.hideBevel(this.mainView)
+        PortfolioView.hideBevel(this.mainView)
     }
 
     hidePopup(completion) {
@@ -213,10 +196,10 @@ export default class View {
             completion()
         }, 450)
 
-        View.hideBevel(this.popup)
+        PortfolioView.hideBevel(this.popupView)
     }
 
-    getContentCardDOM(content) {
+    getContentCardElement(content) {
         const defaultImageSource = {
             "src": "images/360x360.png",
             "width": 360,
@@ -337,14 +320,15 @@ export default class View {
         return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
     }
 
-    static createIntersectionObserver() {
+    static createCardIntersectionObserver() {
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const seed = Math.random()
                     const delay = seed * seed * 400
                     window.setTimeout(() => {
-                        View.showBevel(entry.target)
+                        PortfolioView.show(entry.target)
+                        PortfolioView.show(entry.target.firstElementChild.firstElementChild)
                     }, delay)
                 }
             })
@@ -356,13 +340,5 @@ export default class View {
         }
 
         return new IntersectionObserver(intersectionHandler, options)
-    }
-
-    static show(element) {
-        element.classList.add("shown")
-    }
-
-    static hide(element) {
-        element.classList.remove("shown")
     }
 }

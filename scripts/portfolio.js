@@ -1,10 +1,10 @@
 'use strict';
 
 import State from "./portfolio_state.js"
-import View from "./portfolio_view.js"
+import PortfolioView from "./portfolio_view.js"
 
 let state
-let view
+let portfolioView
 
 window.onload = (_) => {
     window.scrollTo(0, 0)
@@ -18,7 +18,7 @@ window.onload = (_) => {
 }
 
 window.onresize = (_) => {
-    view.onResize(state.getPageContents())
+    portfolioView.onResize(state.getPageContents())
 }
 
 window.onpopstate = (popState) => {
@@ -32,7 +32,7 @@ window.onpopstate = (popState) => {
 }
 
 function onContentsListReceived(contentsList) {
-    view = new View(document, (viewEvent, eventValue) => {
+    portfolioView = new PortfolioView(document, (viewEvent, eventValue) => {
         switch (viewEvent) {
             case "selectAuthor":
                 state.selectAuthor(eventValue)
@@ -77,13 +77,13 @@ function onContentsListReceived(contentsList) {
 
 function showPage(pageState) {
     if (pageState.selectedContent) {
-        view.showPopup(pageState.selectedContent)
+        portfolioView.showPopup(pageState.selectedContent)
     } else {
-            view.showHeader()
-            view.showAuthors(pageState.authors)
-            view.showTags(pageState.tags)
-            view.showPageIndicator(pageState.pageIndicies)
-            view.showPage(pageState.contents)
+            portfolioView.showHeader()
+            portfolioView.showAuthors(pageState.authors)
+            portfolioView.showTags(pageState.tags)
+            portfolioView.showPageIndicator(pageState.pageIndicies)
+            portfolioView.showPage(pageState.contents)
     }
 }
 
@@ -91,7 +91,7 @@ function closePopup() {
     const params = new URLSearchParams(window.location.search)
     params.delete("id")
     const storeFromParams = parseParamsToStore(params)
-    view.hidePopup()
+    portfolioView.hidePopup()
     history.replaceState(null, "", "?" + params.toString())
     state.deserialize(storeFromParams)
 }
