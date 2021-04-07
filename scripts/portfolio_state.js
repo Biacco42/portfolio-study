@@ -2,7 +2,7 @@
 
 import Util from "./util.js"
 
-export default class State {
+export default class PortfolioState {
     contentsList
     authorsList
     tagsList

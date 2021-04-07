@@ -8,6 +8,8 @@ export default class PortfolioView {
     mainView
     headerView
 
+
+
     contentsContainer
     contentsWrapper
     pageIndicatorContainer
@@ -16,20 +18,16 @@ export default class PortfolioView {
     popupView
     popupContent
 
+
+
+
     actionHandler
     colNum
-    cardIntersectionObserver
-    buttonIntersectionObserver
-    lastScroll
 
     constructor(document, actionHandler) {
         this.document = document
+        this.actionHandler = actionHandler
         this.mainView = document.getElementById("main_view")
-        this.headerView = new HeaderView(document.getElementById("header_view"), (event) => {
-            // TODO: action handler
-        })
-
-        this.mainView.appendChild(this.headerView.getElement())
 
         // this.contentsContainer = document.getElementById("contents_container")
         // this.contentsWrapper = document.getElementById("contents_wrapper")
@@ -51,6 +49,22 @@ export default class PortfolioView {
         // this.popupContent.onclick = (event) => {
         //     event.stopPropagation()
         // }
+    }
+
+    setState(state) {
+        if (!this.headerView) {
+            this.headerView = new HeaderView(state.authors, state.tags, (action, actionValue) => {
+                this.actionHandler(action, actionValue)
+            })
+
+            this.mainView.appendChild(this.headerView.getElement())
+        }
+
+        this.headerView.setState(state.authors, state.tags)
+
+        window.setTimeout(() => {
+            this.headerView.show()
+        })
     }
 
     onResize(pageContents) {

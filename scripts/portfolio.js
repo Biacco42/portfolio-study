@@ -1,9 +1,9 @@
 'use strict';
 
-import State from "./portfolio_state.js"
+import PortfolioState from "./portfolio_state.js"
 import PortfolioView from "./portfolio_view.js"
 
-let state
+let portfolioState
 let portfolioView
 
 window.onload = (_) => {
@@ -18,16 +18,16 @@ window.onload = (_) => {
 }
 
 window.onresize = (_) => {
-    portfolioView.onResize(state.getPageContents())
+    portfolioView.onResize(portfolioState.getPageContents())
 }
 
 window.onpopstate = (popState) => {
     if (popState.state) {
-        state.deserialize(popState.state)
+        portfolioState.deserialize(popState.state)
     } else {
         const params = new URLSearchParams(window.location.search)
         const storeFromParams = parseParamsToStore(params)
-        state.deserialize(storeFromParams)
+        portfolioState.deserialize(storeFromParams)
     }
 }
 
@@ -35,16 +35,16 @@ function onContentsListReceived(contentsList) {
     portfolioView = new PortfolioView(document, (viewEvent, eventValue) => {
         switch (viewEvent) {
             case "selectAuthor":
-                state.selectAuthor(eventValue)
+                portfolioState.selectAuthor(eventValue)
                 break
             case "selectTag":
-                state.selectTag(eventValue)
+                portfolioState.selectTag(eventValue)
                 break
             case "selectContent":
-                state.selectContent(eventValue)
+                portfolioState.selectContent(eventValue)
                 break
             case "selectPage":
-                state.selectPage(eventValue)
+                portfolioState.selectPage(eventValue)
                 break
             case "deselectContent":
                 if (history.state) {
@@ -59,32 +59,20 @@ function onContentsListReceived(contentsList) {
     const params = new URLSearchParams(window.location.search)
     const storeFromParams = parseParamsToStore(params)
 
-    state = new State(contentsList, storeFromParams, 12, (stateEvent, eventValue, store) => {
+    portfolioState = new PortfolioState(contentsList, storeFromParams, 12, (stateEvent, state, store) => {
         switch (stateEvent) {
             case "deserialize":
-                showPage(eventValue)
+                portfolioView.setState(state)
                 break
             case "author":
             case "tag":
             case "page":
             case "content":
                 history.pushState(store, "", "?" + storeToParams(store).toString())
-                showPage(eventValue)
+                portfolioView.setState(state)
                 break
         }
     })
-}
-
-function showPage(pageState) {
-    if (pageState.selectedContent) {
-        portfolioView.showPopup(pageState.selectedContent)
-    } else {
-            portfolioView.showHeader()
-            portfolioView.showAuthors(pageState.authors)
-            portfolioView.showTags(pageState.tags)
-            portfolioView.showPageIndicator(pageState.pageIndicies)
-            portfolioView.showPage(pageState.contents)
-    }
 }
 
 function closePopup() {
@@ -93,7 +81,7 @@ function closePopup() {
     const storeFromParams = parseParamsToStore(params)
     portfolioView.hidePopup()
     history.replaceState(null, "", "?" + params.toString())
-    state.deserialize(storeFromParams)
+    portfolioState.deserialize(storeFromParams)
 }
 
 function storeToParams(store) {

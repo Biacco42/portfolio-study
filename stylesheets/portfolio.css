@@ -33,16 +33,6 @@ a {
     }
 }
 
-#authors_list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#tags_list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 #contents_container {
     margin-top: 3em;
 }
@@ -103,18 +93,6 @@ a {
 #popup_content {
     width: 100%;
     height: 960px;
-}
-
-.filter_container {
-    display: flex;
-}
-
-.enabled {
-    color: coral;
-}
-
-.disabled {
-    color: cornflowerblue;
 }
 
 .column>div {
@@ -188,12 +166,42 @@ a {
     box-shadow: 0.5em 0.5em 1em #a3b1c6, -0.5em -0.5em 1em #ffffff, inset 0.5em 0.5em 1em transparent, inset -0.5em -0.5em 1em transparent;
 }
 
+.bevel.nega.shown {
+    transition: box-shadow 800ms ease-in-out;
+    box-shadow: 0.1em 0.1em 0.2em transparent, -0.1em -0.1em 0.2em transparent, inset 0.1em 0.1em 0.2em #a3b1c6, inset -0.1em -0.1em 0.2em #ffffff;
+}
+
 .bevel_content {
     opacity: 0;
     transition: opacity 200ms ease-in-out;
 }
 
 .bevel_content.shown {
-    transition: opacity 400ms ease-in-out 700ms;
+    transition: opacity 400ms ease-in-out;
     opacity: 1;
+}
+
+.toggle_list_container {
+    display: flex;
+    justify-content: left;
+    overflow-x: scroll;
+    scrollbar-width: none;
+}
+
+.toggle_list_container::-webkit-scrollbar {
+    display: none;
+}
+
+.toggle_button {
+    display: block;
+    margin-left: 1em;
+    margin-right: 1em;
+    white-space: nowrap;
+}
+
+.toggle_bevel {
+    margin-left: 1em;
+    border-radius: 2em;
+    padding: 0.25em;
+    flex-shrink: 0;
 }

@@ -8,7 +8,7 @@ export default class HeaderView {
     authorsListView
     tagsListView
 
-    constructor(actionHandler) {
+    constructor(authorsState, tagsState, actionHandler) {
         this.bevelView = new BevelView(true)
 
         const content = window.document.createElement("div")
@@ -16,8 +16,12 @@ export default class HeaderView {
         title.innerHTML = "Hello Portfolio!"
         content.appendChild(title)
 
-        this.authorsListView = new ToggleListView("author")
-        this.tagsListView = new ToggleListView("tag")
+        this.authorsListView = new ToggleListView("author", authorsState, (author) => {
+            actionHandler("selectAuthor", author)
+        })
+        this.tagsListView = new ToggleListView("tag", tagsState, (tag) => {
+            actionHandler("selectTag", tag)
+        })
 
         content.appendChild(this.authorsListView.getElement())
         content.appendChild(this.tagsListView.getElement())
@@ -31,6 +35,11 @@ export default class HeaderView {
 
     hide() {
         return Promise.all([this.bevelView.bevel(false), this.bevelView.showContent(false)])
+    }
+
+    setState(authorsState, tagsState) {
+        this.authorsListView.setState(authorsState)
+        this.tagsListView.setState(tagsState)
     }
 
     getElement() {
