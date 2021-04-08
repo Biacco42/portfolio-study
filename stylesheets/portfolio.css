@@ -17,6 +17,7 @@ a {
 
 #main_view {
     padding: 4em;
+    overflow: hidden;
     transition: padding 600ms ease-in-out;
 }
 
@@ -32,6 +33,13 @@ a {
         padding-right: calc(50% - 800px + 4em);
     }
 }
+
+/* @media only screen and (min-width: 1000px) {
+    #main_view {
+        padding-left: calc(50% - 500px + 4em);
+        padding-right: calc(50% - 500px + 4em);
+    }
+} */
 
 #contents_container {
     margin-top: 3em;
@@ -82,6 +90,13 @@ a {
         padding-right: calc(50% - 800px + 4em);
     }
 }
+
+/* @media only screen and (min-width: 1000px) {
+    #popup_container {
+        padding-left: calc(50% - 500px + 4em);
+        padding-right: calc(50% - 500px + 4em);
+    }
+} */
 
 #popup {
     position: relative;
@@ -188,6 +203,18 @@ a {
     opacity: 1;
 }
 
+.toggle_list {
+    margin-left: -8em;
+    margin-right: -8em;
+}
+
+@media only screen and (min-width: 1600px) {
+    .toggle_list {
+        margin-left: calc(800px - 50vw - 8em);
+        margin-right: calc(800px - 50vw - 8em);
+    }
+}
+
 .toggle_list_container {
     display: flex;
     justify-content: left;
@@ -220,6 +247,18 @@ a {
 
 .toggle_list_handle {
     flex-shrink: 0;
+}
+
+.toggle_list_spacer {
+    width: 7.5em;
+    height: 1em;
+    flex-shrink: 0;
+}
+
+@media only screen and (min-width: 1600px) {
+    .toggle_list_spacer {
+        width: calc(50vw - 800px + 7.5em);
+    }
 }
 
 .toggle_button_container {

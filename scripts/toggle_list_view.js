@@ -11,16 +11,18 @@ export default class ToggleListView {
     actionHandler
 
     constructor(label, style, state, actionHandler) {
-        this.rootElement = window.document.createElement("div")
+        const rootElement = window.document.createElement("div")
+        rootElement.setAttribute("class", "toggle_list")
+        this.rootElement = rootElement
 
         const labelElement = window.document.createElement("p")
         labelElement.innerHTML = label
-        this.rootElement.appendChild(labelElement)
+        rootElement.appendChild(labelElement)
 
         const listContainer = window.document.createElement("div")
         listContainer.setAttribute("class", "toggle_list_container")
         this.listContainer = listContainer
-        this.rootElement.appendChild(listContainer)
+        rootElement.appendChild(listContainer)
         this.actionHandler = actionHandler
 
         const firstSpacer = window.document.createElement("div")
