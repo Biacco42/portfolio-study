@@ -5,23 +5,13 @@ import BevelView from "./bevel_view.js"
 export default class HeaderView {
     bevelView
 
-    constructor(actionHandler) {
+    constructor() {
         this.bevelView = new BevelView(true)
 
         const content = window.document.createElement("div")
         const title = window.document.createElement("h1")
         title.innerHTML = "Hello Portfolio!"
         content.appendChild(title)
-
-        // this.authorsListView = new ToggleListView("author", authorsState, (author) => {
-        //     actionHandler("selectAuthor", author)
-        // })
-        // this.tagsListView = new ToggleListView("tag", tagsState, (tag) => {
-        //     actionHandler("selectTag", tag)
-        // })
-
-        // content.appendChild(this.authorsListView.getElement())
-        // content.appendChild(this.tagsListView.getElement())
 
         this.bevelView.setContentElement(content)
     }

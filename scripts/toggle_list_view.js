@@ -44,8 +44,10 @@ export default class ToggleListView {
             }
             toggleButtonBevel.setContentElement(toggleButton)
 
-            toggleButtonBevel.showContent(true)
-            toggleButtonBevel.bevel(state[key])
+            window.setTimeout(() => {
+                toggleButtonBevel.showContent(true)
+                toggleButtonBevel.bevel(state[key])
+            }, 50)
 
             listContainer.appendChild(toggleButtonContainer)
 

@@ -1,12 +1,15 @@
 'use strict';
 
 import HeaderView from "./header_view.js"
+import ToggleListView from "./toggle_list_view.js";
 import Util from "./util.js"
 
 export default class PortfolioView {
     document
     mainView
     headerView
+    authorsView
+    tagsView
 
 
 
@@ -28,6 +31,8 @@ export default class PortfolioView {
         this.document = document
         this.actionHandler = actionHandler
         this.mainView = document.getElementById("main_view")
+        this.headerView = new HeaderView()
+        this.mainView.appendChild(this.headerView.getElement())
 
         // this.contentsContainer = document.getElementById("contents_container")
         // this.contentsWrapper = document.getElementById("contents_wrapper")
@@ -52,12 +57,21 @@ export default class PortfolioView {
     }
 
     setState(state) {
-        if (!this.headerView) {
-            this.headerView = new HeaderView(state.authors, state.tags, (action, actionValue) => {
-                this.actionHandler(action, actionValue)
+        if (!this.authorsView && !this.tagsView) {
+            this.authorsView = new ToggleListView("authors", true, state.authors, (selected) => {
+                this.actionHandler("selectAuthor", selected)
             })
 
-            this.mainView.appendChild(this.headerView.getElement())
+            this.mainView.appendChild(this.authorsView.getElement())
+
+            this.tagsView = new ToggleListView("tags", true, state.tags, (selected) => {
+                this.actionHandler("selectTag", selected)
+            })
+
+            this.mainView.appendChild(this.tagsView.getElement())
+        } else {
+            this.authorsView.setState(state.authors)
+            this.tagsView.setState(state.tags)
         }
     }
 
