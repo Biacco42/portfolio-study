@@ -61,8 +61,12 @@ export default class ToggleListView {
             const toggleButtonContainer = window.document.createElement("div")
             toggleButtonContainer.setAttribute("class", "toggle_button_container")
 
+            const toggleButtonBevelContainer = window.document.createElement("div")
+            toggleButtonBevelContainer.setAttribute("class", "toggle_button_bevel_container")
+            toggleButtonContainer.appendChild(toggleButtonBevelContainer)
+
             const toggleButtonBevel = new BevelView(false, ["toggle_bevel"])
-            toggleButtonContainer.appendChild(toggleButtonBevel.getElement())
+            toggleButtonBevelContainer.appendChild(toggleButtonBevel.getElement())
 
             const toggleButton = window.document.createElement("a")
             toggleButton.innerHTML = key

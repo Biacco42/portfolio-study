@@ -158,6 +158,8 @@ a {
     border-radius: 1em;
     overflow: hidden;
     padding: 0.5em;
+    width: 100%;
+    height: 100%;
     transition: box-shadow 200ms ease-in-out;
 }
 
@@ -206,15 +208,10 @@ a {
 }
 
 .toggle_bevel {
-    margin-left: 0.3em;
-    margin-right: 0.3em;
+    /* margin-left: 0.3em; */
+    /* margin-right: 0.3em; */
     border-radius: 2em;
     padding: 0;
-}
-
-.toggle_bevel.shrink {
-    width: 0.6em;
-    height: 0.6em;
 }
 
 .toggle_list_spacer {
@@ -228,4 +225,16 @@ a {
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+}
+.toggle_button_bevel_container {
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+    width: 100%;
+    height: 100%;
+    transition: all 100ms ease-in-out;
+}
+
+.toggle_button_bevel_container.shrink {
+    width: 0.5em;
+    height: 0.5em;
 }
