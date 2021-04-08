@@ -29,6 +29,15 @@ export default class HeaderView {
         this.bevelView.setContentElement(content)
     }
 
+    getElement() {
+        return this.bevelView.getElement()
+    }
+
+    setState(authorsState, tagsState) {
+        this.authorsListView.setState(authorsState)
+        this.tagsListView.setState(tagsState)
+    }
+
     show() {
         const showContent = new Promise((resolve, _) => {
             window.setTimeout(() => {
@@ -42,14 +51,5 @@ export default class HeaderView {
 
     hide() {
         return Promise.all([this.bevelView.bevel(false), this.bevelView.showContent(false)])
-    }
-
-    setState(authorsState, tagsState) {
-        this.authorsListView.setState(authorsState)
-        this.tagsListView.setState(tagsState)
-    }
-
-    getElement() {
-        return this.bevelView.getElement()
     }
 }

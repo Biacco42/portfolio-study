@@ -1,7 +1,6 @@
 'use strict';
 
 import BevelView from "./bevel_view.js";
-import Util from "./util.js";
 
 export default class ToggleListView {
     rootElement
@@ -24,14 +23,18 @@ export default class ToggleListView {
 
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
-                entry.target.style.opacity = Math.max(0.0, entry.intersectionRatio * 2.0 - 1.0)
+                if (0.9 < entry.intersectionRatio) {
+                    // entry.target.classList.remove("shrink")
+                } else {
+                    // entry.target.classList.add("shrink")
+                }
             })
         }
 
         const options = {
             root: listContainer,
-            rootMargin: "0px -10px 0px -10px",
-            threshold: Util.range(0.0, 1.0, 0.1)
+            rootMargin: "0px -24px 0px -24px",
+            threshold: [0.3, 0.9]
         }
 
         this.intersectionObserver = new IntersectionObserver(intersectionHandler, options)
@@ -60,6 +63,10 @@ export default class ToggleListView {
 
             return acc
         }, {})
+
+        const spacer = window.document.createElement("div")
+        spacer.setAttribute("class", "toggle_list_spacer")
+        listContainer.appendChild(spacer)
     }
 
     getElement() {
