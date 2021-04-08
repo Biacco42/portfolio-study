@@ -9,9 +9,8 @@ export default class ToggleListView {
     toggleList
 
     actionHandler
-    intersectionObserver
 
-    constructor(label, state, actionHandler) {
+    constructor(label, isPosi, state, actionHandler) {
         this.rootElement = window.document.createElement("div")
 
         const labelElement = window.document.createElement("p")
@@ -22,35 +21,6 @@ export default class ToggleListView {
         listContainer.setAttribute("class", "toggle_list_container")
         this.listContainer = listContainer
         this.rootElement.appendChild(listContainer)
-
-        let toggleViewInitialized = false
-        const shrinkThreshold = 0.9
-        const intersectionHandler = (entries) => {
-            if (!toggleViewInitialized) {
-                toggleViewInitialized = true
-
-                Array.from(listContainer.children).forEach((element) => {
-                    element.style.width = element.clientWidth + "px"
-                    element.style.height = element.clientHeight + "px"
-                })
-            }
-
-            entries.forEach(entry => {
-                if (shrinkThreshold < entry.intersectionRatio) {
-                    entry.target.firstElementChild.classList.remove("shrink")
-                } else {
-                    entry.target.firstElementChild.classList.add("shrink")
-                }
-            })
-        }
-
-        const options = {
-            root: listContainer,
-            rootMargin: "0px -12px 0px -12px",
-            threshold: [0.3, shrinkThreshold]
-        }
-
-        this.intersectionObserver = new IntersectionObserver(intersectionHandler, options)
         this.actionHandler = actionHandler
 
         const firstSpacer = window.document.createElement("div")
@@ -61,12 +31,8 @@ export default class ToggleListView {
             const toggleButtonContainer = window.document.createElement("div")
             toggleButtonContainer.setAttribute("class", "toggle_button_container")
 
-            const toggleButtonBevelContainer = window.document.createElement("div")
-            toggleButtonBevelContainer.setAttribute("class", "toggle_button_bevel_container")
-            toggleButtonContainer.appendChild(toggleButtonBevelContainer)
-
-            const toggleButtonBevel = new BevelView(false, ["toggle_bevel"])
-            toggleButtonBevelContainer.appendChild(toggleButtonBevel.getElement())
+            const toggleButtonBevel = new BevelView(isPosi, ["toggle_bevel"])
+            toggleButtonContainer.appendChild(toggleButtonBevel.getElement())
 
             const toggleButton = window.document.createElement("a")
             toggleButton.innerHTML = key
@@ -82,7 +48,6 @@ export default class ToggleListView {
             toggleButtonBevel.bevel(state[key])
 
             listContainer.appendChild(toggleButtonContainer)
-            this.intersectionObserver.observe(toggleButtonContainer)
 
             acc[key] = toggleButtonBevel
 

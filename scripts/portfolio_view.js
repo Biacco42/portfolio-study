@@ -59,8 +59,6 @@ export default class PortfolioView {
 
             this.mainView.appendChild(this.headerView.getElement())
         }
-
-        this.headerView.setState(state.authors, state.tags)
     }
 
     onResize(pageContents) {
