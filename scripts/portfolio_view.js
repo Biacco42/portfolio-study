@@ -62,13 +62,20 @@ export default class PortfolioView {
                 this.actionHandler("selectAuthor", selected)
             })
 
-            this.mainView.appendChild(this.authorsView.getElement())
+            const authorsElement = this.authorsView.getElement()
+            authorsElement.id = "authors_list"
+            this.mainView.appendChild(authorsElement)
 
             this.tagsView = new ToggleListView("tags", "thin", state.tags, (selected) => {
                 this.actionHandler("selectTag", selected)
             })
 
             this.mainView.appendChild(this.tagsView.getElement())
+
+            window.setTimeout(() => {
+                this.authorsView.show()
+                this.tagsView.show()
+            }, 600)
         } else {
             this.authorsView.setState(state.authors)
             this.tagsView.setState(state.tags)
@@ -91,36 +98,12 @@ export default class PortfolioView {
         return this.headerView.hide()
     }
 
-    showAuthors(authorsState) {
-        if (this.authorsList.children.length === 0) {
-            this.initAuthors(authorsState)
-            return
-        }
-
-        Object.keys(this.authorsList).forEach(author => {
-            const authorElement = this.authorsList.getElementById("author_" + author)
-            if (authorsState[author]) {
-                authorElement.classList.add("enabled")
-            } else {
-                authorElement.classList.remove("enabled")
-            }
-        })
+    showAuthors() {
+        return this.authorsView.show()
     }
 
-    showTags(tagsState) {
-        if (this.tagsList.children.length === 0) {
-            this.initTags(tagsState)
-            return
-        }
-
-        Object.keys(this.tagsList).forEach(tag => {
-            const tagElement = this.tagsList.getElementById("tag_" + tag)
-            if (tagsState[tag]) {
-                tagElement.classList.add("enabled")
-            } else {
-                tagElement.classList.remove("enabled")
-            }
-        })
+    showTags() {
+        return this.tagsView.show()
     }
 
     showPage(pageContents) {

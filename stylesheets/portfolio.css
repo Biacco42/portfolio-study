@@ -34,12 +34,9 @@ a {
     }
 }
 
-/* @media only screen and (min-width: 1000px) {
-    #main_view {
-        padding-left: calc(50% - 500px + 4em);
-        padding-right: calc(50% - 500px + 4em);
-    }
-} */
+#authors_list {
+    margin-top: 1em;
+}
 
 #contents_container {
     margin-top: 3em;
@@ -90,13 +87,6 @@ a {
         padding-right: calc(50% - 800px + 4em);
     }
 }
-
-/* @media only screen and (min-width: 1000px) {
-    #popup_container {
-        padding-left: calc(50% - 500px + 4em);
-        padding-right: calc(50% - 500px + 4em);
-    }
-} */
 
 #popup {
     position: relative;
@@ -203,24 +193,29 @@ a {
     opacity: 1;
 }
 
-.toggle_list {
-    margin-left: -8em;
-    margin-right: -8em;
-}
-
-@media only screen and (min-width: 1600px) {
-    .toggle_list {
-        margin-left: calc(800px - 50vw - 8em);
-        margin-right: calc(800px - 50vw - 8em);
-    }
+.toggle_list>p {
+    opacity: 0;
+    color: #abb7c0;
+    font-size: small;
+    margin-bottom: -0.3em;
+    transition: opacity 300ms;
 }
 
 .toggle_list_container {
+    margin-left: -8em;
+    margin-right: -8em;
     display: flex;
     justify-content: left;
     align-items: center;
     overflow-x: scroll;
     scrollbar-width: none;
+}
+
+@media only screen and (min-width: 1600px) {
+    .toggle_list_container {
+        margin-left: calc(800px - 50vw - 8em);
+        margin-right: calc(800px - 50vw - 8em);
+    }
 }
 
 .toggle_list_container::-webkit-scrollbar {

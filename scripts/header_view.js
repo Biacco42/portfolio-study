@@ -26,7 +26,7 @@ export default class HeaderView {
                 this.bevelView.showContent(true).then(() => {
                     resolve()
                 })
-            }, 700)
+            }, 500)
         })
         return Promise.all([this.bevelView.bevel(true), showContent])
     }

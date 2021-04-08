@@ -4,19 +4,25 @@ import BevelView from "./bevel_view.js";
 
 export default class ToggleListView {
     rootElement
+    labelElement
     listContainer
 
     toggleList
 
     actionHandler
 
+    lastState
+
     constructor(label, style, state, actionHandler) {
+        this.lastState = state
+
         const rootElement = window.document.createElement("div")
         rootElement.setAttribute("class", "toggle_list")
         this.rootElement = rootElement
 
         const labelElement = window.document.createElement("p")
         labelElement.innerHTML = label
+        this.labelElement = labelElement
         rootElement.appendChild(labelElement)
 
         const listContainer = window.document.createElement("div")
@@ -46,11 +52,6 @@ export default class ToggleListView {
             }
             toggleButtonBevel.setContentElement(toggleButton)
 
-            window.setTimeout(() => {
-                toggleButtonBevel.showContent(true)
-                toggleButtonBevel.bevel(state[key])
-            }, 50)
-
             listContainer.appendChild(toggleButtonContainer)
 
             acc[key] = toggleButtonBevel
@@ -68,6 +69,8 @@ export default class ToggleListView {
     }
 
     setState(toggleState) {
+        this.lastState = toggleState
+
         Object.keys(toggleState).forEach(key => {
             if (typeof this.toggleList[key] !== "undefined") {
                 const target = this.toggleList[key]
@@ -80,5 +83,25 @@ export default class ToggleListView {
                 }
             }
         })
+    }
+
+    show() {
+        Object.keys(this.lastState).forEach((key) => {
+            const toggleButtonBevel = this.toggleList[key]
+            toggleButtonBevel.showContent(true)
+            toggleButtonBevel.bevel(this.lastState[key])
+        })
+
+        this.labelElement.style.opacity = "1"
+    }
+
+    hide() {
+        Object.keys(this.lastState).forEach((key) => {
+            const toggleButtonBevel = this.toggleList[key]
+            toggleButtonBevel.showContent(false)
+            toggleButtonBevel.bevel(false)
+        })
+
+        this.labelElement.style.opacity = "0"
     }
 }
