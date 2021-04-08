@@ -195,10 +195,8 @@ a {
 
 .toggle_button {
     display: block;
-    padding-top: 0.25em;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-bottom: 0.25em;
+    padding: 0.25em 1em 0.25em 1em;
+    font-size: x-small;
     white-space: nowrap;
     transition: opacity 200ms;
 }
@@ -208,20 +206,26 @@ a {
 }
 
 .toggle_bevel {
-    margin-left: 0.4em;
-    margin-right: 0.4em;
+    margin-left: 0.3em;
+    margin-right: 0.3em;
     border-radius: 2em;
     padding: 0;
-    flex-shrink: 0;
-    transition: padding 60ms ease-in-out;
 }
 
 .toggle_bevel.shrink {
-    padding: 0.3em;
+    width: 0.6em;
+    height: 0.6em;
 }
 
 .toggle_list_spacer {
     flex-shrink: 0;
     width: 12px;
     height: 12px;
+}
+
+.toggle_button_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
 }
