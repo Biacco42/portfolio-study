@@ -173,6 +173,11 @@ a {
     box-shadow: 0.1em 0.1em 0.2em transparent, -0.1em -0.1em 0.2em transparent, inset 0.1em 0.1em 0.2em #a3b1c6, inset -0.1em -0.1em 0.2em #ffffff;
 }
 
+.bevel.thin.shown {
+    transition: box-shadow 350ms ease-in-out;
+    box-shadow: 0.25em 0.25em 0.5em #a3b1c6, -0.25em -0.25em 0.5em #ffffff, inset 0.25em 0.25em 0.5em transparent, inset -0.25em -0.25em 0.5em transparent;
+}
+
 .bevel_content {
     opacity: 0;
     transition: opacity 200ms;
@@ -197,7 +202,7 @@ a {
 
 .toggle_button {
     display: block;
-    padding: 0.2em 1em 0.2em 1em;
+    padding: 0.2em 1.1em 0.2em 1.1em;
     font-size: small;
     white-space: nowrap;
     transition: opacity 200ms;
@@ -208,13 +213,9 @@ a {
 }
 
 .toggle_bevel {
-    margin: 1.5em 0.5em 1.5em 0.5em;
+    margin: 0.75em 0.5em 0.75em 0.5em;
     border-radius: 2em;
     padding: 0;
-}
-
-.toggle_bevel.shown {
-    transition: box-shadow 400ms ease-in-out;
 }
 
 .toggle_list_handle {

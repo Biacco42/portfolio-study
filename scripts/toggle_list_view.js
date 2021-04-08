@@ -10,7 +10,7 @@ export default class ToggleListView {
 
     actionHandler
 
-    constructor(label, isPosi, state, actionHandler) {
+    constructor(label, style, state, actionHandler) {
         this.rootElement = window.document.createElement("div")
 
         const labelElement = window.document.createElement("p")
@@ -31,7 +31,7 @@ export default class ToggleListView {
             const toggleButtonContainer = window.document.createElement("div")
             toggleButtonContainer.setAttribute("class", "toggle_button_container")
 
-            const toggleButtonBevel = new BevelView(isPosi, ["toggle_bevel"])
+            const toggleButtonBevel = new BevelView(style, ["toggle_bevel"])
             toggleButtonContainer.appendChild(toggleButtonBevel.getElement())
 
             const toggleButton = window.document.createElement("a")

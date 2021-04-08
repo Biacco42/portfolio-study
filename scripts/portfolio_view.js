@@ -58,13 +58,13 @@ export default class PortfolioView {
 
     setState(state) {
         if (!this.authorsView && !this.tagsView) {
-            this.authorsView = new ToggleListView("authors", true, state.authors, (selected) => {
+            this.authorsView = new ToggleListView("authors", "thin", state.authors, (selected) => {
                 this.actionHandler("selectAuthor", selected)
             })
 
             this.mainView.appendChild(this.authorsView.getElement())
 
-            this.tagsView = new ToggleListView("tags", true, state.tags, (selected) => {
+            this.tagsView = new ToggleListView("tags", "thin", state.tags, (selected) => {
                 this.actionHandler("selectTag", selected)
             })
 

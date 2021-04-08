@@ -6,11 +6,11 @@ export default class BevelView {
     bevelElement
     contentElement
 
-    constructor(isPosi, extraClasses) {
+    constructor(style, extraClasses) {
         const bevelElement = window.document.createElement("div")
         bevelElement.setAttribute("class", "bevel")
-        if (!isPosi) {
-            bevelElement.classList.add("nega")
+        if (style) {
+            bevelElement.classList.add(style)
         }
 
         if (extraClasses) {

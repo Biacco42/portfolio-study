@@ -6,7 +6,7 @@ export default class HeaderView {
     bevelView
 
     constructor() {
-        this.bevelView = new BevelView(true)
+        this.bevelView = new BevelView()
 
         const content = window.document.createElement("div")
         const title = window.document.createElement("h1")
