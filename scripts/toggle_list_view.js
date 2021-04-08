@@ -40,6 +40,10 @@ export default class ToggleListView {
         this.intersectionObserver = new IntersectionObserver(intersectionHandler, options)
         this.actionHandler = actionHandler
 
+        const firstSpacer = window.document.createElement("div")
+        firstSpacer.setAttribute("class", "toggle_list_spacer")
+        listContainer.appendChild(firstSpacer)
+
         this.toggleList = Object.keys(state).reduce((acc, key) => {
             const toggleButtonBevel = new BevelView(false, ["toggle_bevel"])
 
@@ -64,9 +68,9 @@ export default class ToggleListView {
             return acc
         }, {})
 
-        const spacer = window.document.createElement("div")
-        spacer.setAttribute("class", "toggle_list_spacer")
-        listContainer.appendChild(spacer)
+        const lastSpacer = window.document.createElement("div")
+        lastSpacer.setAttribute("class", "toggle_list_spacer")
+        listContainer.appendChild(lastSpacer)
     }
 
     getElement() {
