@@ -196,7 +196,7 @@ a {
 .toggle_list>p {
     opacity: 0;
     color: #abb7c0;
-    font-size: small;
+    font-size: x-small;
     margin-bottom: -0.3em;
     transition: opacity 300ms;
 }
