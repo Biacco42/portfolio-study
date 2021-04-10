@@ -71,11 +71,6 @@ export default class PortfolioView {
             })
 
             this.mainView.appendChild(this.tagsView.getElement())
-
-            window.setTimeout(() => {
-                this.authorsView.show()
-                this.tagsView.show()
-            }, 600)
         } else {
             this.authorsView.setState(state.authors)
             this.tagsView.setState(state.tags)
@@ -102,8 +97,16 @@ export default class PortfolioView {
         return this.authorsView.show()
     }
 
+    hideAuthors() {
+        return this.authorsView.hide()
+    }
+
     showTags() {
         return this.tagsView.show()
+    }
+
+    hideTags() {
+        return this.tagsView.hide()
     }
 
     showPage(pageContents) {

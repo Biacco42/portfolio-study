@@ -66,6 +66,11 @@ function onContentsListReceived(contentsList) {
                 window.setTimeout(() => {
                     portfolioView.showHeader()
                 }, 50)
+
+                window.setTimeout(() => {
+                    portfolioView.showAuthors()
+                    portfolioView.showTags()
+                }, 600)
                 break
             case "author":
             case "tag":
