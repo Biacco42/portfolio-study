@@ -76,7 +76,9 @@ function onContentsListReceived(contentsList) {
             case "tag":
             case "page":
             case "content":
-                history.pushState(store, "", "?" + storeToParams(store).toString())
+                const query = storeToParams(store).toString()
+                const queryCleaned = query === "" ? "/" : "?" + query
+                history.pushState(store, "", queryCleaned)
                 portfolioView.setState(state)
                 break
         }
