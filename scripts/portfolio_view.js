@@ -34,17 +34,7 @@ export default class PortfolioView {
         this.headerView = new HeaderView()
         this.mainView.appendChild(this.headerView.getElement())
 
-        // this.contentsContainer = document.getElementById("contents_container")
-        // this.contentsWrapper = document.getElementById("contents_wrapper")
-        // this.pageIndicatorContainer = document.getElementById("page_indicator_container")
-        // this.pageIndicator = document.getElementById("page_indicator")
-        // this.popupBackground = document.getElementById("popup_background")
-        // this.popupView = document.getElementById("popup")
-        // this.popupContent = document.getElementById("popup_content")
-
-        // this.actionHandler = actionHandler
-        // this.colNum = PortfolioView.numberOfCols()
-        // this.lastScroll = 0
+        this.colNum = PortfolioView.numberOfCols()
 
         // this.popupBackground.onclick = (event) => {
         //     event.stopPropagation()
