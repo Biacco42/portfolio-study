@@ -73,6 +73,7 @@ export default class ContentCardView {
         contentButton.setAttribute("href", "#")
         contentButton.onclick = (event) => {
             event.preventDefault()
+            event.stopPropagation()
             this.actionHandler(content.id)
         }
         contentButton.appendChild(contentNode)
