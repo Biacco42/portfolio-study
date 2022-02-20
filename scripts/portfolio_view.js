@@ -8,6 +8,8 @@ import Util from "./util.js"
 
 export default class PortfolioView {
     mainView
+    backgroundView
+    foregroundView
     headerContainer
     headerView
     contentsListContainer
@@ -22,9 +24,17 @@ export default class PortfolioView {
         this.actionHandler = actionHandler
         this.mainView = document.getElementById("main_view")
 
+        this.backgroundView = document.createElement("div")
+        this.backgroundView.id = "background_view"
+        this.mainView.appendChild(this.backgroundView)
+
+        this.foregroundView = document.createElement("div")
+        this.foregroundView.id = "foreground_view"
+        this.mainView.appendChild(this.foregroundView)
+
         this.headerContainer = document.createElement("div")
         this.headerContainer.id = "header_container"
-        this.mainView.appendChild(this.headerContainer)
+        this.foregroundView.appendChild(this.headerContainer)
 
         this.headerView = new HeaderView()
         this.headerContainer.appendChild(this.headerView.getElement())
@@ -43,7 +53,7 @@ export default class PortfolioView {
 
         this.contentsListContainer = document.createElement("div")
         this.contentsListContainer.id = "contents_list"
-        this.mainView.appendChild(this.contentsListContainer)
+        this.foregroundView.appendChild(this.contentsListContainer)
 
         this.contentsTileView = new ContentsTileView((contentID) => {
             this.actionHandler("selectContent", contentID)

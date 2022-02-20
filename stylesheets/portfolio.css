@@ -15,20 +15,20 @@ a {
     text-decoration: none;
 }
 
-#main_view {
+#foreground_view {
     padding: 4em;
     overflow: hidden;
     transition: padding 600ms ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
-    #main_view {
+    #foreground_view {
         padding: 2em;
     }
 }
 
 @media only screen and (min-width: 1600px) {
-    #main_view {
+    #foreground_view {
         padding-left: calc(50% - 800px + 4em);
         padding-right: calc(50% - 800px + 4em);
     }
