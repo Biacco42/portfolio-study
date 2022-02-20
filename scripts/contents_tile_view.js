@@ -130,7 +130,7 @@ export default class ContentsTileView {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const seed = Math.random()
-                    const delay = seed * seed * 400
+                    const delay = seed * seed * 200
 
                     if (entry.target.id && this.contentCardDict.hasOwnProperty(entry.target.id)) {
                         const card = this.contentCardDict[entry.target.id]
