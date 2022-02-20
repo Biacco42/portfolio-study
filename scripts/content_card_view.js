@@ -87,7 +87,7 @@ export default class ContentCardView {
                 this.bevelView.showContent(true).then(() => {
                     resolve()
                 })
-            }, 800)
+            }, 700)
         })
         return Promise.all([this.bevelView.bevel(true), showContent])
     }
