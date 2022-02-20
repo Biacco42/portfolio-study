@@ -63,7 +63,7 @@ export default class PortfolioView {
     setState(state) {
         this.authorsView.setState(state.authors)
         this.tagsView.setState(state.tags)
-        this.contentsTileView.show(state.contents)
+        this.contentsTileView.setState(state.contents)
     }
 
     onResize(pageContents) {
@@ -94,6 +94,14 @@ export default class PortfolioView {
 
     hideTags() {
         return this.tagsView.hide()
+    }
+
+    showContentsTile() {
+        return this.contentsTileView.show()
+    }
+
+    hideContentsTile() {
+        return this.contentsTileView.hide()
     }
 
     showPageIndicator(pageIndicies) {

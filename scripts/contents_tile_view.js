@@ -8,6 +8,7 @@ export default class ContentsTileView {
     contentsContainer
     contentsWrapper
     pageContents
+    lastPageContents
     contentCardDict
     cardIntersectionObserver
     colNum
@@ -17,6 +18,7 @@ export default class ContentsTileView {
         this.contentsContainer.id = "contents_container"
 
         this.pageContents = null
+        this.lastPageContents = null
         this.contentCardDict = {}
         this.cardIntersectionObserver = null
     }
@@ -25,9 +27,13 @@ export default class ContentsTileView {
         return this.contentsContainer
     }
 
-    show(pageContents) {
-        if (pageContents == null) {
-            this.pageContents = null
+    setState(pageContents) {
+        this.pageContents = pageContents
+    }
+
+    show() {
+        if (this.pageContents == null) {
+            this.lastPageContents = null
             return this.hide().then(() => {
                 this.contentCardDict = {}
                 this.cardIntersectionObserver = this.createCardIntersectionObserver()
@@ -54,19 +60,19 @@ export default class ContentsTileView {
             })
         }
 
-        const afterNull = () => { return this.pageContents == null }
+        const afterNull = () => { return this.lastPageContents == null }
         const colChange = () => { return this.colNum != ContentsTileView.numberOfCols() }
-        const contentsNumChange = () => { return this.pageContents.length != pageContents.length }
+        const contentsNumChange = () => { return this.lastPageContents.length != this.pageContents.length }
         const contentsChange = () => {
-            return pageContents.reduce((acc, pageContent, index) => {
-                const currentPageContent = this.pageContents[index]
+            return this.pageContents.reduce((acc, pageContent, index) => {
+                const currentPageContent = this.lastPageContents[index]
                 return acc || pageContent.id != currentPageContent.id
             }, false)
         }
         const contentsUpdated = afterNull() || colChange() || contentsNumChange() || contentsChange()
 
         if (contentsUpdated) {
-            this.pageContents = pageContents
+            this.lastPageContents = this.pageContents
             return this.hide().then(() => {
                 this.contentCardDict = {}
                 this.cardIntersectionObserver = this.createCardIntersectionObserver()
@@ -78,7 +84,7 @@ export default class ContentsTileView {
                     return column
                 })
 
-                pageContents.forEach((content, index) => {
+                this.pageContents.forEach((content, index) => {
                     const contentCard = new ContentCardView(content)
                     const contentCardElement = contentCard.getElement()
                     const uuidKey = uuid4()
@@ -112,6 +118,7 @@ export default class ContentsTileView {
         const hideTasks = Object.keys(this.contentCardDict).map(key => {
             return this.contentCardDict[key].hide()
         })
+        this.lastPageContents = null
 
         return Promise.all(hideTasks)
     }
