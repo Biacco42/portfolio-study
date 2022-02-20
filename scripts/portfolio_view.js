@@ -1,24 +1,21 @@
 'use strict';
 
-import ContentCardView from "./content_card_view.js";
 import HeaderView from "./header_view.js"
 import ToggleListView from "./toggle_list_view.js";
+import ContentsTileView from "./contents_tile_view.js";
 import Util from "./util.js"
-import uuid4 from 'https://cdn.jsdelivr.net/gh/tracker1/node-uuid4/browser.mjs'
 
 export default class PortfolioView {
-    document
     mainView
     headerView
     contentsListContainer
     filterContainer
     authorsView
     tagsView
-    contentsContainer
+    contentsTileView
 
 
 
-    contentsWrapper
     pageIndicatorContainer
     pageIndicator
     popupBackground
@@ -27,12 +24,9 @@ export default class PortfolioView {
 
 
 
-    contentCardDict
     actionHandler
-    colNum
 
-    constructor(document, actionHandler) {
-        this.document = document
+    constructor(actionHandler) {
         this.actionHandler = actionHandler
         this.mainView = document.getElementById("main_view")
         this.headerView = new HeaderView()
@@ -46,11 +40,8 @@ export default class PortfolioView {
         this.filterContainer.id = "filter_container"
         this.contentsListContainer.appendChild(this.filterContainer)
 
-        this.contentsContainer = document.createElement("div")
-        this.contentsContainer.id = "contents_container"
-        this.contentsListContainer.appendChild(this.contentsContainer)
-
-        this.colNum = PortfolioView.numberOfCols()
+        this.contentsTileView = new ContentsTileView()
+        this.contentsListContainer.appendChild(this.contentsTileView.getElement())
 
         // this.popupBackground.onclick = (event) => {
         //     event.stopPropagation()
@@ -82,17 +73,13 @@ export default class PortfolioView {
             this.tagsView.setState(state.tags)
         }
 
-        this.showPage(state.contents)
+        this.contentsTileView.show(state.contents)
     }
 
     onResize(pageContents) {
-        const newColNum = PortfolioView.numberOfCols()
-        if (newColNum != this.colNum) {
-            this.colNum = newColNum
-            Promise.all(pageContents).then(pageContents => {
-                this.showPage(pageContents)
-            })
-        }
+        Promise.all(pageContents).then(pageContents => {
+            this.contentsTileView.show(pageContents)
+        })
     }
 
     showHeader() {
@@ -117,43 +104,6 @@ export default class PortfolioView {
 
     hideTags() {
         return this.tagsView.hide()
-    }
-
-    showPage(pageContents) {
-        this.contentCardDict = {}
-        this.cardIntersectionObserver = this.createCardIntersectionObserver()
-
-        const colNum = PortfolioView.numberOfCols()
-        const colsElement = Util.range(0, colNum, 1).map(_ => {
-            const column = this.document.createElement("div")
-            column.setAttribute("class", "column")
-            return column
-        })
-
-        pageContents.forEach((content, index) => {
-            const contentCard = new ContentCardView(content)
-            const contentCardElement = contentCard.getElement()
-            const uuidKey = uuid4()
-            contentCardElement.id = uuidKey
-            this.contentCardDict[uuidKey] = contentCard
-            this.cardIntersectionObserver.observe(contentCardElement)
-
-            const columnElement = colsElement[index % colNum]
-            columnElement.appendChild(contentCardElement)
-        })
-
-        const contentsWrapper = this.document.createElement("div")
-        contentsWrapper.id = "contents_wrapper"
-        colsElement.forEach(colElement => {
-            const columnWrapper = this.document.createElement("div")
-            columnWrapper.appendChild(colElement)
-            contentsWrapper.appendChild(columnWrapper)
-        })
-
-        Util.removeAllChildren(this.contentsContainer)
-        this.contentsContainer.appendChild(contentsWrapper)
-        this.contentsWrapper = contentsWrapper
-        this.colNum = colNum
     }
 
     showPageIndicator(pageIndicies) {
@@ -228,7 +178,7 @@ export default class PortfolioView {
     initAuthors(authorsState) {
         Util.removeAllChildren(this.authorsList)
         Object.keys(authorsState).forEach(author => {
-            const authorButton = this.document.createElement("a")
+            const authorButton = window.document.createElement("a")
             authorButton.innerHTML = author
             authorButton.setAttribute("href", "#")
             authorButton.setAttribute("id", "author_" + author)
@@ -248,7 +198,7 @@ export default class PortfolioView {
     initTags(tagsState) {
         Util.removeAllChildren(this.tagsList)
         Object.keys(tagsState).forEach(tag => {
-            const tagButton = this.document.createElement("a")
+            const tagButton = window.document.createElement("a")
             tagButton.innerHTML = tag
             tagButton.setAttribute("href", "#")
             tagButton.setAttribute("id", "tag_" + tag)
@@ -288,10 +238,5 @@ export default class PortfolioView {
         }
 
         return new IntersectionObserver(intersectionHandler, options)
-    }
-
-    static numberOfCols() {
-        const viewportWidth = window.innerWidth
-        return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
     }
 }

@@ -43,7 +43,7 @@ function onContentsListReceived(contentsList) {
                 window.setTimeout(() => {
                     portfolioView.showAuthors()
                     portfolioView.showTags()
-                }, 600)
+                }, 700)
                 break
             case "author":
             case "tag":
@@ -57,7 +57,7 @@ function onContentsListReceived(contentsList) {
         }
     })
 
-    portfolioView = new PortfolioView(document, (viewEvent, eventValue) => {
+    portfolioView = new PortfolioView((viewEvent, eventValue) => {
         switch (viewEvent) {
             case "selectAuthor":
                 portfolioState.selectAuthor(eventValue)
