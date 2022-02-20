@@ -89,16 +89,18 @@ export default class PortfolioState {
 
     publishState(trigger) {
         const selectedContentDesc = this.contentsList.filter(contentDesc => contentDesc.id === this.selectedContentID)[0]
-        const selectedContent = selectedContentDesc ? this.getContent(selectedContentDesc) : null
+        const selectedContent = selectedContentDesc ? this.getContent(selectedContentDesc) : new Promise((resolve, _) => { resolve(null) })
 
         Promise.all(this.getPageContents()).then(contents => {
-            this.stateEventHandler(trigger, {
-                authors: this.authorsList,
-                tags: this.tagsList,
-                contents: contents,
-                pageIndicies: this.getPageIndicies(),
-                selectedContent: selectedContent
-            }, this.serialize())
+            selectedContent.then(selectedContent => {
+                this.stateEventHandler(trigger, {
+                    authors: this.authorsList,
+                    tags: this.tagsList,
+                    contents: contents,
+                    pageIndicies: this.getPageIndicies(),
+                    selectedContent: selectedContent
+                }, this.serialize())
+            })
         })
     }
 

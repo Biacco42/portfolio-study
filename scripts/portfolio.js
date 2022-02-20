@@ -87,6 +87,9 @@ function onContentsListReceived(contentsList) {
                 }
                 break
             case "content":
+                {
+                    console.log("content event: " + state.selectedContent.id)
+                }
                 break
         }
     })

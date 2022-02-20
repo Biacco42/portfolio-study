@@ -39,7 +39,9 @@ export default class PortfolioView {
         })
         this.contentsListContainer.appendChild(this.tagsView.getElement())
 
-        this.contentsTileView = new ContentsTileView()
+        this.contentsTileView = new ContentsTileView((contentID) => {
+            this.actionHandler("selectContent", contentID)
+        })
         this.contentsListContainer.appendChild(this.contentsTileView.getElement())
 
         this.pageIndicatorView = new PageIndicatorView((pageIndex) => {

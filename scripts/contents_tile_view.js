@@ -14,7 +14,9 @@ export default class ContentsTileView {
     colNum
     hidden
 
-    constructor() {
+    actionHandler
+
+    constructor(actionHandler) {
         this.contentsContainer = window.document.createElement("div")
         this.contentsContainer.id = "contents_container"
 
@@ -24,6 +26,7 @@ export default class ContentsTileView {
         this.cardIntersectionObserver = this.createCardIntersectionObserver()
         this.colNum = 0
         this.hidden = false
+        this.actionHandler = actionHandler
     }
 
     getElement() {
@@ -88,7 +91,7 @@ export default class ContentsTileView {
                 })
 
                 this.pageContents.forEach((content, index) => {
-                    const contentCard = new ContentCardView(content)
+                    const contentCard = new ContentCardView(content, this.actionHandler)
                     const contentCardElement = contentCard.getElement()
                     const uuidKey = uuid4()
                     contentCardElement.id = uuidKey

@@ -6,8 +6,11 @@ import BevelView from "./bevel_view.js"
 export default class ContentCardView {
     bevelView
 
-    constructor(content) {
+    actionHandler
+
+    constructor(content, actionHandler) {
         this.bevelView = new BevelView()
+        this.actionHandler = actionHandler
 
         const defaultImageSource = {
             "src": "images/360x360.png",
@@ -70,7 +73,7 @@ export default class ContentCardView {
         contentButton.setAttribute("href", "#")
         contentButton.onclick = (event) => {
             event.preventDefault()
-            this.actionHandler("selectContent", content.id)
+            this.actionHandler(content.id)
         }
         contentButton.appendChild(contentNode)
 
