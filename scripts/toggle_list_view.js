@@ -101,19 +101,6 @@ export default class ToggleListView {
                 const lastSpacer = window.document.createElement("div")
                 lastSpacer.setAttribute("class", "toggle_list_spacer")
                 this.listContainer.appendChild(lastSpacer)
-
-                Object.keys(state).forEach(key => {
-                    if (typeof this.toggleList[key] !== "undefined") {
-                        const target = this.toggleList[key]
-                        target.bevel(state[key])
-
-                        if (state[key]) {
-                            target.contentElement.firstElementChild.classList.remove("disabled")
-                        } else {
-                            target.contentElement.firstElementChild.classList.add("disabled")
-                        }
-                    }
-                })
             })
         } else {
             Object.keys(state).forEach(key => {
@@ -143,7 +130,7 @@ export default class ToggleListView {
 
             return Promise.all(showTask)
         } else {
-            return new Promise(() => { })
+            return new Promise((resolve, _) => { resolve() })
         }
     }
 
@@ -159,7 +146,7 @@ export default class ToggleListView {
 
             return Promise.all(hideTask)
         } else {
-            return new Promise(() => { })
+            return new Promise((resolve, _) => { resolve() })
         }
     }
 }

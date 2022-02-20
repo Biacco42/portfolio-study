@@ -104,7 +104,7 @@ export default class ContentsTileView {
                 this.colNum = colNum
             })
         } else {
-            return new Promise(() => { })
+            return new Promise((resolve, _) => { resolve() })
         }
     }
 
