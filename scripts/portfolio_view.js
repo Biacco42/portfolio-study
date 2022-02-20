@@ -8,13 +8,14 @@ export default class PortfolioView {
     document
     mainView
     headerView
-    contentsListView
+    contentsListContainer
+    filterContainer
     authorsView
     tagsView
-
-
-
     contentsContainer
+
+
+
     contentsWrapper
     pageIndicatorContainer
     pageIndicator
@@ -34,9 +35,18 @@ export default class PortfolioView {
         this.mainView = document.getElementById("main_view")
         this.headerView = new HeaderView()
         this.mainView.appendChild(this.headerView.getElement())
-        this.contentsListView = document.createElement("div")
-        this.contentsListView.id = "contents_list"
-        this.mainView.appendChild(this.contentsListView)
+
+        this.contentsListContainer = document.createElement("div")
+        this.contentsListContainer.id = "contents_list"
+        this.mainView.appendChild(this.contentsListContainer)
+
+        this.filterContainer = document.createElement("div")
+        this.filterContainer.id = "filter_container"
+        this.contentsListContainer.appendChild(this.filterContainer)
+
+        this.contentsContainer = document.createElement("div")
+        this.contentsContainer.id = "contents_container"
+        this.contentsListContainer.appendChild(this.contentsContainer)
 
         this.colNum = PortfolioView.numberOfCols()
 
@@ -58,13 +68,13 @@ export default class PortfolioView {
 
             const authorsElement = this.authorsView.getElement()
             authorsElement.id = "authors_list"
-            this.contentsListView.appendChild(authorsElement)
+            this.filterContainer.appendChild(authorsElement)
 
             this.tagsView = new ToggleListView("tags", "thin", state.tags, (selected) => {
                 this.actionHandler("selectTag", selected)
             })
 
-            this.contentsListView.appendChild(this.tagsView.getElement())
+            this.filterContainer.appendChild(this.tagsView.getElement())
         } else {
             this.authorsView.setState(state.authors)
             this.tagsView.setState(state.tags)
