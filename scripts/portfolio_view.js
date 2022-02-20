@@ -64,10 +64,8 @@ export default class PortfolioView {
         this.pageIndicatorView.setState(state.pageIndicies)
     }
 
-    onResize(pageContents) {
-        Promise.all(pageContents).then(pageContents => {
-            this.contentsTileView.show(pageContents)
-        })
+    onResize() {
+        this.contentsTileView.show()
     }
 
     showHeader() {

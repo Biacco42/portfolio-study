@@ -18,7 +18,7 @@ window.onload = (_) => {
 }
 
 window.onresize = (_) => {
-    portfolioView.onResize(portfolioState.getPageContents())
+    portfolioView.onResize()
 }
 
 window.onpopstate = (popState) => {
@@ -43,6 +43,7 @@ function onContentsListReceived(contentsList) {
                 window.setTimeout(() => {
                     portfolioView.showAuthors()
                     portfolioView.showTags()
+                    portfolioView.showContentsTile()
                 }, 500)
                 break
             case "author":
@@ -53,6 +54,7 @@ function onContentsListReceived(contentsList) {
                 const queryCleaned = query === "" ? "/" : "?" + query
                 history.pushState(store, "", queryCleaned)
                 portfolioView.setState(state)
+                portfolioView.showContentsTile()
                 break
         }
     })
