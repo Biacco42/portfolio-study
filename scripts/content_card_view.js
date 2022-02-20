@@ -1,5 +1,6 @@
 'use strict';
 
+import Util from "./util.js";
 import BevelView from "./bevel_view.js"
 
 export default class ContentCardView {
@@ -14,35 +15,35 @@ export default class ContentCardView {
             "height": 360
         }
         const imageSource = Util.retrieveOrDefault(content, "thumbnail", defaultImageSource)
-        const image = this.document.createElement("img")
+        const image = window.document.createElement("img")
         image.setAttribute("src", imageSource.src)
         if (imageSource.width) { image.setAttribute("width", imageSource.width) }
         if (imageSource.height) { image.setAttribute("height", imageSource.height) }
         image.setAttribute("class", "thumbnail")
         image.setAttribute("load", "lazy")
 
-        const thumbnail = this.document.createElement("div")
+        const thumbnail = window.document.createElement("div")
         thumbnail.appendChild(image)
 
         const titleString = Util.retrieveOrDefault(content, "title", "")
-        const title = this.document.createElement("h1")
+        const title = window.document.createElement("h1")
         title.textContent = titleString
 
         const descriptionString = Util.retrieveOrDefault(content, "description", "")
-        const description = this.document.createElement("p")
+        const description = window.document.createElement("p")
         description.textContent = descriptionString
         description.setAttribute("class", "description")
 
         const authorsString = Util.retrieveOrDefault(content, "authors", []).join(", ")
-        const authors = this.document.createElement("p")
+        const authors = window.document.createElement("p")
         authors.textContent = authorsString
         authors.setAttribute("class", "author")
 
         const tagsList = Util.retrieveOrDefault(content, "tags", [])
-        const tags = this.document.createElement("div")
+        const tags = window.document.createElement("div")
         tags.style.display = "flex"
         tagsList.forEach(tagString => {
-            const tag = this.document.createElement("p")
+            const tag = window.document.createElement("p")
             tag.textContent = tagString
             tag.setAttribute("class", "tag")
             tags.appendChild(tag)
@@ -50,22 +51,22 @@ export default class ContentCardView {
 
         const publishedOnRawString = Util.retrieveOrDefault(content, "publishedOn", "2021-04-01T00:00:00+09:00")
         const publishedOnString = dayjs(publishedOnRawString).format("YYYY MM/DD")
-        const publishedOn = this.document.createElement("p")
+        const publishedOn = window.document.createElement("p")
         publishedOn.textContent = publishedOnString
         publishedOn.setAttribute("class", "publishedOn")
 
-        const label = this.document.createElement("div")
+        const label = window.document.createElement("div")
         label.appendChild(title)
         label.appendChild(description)
         label.appendChild(authors)
         label.appendChild(tags)
         label.appendChild(publishedOn)
 
-        const contentNode = this.document.createElement("div")
+        const contentNode = window.document.createElement("div")
         contentNode.appendChild(thumbnail)
         contentNode.appendChild(label)
 
-        const contentButton = this.document.createElement("a")
+        const contentButton = window.document.createElement("a")
         contentButton.setAttribute("href", "#")
         contentButton.onclick = (event) => {
             event.preventDefault()
@@ -81,7 +82,14 @@ export default class ContentCardView {
     }
 
     show() {
-        return Promise.all([this.bevelView.bevel(true), this.bevelView.showContent(true)])
+        const showContent = new Promise((resolve, _) => {
+            window.setTimeout(() => {
+                this.bevelView.showContent(true).then(() => {
+                    resolve()
+                })
+            }, 800)
+        })
+        return Promise.all([this.bevelView.bevel(true), showContent])
     }
 
     hide() {

@@ -1,8 +1,10 @@
 'use strict';
 
+import ContentCardView from "./content_card_view.js";
 import HeaderView from "./header_view.js"
 import ToggleListView from "./toggle_list_view.js";
 import Util from "./util.js"
+import uuid4 from 'https://cdn.jsdelivr.net/gh/tracker1/node-uuid4/browser.mjs'
 
 export default class PortfolioView {
     document
@@ -25,7 +27,7 @@ export default class PortfolioView {
 
 
 
-
+    contentCardDict
     actionHandler
     colNum
 
@@ -79,6 +81,8 @@ export default class PortfolioView {
             this.authorsView.setState(state.authors)
             this.tagsView.setState(state.tags)
         }
+
+        this.showPage(state.contents)
     }
 
     onResize(pageContents) {
@@ -114,7 +118,8 @@ export default class PortfolioView {
     }
 
     showPage(pageContents) {
-        this.cardIntersectionObserver = PortfolioView.createCardIntersectionObserver()
+        this.contentCardDict = {}
+        this.cardIntersectionObserver = this.createCardIntersectionObserver()
 
         const colNum = PortfolioView.numberOfCols()
         const colsElement = Util.range(0, colNum, 1).map(_ => {
@@ -124,8 +129,15 @@ export default class PortfolioView {
         })
 
         pageContents.forEach((content, index) => {
+            const contentCard = new ContentCardView(content)
+            const contentCardElement = contentCard.getElement()
+            const uuidKey = uuid4()
+            contentCardElement.id = uuidKey
+            this.contentCardDict[uuidKey] = contentCard
+            this.cardIntersectionObserver.observe(contentCardElement)
+
             const columnElement = colsElement[index % colNum]
-            columnElement.appendChild(this.getContentCardElement(content))
+            columnElement.appendChild(contentCardElement)
         })
 
         const contentsWrapper = this.document.createElement("div")
@@ -211,82 +223,6 @@ export default class PortfolioView {
         PortfolioView.hideBevel(this.popupView)
     }
 
-    getContentCardElement(content) {
-        const defaultImageSource = {
-            "src": "images/360x360.png",
-            "width": 360,
-            "height": 360
-        }
-        const imageSource = Util.retrieveOrDefault(content, "thumbnail", defaultImageSource)
-        const image = this.document.createElement("img")
-        image.setAttribute("src", imageSource.src)
-        if (imageSource.width) { image.setAttribute("width", imageSource.width) }
-        if (imageSource.height) { image.setAttribute("height", imageSource.height) }
-        image.setAttribute("class", "thumbnail")
-        image.setAttribute("load", "lazy")
-
-        const thumbnail = this.document.createElement("div")
-        thumbnail.appendChild(image)
-
-        const titleString = Util.retrieveOrDefault(content, "title", "")
-        const title = this.document.createElement("h1")
-        title.textContent = titleString
-
-        const descriptionString = Util.retrieveOrDefault(content, "description", "")
-        const description = this.document.createElement("p")
-        description.textContent = descriptionString
-        description.setAttribute("class", "description")
-
-        const authorsString = Util.retrieveOrDefault(content, "authors", []).join(", ")
-        const authors = this.document.createElement("p")
-        authors.textContent = authorsString
-        authors.setAttribute("class", "author")
-
-        const tagsList = Util.retrieveOrDefault(content, "tags", [])
-        const tags = this.document.createElement("div")
-        tags.style.display = "flex"
-        tagsList.forEach(tagString => {
-            const tag = this.document.createElement("p")
-            tag.textContent = tagString
-            tag.setAttribute("class", "tag")
-            tags.appendChild(tag)
-        })
-
-        const publishedOnRawString = Util.retrieveOrDefault(content, "publishedOn", "2021-04-01T00:00:00+09:00")
-        const publishedOnString = dayjs(publishedOnRawString).format("YYYY MM/DD")
-        const publishedOn = this.document.createElement("p")
-        publishedOn.textContent = publishedOnString
-        publishedOn.setAttribute("class", "publishedOn")
-
-        const label = this.document.createElement("div")
-        label.appendChild(title)
-        label.appendChild(description)
-        label.appendChild(authors)
-        label.appendChild(tags)
-        label.appendChild(publishedOn)
-
-        const contentNode = this.document.createElement("div")
-        contentNode.setAttribute("class", "bevel_content")
-        contentNode.appendChild(thumbnail)
-        contentNode.appendChild(label)
-
-        const contentButton = this.document.createElement("a")
-        contentButton.setAttribute("href", "#")
-        contentButton.onclick = (event) => {
-            event.preventDefault()
-            this.actionHandler("selectContent", content.id)
-        }
-        contentButton.appendChild(contentNode)
-
-        const contentCard = this.document.createElement("div")
-        contentCard.setAttribute("class", "card")
-        contentCard.classList.add("bevel")
-        contentCard.appendChild(contentButton)
-        this.intersectionObserver.observe(contentCard)
-
-        return contentCard
-    }
-
     initAuthors(authorsState) {
         Util.removeAllChildren(this.authorsList)
         Object.keys(authorsState).forEach(author => {
@@ -327,21 +263,19 @@ export default class PortfolioView {
         })
     }
 
-    static numberOfCols() {
-        const viewportWidth = window.innerWidth
-        return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
-    }
-
-    static createCardIntersectionObserver() {
+    createCardIntersectionObserver() {
         const intersectionHandler = (entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const seed = Math.random()
                     const delay = seed * seed * 400
-                    window.setTimeout(() => {
-                        PortfolioView.show(entry.target)
-                        PortfolioView.show(entry.target.firstElementChild.firstElementChild)
-                    }, delay)
+
+                    if (entry.target.id && this.contentCardDict.hasOwnProperty(entry.target.id)) {
+                        const card = this.contentCardDict[entry.target.id]
+                        window.setTimeout(() => {
+                            card.show()
+                        }, delay)
+                    }
                 }
             })
         }
@@ -352,5 +286,10 @@ export default class PortfolioView {
         }
 
         return new IntersectionObserver(intersectionHandler, options)
+    }
+
+    static numberOfCols() {
+        const viewportWidth = window.innerWidth
+        return 1000 < viewportWidth ? 3 : viewportWidth <= 600 ? 1 : 2
     }
 }
