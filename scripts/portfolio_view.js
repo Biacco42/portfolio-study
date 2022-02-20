@@ -8,6 +8,7 @@ import Util from "./util.js"
 
 export default class PortfolioView {
     mainView
+    headerContainer
     headerView
     contentsListContainer
     authorsView
@@ -20,24 +21,29 @@ export default class PortfolioView {
     constructor(actionHandler) {
         this.actionHandler = actionHandler
         this.mainView = document.getElementById("main_view")
-        this.headerView = new HeaderView()
-        this.mainView.appendChild(this.headerView.getElement())
 
-        this.contentsListContainer = document.createElement("div")
-        this.contentsListContainer.id = "contents_list"
-        this.mainView.appendChild(this.contentsListContainer)
+        this.headerContainer = document.createElement("div")
+        this.headerContainer.id = "header_container"
+        this.mainView.appendChild(this.headerContainer)
+
+        this.headerView = new HeaderView()
+        this.headerContainer.appendChild(this.headerView.getElement())
 
         this.authorsView = new ToggleListView("authors", "thin", (selected) => {
             this.actionHandler("selectAuthor", selected)
         })
         const authorsElement = this.authorsView.getElement()
         authorsElement.id = "authors_list"
-        this.contentsListContainer.appendChild(authorsElement)
+        this.headerContainer.appendChild(authorsElement)
 
         this.tagsView = new ToggleListView("tags", "thin", (selected) => {
             this.actionHandler("selectTag", selected)
         })
-        this.contentsListContainer.appendChild(this.tagsView.getElement())
+        this.headerContainer.appendChild(this.tagsView.getElement())
+
+        this.contentsListContainer = document.createElement("div")
+        this.contentsListContainer.id = "contents_list"
+        this.mainView.appendChild(this.contentsListContainer)
 
         this.contentsTileView = new ContentsTileView((contentID) => {
             this.actionHandler("selectContent", contentID)
