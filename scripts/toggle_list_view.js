@@ -143,7 +143,7 @@ export default class ToggleListView {
 
     hide() {
         if (this.lastState) {
-            const hideTask = Object.keys(this.lastState).forEach((key) => {
+            const hideTask = Object.keys(this.lastState).map((key) => {
                 const toggleButtonBevel = this.toggleList[key]
                 toggleButtonBevel.showContent(false)
                 return toggleButtonBevel.bevel(false)

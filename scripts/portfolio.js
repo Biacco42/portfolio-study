@@ -50,14 +50,43 @@ function onContentsListReceived(contentsList) {
                 break
             case "author":
             case "tag":
+                {
+                    portfolioView.hidePageIndicator()
+                    const query = storeToParams(store).toString()
+                    const queryCleaned = query === "" ? "/" : "?" + query
+                    history.pushState(store, "", queryCleaned)
+                    portfolioView.setState(state)
+                    portfolioView.showContentsTile()
+                }
+                break
             case "page":
+                {
+                    const hidePageIndicatorTask = portfolioView.hidePageIndicator()
+                    const hideHeaderTask = portfolioView.hideHeader()
+                    const hideAuthorsTask = portfolioView.hideAuthors()
+                    const hideContentsTileTask = portfolioView.hideContentsTile()
+                    const hideTagsTask = portfolioView.hideTags()
+
+                    Promise.all([hidePageIndicatorTask, hideHeaderTask, hideAuthorsTask, hideContentsTileTask, hideTagsTask]).then(() => {
+                        window.scrollTo(0, 0)
+
+                        const query = storeToParams(store).toString()
+                        const queryCleaned = query === "" ? "/" : "?" + query
+                        history.pushState(store, "", queryCleaned)
+                        portfolioView.setState(state)
+
+                        window.setTimeout(() => { // breaks header animation without timeout.
+                            portfolioView.showHeader()
+                        }, 20)
+                        window.setTimeout(() => {
+                            portfolioView.showAuthors()
+                            portfolioView.showTags()
+                            portfolioView.showContentsTile()
+                        }, 500)
+                    })
+                }
+                break
             case "content":
-                portfolioView.hidePageIndicator()
-                const query = storeToParams(store).toString()
-                const queryCleaned = query === "" ? "/" : "?" + query
-                history.pushState(store, "", queryCleaned)
-                portfolioView.setState(state)
-                portfolioView.showContentsTile()
                 break
         }
     })
