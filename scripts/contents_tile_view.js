@@ -136,6 +136,8 @@ export default class ContentsTileView {
                             card.show()
                         }, delay)
                     }
+
+                    this.cardIntersectionObserver.unobserve(entry.target)
                 }
             })
         }
