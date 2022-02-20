@@ -9,7 +9,6 @@ export default class PortfolioView {
     mainView
     headerView
     contentsListContainer
-    filterContainer
     authorsView
     tagsView
     contentsTileView
@@ -36,9 +35,17 @@ export default class PortfolioView {
         this.contentsListContainer.id = "contents_list"
         this.mainView.appendChild(this.contentsListContainer)
 
-        this.filterContainer = document.createElement("div")
-        this.filterContainer.id = "filter_container"
-        this.contentsListContainer.appendChild(this.filterContainer)
+        this.authorsView = new ToggleListView("authors", "thin", (selected) => {
+            this.actionHandler("selectAuthor", selected)
+        })
+        const authorsElement = this.authorsView.getElement()
+        authorsElement.id = "authors_list"
+        this.contentsListContainer.appendChild(authorsElement)
+
+        this.tagsView = new ToggleListView("tags", "thin", (selected) => {
+            this.actionHandler("selectTag", selected)
+        })
+        this.contentsListContainer.appendChild(this.tagsView.getElement())
 
         this.contentsTileView = new ContentsTileView()
         this.contentsListContainer.appendChild(this.contentsTileView.getElement())
@@ -54,25 +61,8 @@ export default class PortfolioView {
     }
 
     setState(state) {
-        if (!this.authorsView && !this.tagsView) {
-            this.authorsView = new ToggleListView("authors", "thin", state.authors, (selected) => {
-                this.actionHandler("selectAuthor", selected)
-            })
-
-            const authorsElement = this.authorsView.getElement()
-            authorsElement.id = "authors_list"
-            this.filterContainer.appendChild(authorsElement)
-
-            this.tagsView = new ToggleListView("tags", "thin", state.tags, (selected) => {
-                this.actionHandler("selectTag", selected)
-            })
-
-            this.filterContainer.appendChild(this.tagsView.getElement())
-        } else {
-            this.authorsView.setState(state.authors)
-            this.tagsView.setState(state.tags)
-        }
-
+        this.authorsView.setState(state.authors)
+        this.tagsView.setState(state.tags)
         this.contentsTileView.show(state.contents)
     }
 
