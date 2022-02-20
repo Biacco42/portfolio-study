@@ -174,7 +174,7 @@ a {
 }
 
 .bevel.nega.shown {
-    transition: box-shadow 200ms ease-in-out;
+    transition: box-shadow 350ms ease-in-out;
     box-shadow: 0.1em 0.1em 0.2em transparent, -0.1em -0.1em 0.2em transparent, inset 0.1em 0.1em 0.2em #a3b1c6, inset -0.1em -0.1em 0.2em #ffffff;
 }
 

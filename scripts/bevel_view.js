@@ -48,7 +48,7 @@ export default class BevelView {
             return new Promise((resolve, _) => {
                 window.setTimeout(() => {
                     resolve()
-                }, 1000)
+                }, 800)
             })
         } else {
             this.bevelElement.classList.remove("shown")
@@ -56,7 +56,7 @@ export default class BevelView {
             return new Promise((resolve, _) => {
                 window.setTimeout(() => {
                     resolve()
-                }, 1000)
+                }, 200)
             })
         }
     }
@@ -68,7 +68,7 @@ export default class BevelView {
             return new Promise((resolve, _) => {
                 window.setTimeout(() => {
                     resolve()
-                }, 1000)
+                }, 300)
             })
         } else {
             this.contentElement.classList.remove("shown")
@@ -76,7 +76,7 @@ export default class BevelView {
             return new Promise((resolve, _) => {
                 window.setTimeout(() => {
                     resolve()
-                }, 1000)
+                }, 200)
             })
         }
     }
