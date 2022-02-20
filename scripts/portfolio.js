@@ -8,6 +8,7 @@ let portfolioView
 
 window.onload = (_) => {
     window.scrollTo(0, 0)
+    history.scrollRestoration = 'manual'
     fetch("contents-list.json")
         .then(response => {
             return response.json()
