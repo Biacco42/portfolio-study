@@ -21,7 +21,7 @@ export default class ContentsTileView {
         this.pageContents = null
         this.lastPageContents = null
         this.contentCardDict = {}
-        this.cardIntersectionObserver = null
+        this.cardIntersectionObserver = this.createCardIntersectionObserver()
         this.colNum = 0
         this.hidden = false
     }
@@ -113,7 +113,7 @@ export default class ContentsTileView {
                 this.colNum = colNum
                 this.hidden = false
             })
-        } else if (hidden) {
+        } else if (this.hidden) {
             this.cardIntersectionObserver = this.createCardIntersectionObserver()
             Object.keys(this.contentCardDict).forEach((key) => {
                 this.cardIntersectionObserver.observe(this.contentCardDict[key].getElement())
@@ -126,6 +126,7 @@ export default class ContentsTileView {
     }
 
     hide() {
+        this.cardIntersectionObserver.disconnect()
         const hideTasks = Object.keys(this.contentCardDict).map((key) => {
             return this.contentCardDict[key].hide()
         })

@@ -79,6 +79,7 @@ export default class PageIndicatorView {
     }
 
     hide() {
+        this.intersectionObserver.disconnect()
         const hideTask = this.pageIndexButtons.map((button) => {
             button.showContent(false)
             return button.bevel(false)

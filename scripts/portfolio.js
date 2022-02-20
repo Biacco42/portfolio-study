@@ -50,6 +50,7 @@ function onContentsListReceived(contentsList) {
             case "tag":
             case "page":
             case "content":
+                portfolioView.hidePageIndicator()
                 const query = storeToParams(store).toString()
                 const queryCleaned = query === "" ? "/" : "?" + query
                 history.pushState(store, "", queryCleaned)
