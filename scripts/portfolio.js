@@ -38,36 +38,55 @@ function onContentsListReceived(contentsList) {
     portfolioState = new PortfolioState(contentsList, storeFromParams, 12, (stateEvent, state, store) => {
         switch (stateEvent) {
             case "deserialize":
-                portfolioView.setState(state)
-                window.setTimeout(() => { // breaks header animation without timeout.
-                    portfolioView.showHeader()
-                }, 20)
-                window.setTimeout(() => {
-                    portfolioView.showAuthors()
-                    portfolioView.showTags()
-                    portfolioView.showContentsTile()
-                }, 500)
+                hideAllContents(portfolioView).then(() => {
+                    window.scrollTo(0, 0)
+
+                    portfolioView.setState(state) // setState で contents tile と content popup の表示の出し分け
+                    window.setTimeout(() => { // breaks header animation without timeout.
+                        portfolioView.showHeader()
+                    }, 20)
+                    window.setTimeout(() => {
+                        portfolioView.showAuthors()
+                        portfolioView.showTags()
+                        portfolioView.showContentsTile()
+                    }, 550)
+                })
                 break
             case "author":
             case "tag":
                 {
                     portfolioView.hidePageIndicator()
+
                     const query = storeToParams(store).toString()
                     const queryCleaned = query === "" ? "/" : "?" + query
                     history.pushState(store, "", queryCleaned)
                     portfolioView.setState(state)
+
                     portfolioView.showContentsTile()
                 }
                 break
             case "page":
-                {
-                    const hidePageIndicatorTask = portfolioView.hidePageIndicator()
-                    const hideHeaderTask = portfolioView.hideHeader()
-                    const hideAuthorsTask = portfolioView.hideAuthors()
-                    const hideContentsTileTask = portfolioView.hideContentsTile()
-                    const hideTagsTask = portfolioView.hideTags()
+                hideAllContents(portfolioView).then(() => {
+                    window.scrollTo(0, 0)
 
-                    Promise.all([hidePageIndicatorTask, hideHeaderTask, hideAuthorsTask, hideContentsTileTask, hideTagsTask]).then(() => {
+                    const query = storeToParams(store).toString()
+                    const queryCleaned = query === "" ? "/" : "?" + query
+                    history.pushState(store, "", queryCleaned)
+                    portfolioView.setState(state)
+
+                    window.setTimeout(() => { // breaks header animation without timeout.
+                        portfolioView.showHeader()
+                    }, 20)
+                    window.setTimeout(() => {
+                        portfolioView.showAuthors()
+                        portfolioView.showTags()
+                        portfolioView.showContentsTile()
+                    }, 550)
+                })
+                break
+            case "content":
+                if (state.selectedContent) {
+                    hideAllContents(portfolioView).then(() => {
                         window.scrollTo(0, 0)
 
                         const query = storeToParams(store).toString()
@@ -81,17 +100,10 @@ function onContentsListReceived(contentsList) {
                         window.setTimeout(() => {
                             portfolioView.showAuthors()
                             portfolioView.showTags()
-                            portfolioView.showContentsTile()
-                        }, 500)
+                        }, 550)
                     })
-                }
-                break
-            case "content":
-                {
-                    console.log("NYI")
-                    if (state.selectedContent) {
-                        console.log("contentevent: " + state.selectedContent.id)
-                    }
+                } else {
+
                 }
                 break
         }
@@ -125,6 +137,16 @@ function closePopup() {
     portfolioView.hidePopup()
     history.replaceState(null, "", "?" + params.toString())
     portfolioState.deserialize(storeFromParams)
+}
+
+function hideAllContents(portfolioView) {
+    const hideHeaderTask = portfolioView.hideHeader()
+    const hideAuthorsTask = portfolioView.hideAuthors()
+    const hideTagsTask = portfolioView.hideTags()
+    const hideContentsTileTask = portfolioView.hideContentsTile()
+    const hidePageIndicatorTask = portfolioView.hidePageIndicator()
+
+    return Promise.all([hideHeaderTask, hideAuthorsTask, hideTagsTask, hideContentsTileTask, hidePageIndicatorTask])
 }
 
 function storeToParams(store) {

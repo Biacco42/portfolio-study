@@ -10,6 +10,7 @@ export default class ToggleListView {
 
     toggleList
     style
+    hidden
 
     actionHandler
 
@@ -18,6 +19,7 @@ export default class ToggleListView {
     constructor(label, style, actionHandler) {
         this.style = style
         this.lastState = null
+        this.hidden = true
 
         const rootElement = window.document.createElement("div")
         rootElement.setAttribute("class", "toggle_list")
@@ -106,7 +108,10 @@ export default class ToggleListView {
             Object.keys(state).forEach(key => {
                 if (typeof this.toggleList[key] !== "undefined") {
                     const target = this.toggleList[key]
-                    target.bevel(state[key])
+
+                    if (!this.hidden) {
+                        target.bevel(state[key])
+                    }
 
                     if (state[key]) {
                         target.contentElement.firstElementChild.classList.remove("disabled")
@@ -134,6 +139,7 @@ export default class ToggleListView {
             })
 
             this.labelElement.style.opacity = "1"
+            this.hidden = false
 
             return Promise.all(showTask)
         } else {
@@ -148,6 +154,7 @@ export default class ToggleListView {
                 toggleButtonBevel.showContent(false)
                 return toggleButtonBevel.bevel(false)
             })
+            this.hidden = true
 
             this.labelElement.style.opacity = "0"
 
