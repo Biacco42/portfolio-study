@@ -17,6 +17,7 @@ export default class PageIndicatorView {
         this.pageIndicies = {}
         this.pageIndexButtons = []
         this.pageIndicatorContainer = window.document.createElement("div")
+        this.pageIndicatorContainer.id = "page_indicator_container"
         this.intersectionObserver = this.createIntersectionObserver()
     }
 
@@ -56,6 +57,7 @@ export default class PageIndicatorView {
                     pageNode.appendChild(pageNum)
 
                     const pageButtonLink = window.document.createElement("a")
+                    pageButtonLink.setAttribute("class", "page_button_link")
                     pageButtonLink.setAttribute("href", "#")
                     pageButtonLink.onclick = (event) => {
                         event.preventDefault()
@@ -91,7 +93,9 @@ export default class PageIndicatorView {
                 if (entry.isIntersecting) {
                     this.pageIndexButtons.forEach((button) => {
                         button.bevel(true)
-                        button.showContent(true)
+                        window.setTimeout(() => {
+                            button.showContent(true)
+                        }, 500)
                     })
                     this.intersectionObserver.unobserve(entry.target)
                 }

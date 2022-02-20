@@ -56,9 +56,6 @@ a {
 
 #page_indicator_container {
     margin: 0;
-}
-
-#page_indicator {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -121,50 +118,12 @@ a {
     overflow: hidden;
 }
 
-.page_button {
-    position: relative;
-    z-index: 1;
-    margin-left: 1em;
-    margin-right: 1em;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 3em;
-    height: 3em;
-}
-
-.page_button>a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.page_num {
-    position: relative;
-    z-index: 1;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 75%;
-    height: 75%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.page_num.selected {
-    background-color: #818a94;
-    color: #d6dce2;
-}
-
 .bevel {
     position: relative;
     z-index: 1;
     border-radius: 1em;
     overflow: hidden;
     padding: 0.5em;
-    width: 100%;
-    height: 100%;
     transition: box-shadow 200ms ease-in-out;
 }
 
@@ -261,4 +220,45 @@ a {
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+}
+
+.page_button {
+    margin-left: 1em;
+    margin-right: 1em;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+}
+
+.page_button>.bevel_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.page_button_link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.page_num {
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 75%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page_num.selected {
+    background-color: #818a94;
+    color: #d6dce2;
 }
