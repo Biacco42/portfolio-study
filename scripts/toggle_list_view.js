@@ -122,6 +122,13 @@ export default class ToggleListView {
         if (this.lastState) {
             const showTask = Object.keys(this.lastState).map((key) => {
                 const toggleButtonBevel = this.toggleList[key]
+
+                if (this.lastState[key]) {
+                    toggleButtonBevel.contentElement.firstElementChild.classList.remove("disabled")
+                } else {
+                    toggleButtonBevel.contentElement.firstElementChild.classList.add("disabled")
+                }
+
                 toggleButtonBevel.showContent(true)
                 return toggleButtonBevel.bevel(this.lastState[key])
             })
