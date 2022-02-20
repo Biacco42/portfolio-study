@@ -29,6 +29,8 @@ export default class ContentsTileView {
 
     setState(pageContents) {
         this.pageContents = pageContents
+
+        this.show()
     }
 
     show() {
