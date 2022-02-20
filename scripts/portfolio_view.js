@@ -89,7 +89,9 @@ export default class PortfolioView {
         const newColNum = PortfolioView.numberOfCols()
         if (newColNum != this.colNum) {
             this.colNum = newColNum
-            this.showPage(pageContents)
+            Promise.all(pageContents).then(pageContents => {
+                this.showPage(pageContents)
+            })
         }
     }
 
