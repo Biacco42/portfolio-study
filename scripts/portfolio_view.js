@@ -30,7 +30,7 @@ export default class PortfolioView {
 
         this.foregroundView = document.createElement("div")
         this.foregroundView.id = "foreground_view"
-        this.mainView.appendChild(this.foregroundView)
+        this.backgroundView.appendChild(this.foregroundView)
 
         this.headerContainer = document.createElement("div")
         this.headerContainer.id = "header_container"
