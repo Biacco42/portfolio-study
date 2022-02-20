@@ -8,6 +8,7 @@ export default class PortfolioView {
     document
     mainView
     headerView
+    contentsListView
     authorsView
     tagsView
 
@@ -33,6 +34,9 @@ export default class PortfolioView {
         this.mainView = document.getElementById("main_view")
         this.headerView = new HeaderView()
         this.mainView.appendChild(this.headerView.getElement())
+        this.contentsListView = document.createElement("div")
+        this.contentsListView.id = "contents_list"
+        this.mainView.appendChild(this.contentsListView)
 
         this.colNum = PortfolioView.numberOfCols()
 
@@ -54,13 +58,13 @@ export default class PortfolioView {
 
             const authorsElement = this.authorsView.getElement()
             authorsElement.id = "authors_list"
-            this.mainView.appendChild(authorsElement)
+            this.contentsListView.appendChild(authorsElement)
 
             this.tagsView = new ToggleListView("tags", "thin", state.tags, (selected) => {
                 this.actionHandler("selectTag", selected)
             })
 
-            this.mainView.appendChild(this.tagsView.getElement())
+            this.contentsListView.appendChild(this.tagsView.getElement())
         } else {
             this.authorsView.setState(state.authors)
             this.tagsView.setState(state.tags)
