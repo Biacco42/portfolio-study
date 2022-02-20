@@ -93,13 +93,17 @@ export default class PortfolioState {
 
         Promise.all(this.getPageContents()).then(contents => {
             selectedContent.then(selectedContent => {
-                this.stateEventHandler(trigger, {
-                    authors: this.authorsList,
-                    tags: this.tagsList,
-                    contents: contents,
-                    pageIndicies: this.getPageIndicies(),
-                    selectedContent: selectedContent
-                }, this.serialize())
+                this.stateEventHandler(
+                    trigger,
+                    {
+                        authors: this.authorsList,
+                        tags: this.tagsList,
+                        contents: contents,
+                        pageIndicies: this.getPageIndicies(),
+                        selectedContent: selectedContent
+                    },
+                    this.serialize()
+                )
             })
         })
     }
