@@ -39,7 +39,9 @@ function onContentsListReceived(contentsList) {
         switch (stateEvent) {
             case "deserialize":
                 portfolioView.setState(state)
-                portfolioView.showHeader()
+                window.setTimeout(() => { // breaks header animation without timeout.
+                    portfolioView.showHeader()
+                }, 20)
                 window.setTimeout(() => {
                     portfolioView.showAuthors()
                     portfolioView.showTags()
