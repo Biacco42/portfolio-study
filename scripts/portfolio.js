@@ -32,30 +32,6 @@ window.onpopstate = (popState) => {
 }
 
 function onContentsListReceived(contentsList) {
-    portfolioView = new PortfolioView(document, (viewEvent, eventValue) => {
-        switch (viewEvent) {
-            case "selectAuthor":
-                portfolioState.selectAuthor(eventValue)
-                break
-            case "selectTag":
-                portfolioState.selectTag(eventValue)
-                break
-            case "selectContent":
-                portfolioState.selectContent(eventValue)
-                break
-            case "selectPage":
-                portfolioState.selectPage(eventValue)
-                break
-            case "deselectContent":
-                if (history.state) {
-                    history.back()
-                } else {
-                    closePopup()
-                }
-                break
-        }
-    })
-
     const params = new URLSearchParams(window.location.search)
     const storeFromParams = parseParamsToStore(params)
 
@@ -80,6 +56,30 @@ function onContentsListReceived(contentsList) {
                 const queryCleaned = query === "" ? "/" : "?" + query
                 history.pushState(store, "", queryCleaned)
                 portfolioView.setState(state)
+                break
+        }
+    })
+
+    portfolioView = new PortfolioView(document, (viewEvent, eventValue) => {
+        switch (viewEvent) {
+            case "selectAuthor":
+                portfolioState.selectAuthor(eventValue)
+                break
+            case "selectTag":
+                portfolioState.selectTag(eventValue)
+                break
+            case "selectContent":
+                portfolioState.selectContent(eventValue)
+                break
+            case "selectPage":
+                portfolioState.selectPage(eventValue)
+                break
+            case "deselectContent":
+                if (history.state) {
+                    history.back()
+                } else {
+                    closePopup()
+                }
                 break
         }
     })
