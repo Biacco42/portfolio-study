@@ -44,6 +44,7 @@ function onContentsListReceived(contentsList) {
                     portfolioView.showAuthors()
                     portfolioView.showTags()
                     portfolioView.showContentsTile()
+                    portfolioView.showPageIndicator()
                 }, 500)
                 break
             case "author":

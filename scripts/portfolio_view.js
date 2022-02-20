@@ -3,6 +3,7 @@
 import HeaderView from "./header_view.js"
 import ToggleListView from "./toggle_list_view.js";
 import ContentsTileView from "./contents_tile_view.js";
+import PageIndicatorView from "./page_indicator_view.js";
 import Util from "./util.js"
 
 export default class PortfolioView {
@@ -12,16 +13,7 @@ export default class PortfolioView {
     authorsView
     tagsView
     contentsTileView
-
-
-
-    pageIndicatorContainer
-    pageIndicator
-    popupBackground
-    popupView
-    popupContent
-
-
+    pageIndicatorView
 
     actionHandler
 
@@ -50,6 +42,11 @@ export default class PortfolioView {
         this.contentsTileView = new ContentsTileView()
         this.contentsListContainer.appendChild(this.contentsTileView.getElement())
 
+        this.pageIndicatorView = new PageIndicatorView((pageIndex) => {
+            this.actionHandler("selectPage", pageIndex)
+        })
+        this.contentsListContainer.appendChild(this.pageIndicatorView.getElement())
+
         // this.popupBackground.onclick = (event) => {
         //     event.stopPropagation()
         //     this.actionHandler("deselectContent", null)
@@ -64,6 +61,7 @@ export default class PortfolioView {
         this.authorsView.setState(state.authors)
         this.tagsView.setState(state.tags)
         this.contentsTileView.setState(state.contents)
+        this.pageIndicatorView.setState(state.pageIndicies)
     }
 
     onResize(pageContents) {
@@ -104,48 +102,12 @@ export default class PortfolioView {
         return this.contentsTileView.hide()
     }
 
-    showPageIndicator(pageIndicies) {
-        window.setTimeout(() => {
-            Util.removeAllChildren(this.pageIndicator)
+    showPageIndicator() {
+        return this.pageIndicatorView.show()
+    }
 
-            Object.keys(pageIndicies).forEach(page => {
-                const pageNum = this.document.createElement("div")
-                pageNum.innerHTML = parseInt(page, 10) + 1
-
-                const pageNode = this.document.createElement("div")
-                pageNode.setAttribute("class", "page_num")
-                pageNode.classList.add("bevel_content")
-
-                if (pageIndicies[page]) {
-                    pageNode.classList.add("selected")
-                }
-
-                pageNode.appendChild(pageNum)
-
-                const pageButtonLink = this.document.createElement("a")
-                pageButtonLink.setAttribute("href", "#")
-                pageButtonLink.onclick = (event) => {
-                    event.preventDefault()
-                    if (!pageIndicies[page]) {
-                        this.actionHandler("selectPage", page)
-                    }
-                }
-                pageButtonLink.appendChild(pageNode)
-
-                const pageButton = this.document.createElement("div")
-                pageButton.setAttribute("class", "page_button")
-                pageButton.classList.add("bevel")
-                pageButton.appendChild(pageButtonLink)
-
-                this.pageIndicator.appendChild(pageButton)
-            })
-
-            PortfolioView.showBevel(this.header)
-
-            this.intersectionObserver.observe(this.pageIndicatorContainer)
-        }, 450)
-
-        PortfolioView.hideBevel(this.pageIndicatorContainer)
+    hidePageIndicator() {
+        return this.pageIndicatorView.hide()
     }
 
     showPopup(content) {
