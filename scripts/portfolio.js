@@ -88,7 +88,10 @@ function onContentsListReceived(contentsList) {
                 break
             case "content":
                 {
-                    console.log("content event: " + state.selectedContent.id)
+                    console.log("NYI")
+                    if (state.selectedContent) {
+                        console.log("contentevent: " + state.selectedContent.id)
+                    }
                 }
                 break
         }
@@ -105,15 +108,11 @@ function onContentsListReceived(contentsList) {
             case "selectContent":
                 portfolioState.selectContent(eventValue)
                 break
+            case "deselectContent":
+                portfolioState.selectContent(null)
+                break
             case "selectPage":
                 portfolioState.selectPage(eventValue)
-                break
-            case "deselectContent":
-                if (history.state) {
-                    history.back()
-                } else {
-                    closePopup()
-                }
                 break
         }
     })

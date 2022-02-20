@@ -26,6 +26,9 @@ export default class PortfolioView {
 
         this.backgroundView = document.createElement("div")
         this.backgroundView.id = "background_view"
+        this.backgroundView.onclick = () => {
+            this.actionHandler("deselectContent", null)
+        }
         this.mainView.appendChild(this.backgroundView)
 
         this.foregroundView = document.createElement("div")
@@ -64,11 +67,6 @@ export default class PortfolioView {
             this.actionHandler("selectPage", pageIndex)
         })
         this.contentsListContainer.appendChild(this.pageIndicatorView.getElement())
-
-        // this.popupBackground.onclick = (event) => {
-        //     event.stopPropagation()
-        //     this.actionHandler("deselectContent", null)
-        // }
 
         // this.popupContent.onclick = (event) => {
         //     event.stopPropagation()
