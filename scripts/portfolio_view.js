@@ -17,6 +17,10 @@ export default class PortfolioView {
     contentsListContainer
     contentsTileView
     pageIndicatorView
+    popupContainer
+    closeIndicator
+    popupContentContainer
+    relativeContentsContainer
 
     actionHandler
 
@@ -67,6 +71,24 @@ export default class PortfolioView {
             this.actionHandler("selectPage", pageIndex)
         })
         this.contentsListContainer.appendChild(this.pageIndicatorView.getElement())
+
+        this.popupContainer = document.createElement("div")
+        this.popupContainer.id = "popup_container"
+        this.foregroundView.appendChild(this.popupContainer)
+
+        this.closeIndicator = document.createElement("div")
+        this.closeIndicator.id = "close_indicator"
+        this.popupContainer.appendChild(this.closeIndicator)
+
+        const xMark = document.createElement("div")
+        xMark.id = "x_mark"
+        xMark.textContent = "✕"
+        this.closeIndicator.appendChild(xMark)
+
+        const closeLabel = document.createElement("div")
+        closeLabel.id = "close_label"
+        closeLabel.textContent = "close"
+        this.closeIndicator.appendChild(closeLabel)
     }
 
     setState(state) {
