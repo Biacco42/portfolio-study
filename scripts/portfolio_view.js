@@ -12,9 +12,9 @@ export default class PortfolioView {
     foregroundView
     headerContainer
     headerView
-    contentsListContainer
     authorsView
     tagsView
+    contentsListContainer
     contentsTileView
     pageIndicatorView
 
@@ -67,10 +67,6 @@ export default class PortfolioView {
             this.actionHandler("selectPage", pageIndex)
         })
         this.contentsListContainer.appendChild(this.pageIndicatorView.getElement())
-
-        // this.popupContent.onclick = (event) => {
-        //     event.stopPropagation()
-        // }
     }
 
     setState(state) {
