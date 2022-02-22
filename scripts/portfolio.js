@@ -43,9 +43,8 @@ function onContentsListReceived(contentsList) {
                     window.scrollTo(0, 0)
 
                     portfolioView.setState(state) // setState で contents tile と content popup の表示の出し分け
-                    window.setTimeout(() => { // breaks header animation without timeout.
-                        portfolioView.showHeader()
-                    }, 20)
+
+                    portfolioView.showHeader()
                     window.setTimeout(() => {
                         portfolioView.showAuthors()
                         portfolioView.showTags()
@@ -75,9 +74,7 @@ function onContentsListReceived(contentsList) {
                     history.pushState(store, "", queryCleaned)
                     portfolioView.setState(state)
 
-                    window.setTimeout(() => { // breaks header animation without timeout.
-                        portfolioView.showHeader()
-                    }, 20)
+                    portfolioView.showHeader()
                     window.setTimeout(() => {
                         portfolioView.showAuthors()
                         portfolioView.showTags()
@@ -95,9 +92,7 @@ function onContentsListReceived(contentsList) {
                         history.pushState(store, "", queryCleaned)
                         portfolioView.setState(state)
 
-                        window.setTimeout(() => { // breaks header animation without timeout.
-                            portfolioView.showHeader()
-                        }, 20)
+                        portfolioView.showHeader()
                         window.setTimeout(() => {
                             portfolioView.showAuthors()
                             portfolioView.showTags()
