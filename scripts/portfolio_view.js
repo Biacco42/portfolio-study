@@ -4,6 +4,7 @@ import HeaderView from "./header_view.js"
 import ToggleListView from "./toggle_list_view.js";
 import ContentsTileView from "./contents_tile_view.js";
 import PageIndicatorView from "./page_indicator_view.js";
+import ContentPopupView from "./content_popup_view.js";
 import Util from "./util.js"
 
 export default class PortfolioView {
@@ -18,9 +19,7 @@ export default class PortfolioView {
     contentsTileView
     pageIndicatorView
     popupContainer
-    closeIndicator
-    popupContentContainer
-    relativeContentsContainer
+    contentPopupView
 
     actionHandler
 
@@ -60,6 +59,7 @@ export default class PortfolioView {
 
         this.contentsListContainer = document.createElement("div")
         this.contentsListContainer.id = "contents_list"
+        this.contentsListContainer.style.display = "none"
         this.foregroundView.appendChild(this.contentsListContainer)
 
         this.contentsTileView = new ContentsTileView((contentID) => {
@@ -74,21 +74,11 @@ export default class PortfolioView {
 
         this.popupContainer = document.createElement("div")
         this.popupContainer.id = "popup_container"
+        this.popupContainer.style.display = "none"
         this.foregroundView.appendChild(this.popupContainer)
 
-        this.closeIndicator = document.createElement("div")
-        this.closeIndicator.id = "close_indicator"
-        this.popupContainer.appendChild(this.closeIndicator)
-
-        const xMark = document.createElement("div")
-        xMark.id = "x_mark"
-        xMark.textContent = "✕"
-        this.closeIndicator.appendChild(xMark)
-
-        const closeLabel = document.createElement("div")
-        closeLabel.id = "close_label"
-        closeLabel.textContent = "close"
-        this.closeIndicator.appendChild(closeLabel)
+        this.contentPopupView = new ContentPopupView()
+        this.popupContainer.appendChild(this.contentPopupView.getElement())
     }
 
     setState(state) {
@@ -96,6 +86,15 @@ export default class PortfolioView {
         this.tagsView.setState(state.tags)
         this.contentsTileView.setState(state.contents)
         this.pageIndicatorView.setState(state.pageIndicies)
+        this.contentPopupView.setState(state.selectedContent)
+
+        if (state.selectedContent) {
+            this.contentsListContainer.style.display = "none"
+            this.popupContainer.style.display = "block"
+        } else {
+            this.contentsListContainer.style.display = "block"
+            this.popupContainer.style.display = "none"
+        }
     }
 
     onResize() {

@@ -79,7 +79,7 @@ a {
     font-size: 0.75em;
 }
 
-#popup_container {
+#popup_container_view {
     display: flex;
     flex-direction: column;
 }
