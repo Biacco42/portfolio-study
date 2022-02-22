@@ -68,9 +68,9 @@ export default class PortfolioState {
             })
         }
 
-        if (serialized.page && parseInt(serialized.page)) {
+        if ("page" in serialized && !(parseInt(serialized.page, 10).isNaN)) {
             const totalPages = this.getTotalPages()
-            const page = parseInt(serialized.page)
+            const page = parseInt(serialized.page, 10)
             if (0 <= page && page < totalPages) {
                 this.page = page
             }
