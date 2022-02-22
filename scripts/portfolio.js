@@ -42,7 +42,7 @@ function onContentsListReceived(contentsList) {
                 hideAllContents(portfolioView).then(() => {
                     window.scrollTo(0, 0)
 
-                    portfolioView.setState(state) // setState で contents tile と content popup の表示の出し分け
+                    portfolioView.setState(state)
 
                     portfolioView.showHeader()
                     window.setTimeout(() => {
@@ -55,25 +55,20 @@ function onContentsListReceived(contentsList) {
             case "author":
             case "tag":
                 {
+                    setStoreToHistory(store)
+
                     portfolioView.hidePageIndicator()
-
-                    const query = storeToParams(store).toString()
-                    const queryCleaned = query === "" ? "/" : "?" + query
-                    history.pushState(store, "", queryCleaned)
                     portfolioView.setState(state)
-
                     portfolioView.showContentsTile()
                 }
                 break
             case "page":
+                setStoreToHistory(store)
+
                 hideAllContents(portfolioView).then(() => {
                     window.scrollTo(0, 0)
 
-                    const query = storeToParams(store).toString()
-                    const queryCleaned = query === "" ? "/" : "?" + query
-                    history.pushState(store, "", queryCleaned)
                     portfolioView.setState(state)
-
                     portfolioView.showHeader()
                     window.setTimeout(() => {
                         portfolioView.showAuthors()
@@ -83,13 +78,12 @@ function onContentsListReceived(contentsList) {
                 })
                 break
             case "content":
+                setStoreToHistory(store)
+
                 if (state.selectedContent) {
                     hideAllContents(portfolioView).then(() => {
                         window.scrollTo(0, 0)
 
-                        const query = storeToParams(store).toString()
-                        const queryCleaned = query === "" ? "/" : "?" + query
-                        history.pushState(store, "", queryCleaned)
                         portfolioView.setState(state)
 
                         portfolioView.showHeader()
@@ -99,7 +93,18 @@ function onContentsListReceived(contentsList) {
                         }, 550)
                     })
                 } else {
+                    hideAllContents(portfolioView).then(() => {
+                        window.scrollTo(0, 0)
 
+                        portfolioView.setState(state)
+
+                        portfolioView.showHeader()
+                        window.setTimeout(() => {
+                            portfolioView.showAuthors()
+                            portfolioView.showTags()
+                            portfolioView.showContentsTile()
+                        }, 550)
+                    })
                 }
                 break
         }
@@ -124,6 +129,12 @@ function onContentsListReceived(contentsList) {
                 break
         }
     })
+}
+
+function setStoreToHistory(store) {
+    const query = storeToParams(store).toString()
+    const queryCleaned = query === "" ? "/" : "?" + query
+    history.pushState(store, "", queryCleaned)
 }
 
 function closePopup() {

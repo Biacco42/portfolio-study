@@ -21,16 +21,21 @@ export default class PortfolioView {
     popupContainer
     contentPopupView
 
+    state
     actionHandler
 
     constructor(actionHandler) {
         this.actionHandler = actionHandler
+        this.state = null
+
         this.mainView = document.getElementById("main_view")
 
         this.backgroundView = document.createElement("div")
         this.backgroundView.id = "background_view"
         this.backgroundView.onclick = () => {
-            this.actionHandler("deselectContent", null)
+            if (this.state && this.state.selectedContent) {
+                this.actionHandler("deselectContent", null)
+            }
         }
         this.mainView.appendChild(this.backgroundView)
 
@@ -82,6 +87,7 @@ export default class PortfolioView {
     }
 
     setState(state) {
+        this.state = state
         this.authorsView.setState(state.authors)
         this.tagsView.setState(state.tags)
         this.contentsTileView.setState(state.contents)
