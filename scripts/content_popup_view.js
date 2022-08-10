@@ -6,10 +6,9 @@ export default class ContentPopupView {
     rootView
     closeIndicator
     bevelView
-    popupContentContainer
     relativeContentsContainer
 
-    constructor() {
+    constructor(content) {
         this.rootView = window.document.createElement("div")
         this.rootView.id = "popup_container_view"
 
@@ -26,6 +25,12 @@ export default class ContentPopupView {
         closeLabel.id = "close_label"
         closeLabel.textContent = "close"
         this.closeIndicator.appendChild(closeLabel)
+
+        this.bevelView = new BevelView()
+
+        this.rootView.appendChild(this.bevelView.getElement())
+
+        this.relativeContentsContainer = window.document.createElement("div")
     }
 
     getElement() {
