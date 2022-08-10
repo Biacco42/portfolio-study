@@ -209,7 +209,7 @@ export default class PortfolioState {
                 content.tags = contentDesc.tags
                 content.publishedOn = contentDesc.publishedOn
                 content.id = contentDesc.id
-                this.contentsCacheDict[contentDesc] = content
+                this.contentsCacheDict[contentDesc.contentsPath] = content
                 return content
             })
     }
